@@ -1,0 +1,32 @@
+Package: Tendril
+Type: Package
+Title: Compute Tendril
+License: GPL (>=2)
+Author: Martin Karpefors
+Maintainer: Martin Karpefors <martin.karpefors@astrazeneca.com>
+Version: 1.1.0
+Description: The Tendril package provide functionalities to compute the
+    coordinates to produce a tendril plot. In the tendril plot, each tendril
+    (branch) represents a type of events, and the direction of the tendril is
+    dictated by on which treatment arm the event is occurring. If an event is
+    occurring on the first of the two specified treatment arms, the tendril bends
+    to the right. If an event is occurring on the second of the treatment arms, the
+    tendril bends to the left.
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 2.10),
+    ggplot2
+Imports:
+    dplyr,
+    reshape2,
+    magrittr,
+    scales
+RoxygenNote: 5.0.1
+Suggests:
+    testthat,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+NeedsCompilation: no
+Packaged: 2017-03-16 09:39:42 UTC; JOSA

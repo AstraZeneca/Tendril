@@ -1,0 +1,281 @@
+---
+title: "The Tendril Package"
+author: "Martin Karpefors"
+date: '`r Sys.Date()`'
+output:
+  rmarkdown::html_vignette: default
+  rmarkdown::pdf_vignette: default
+vignette: |
+  %\VignetteIndexEntry{Intro to the Tendril plot usage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+The Tendril Plot – a novel visual summary of the incidence, significance and temporal aspects of adverse events in clinical trials, Martin Karpefors and James Weatherall, submitted to JAMIA, 2017
+
+#Introduction
+The Tendril package contains functions designed to compute the x-y coordinates and to build a Tendril plot. Inspired by the [notabilia visialization](http://notabilia.net), the Tendril plot was developed to capture the relative effect of different kind of adverse events for two treatments, including temporal aspects, in a single visualization. Specifically, each tendril (branch) in the Tendril plot represents a type of adverse effect, and the direction of the tendril is dictated by on which treatment arm the event is occurring. If an event is occurring on the first of the two specified treatment arms, the tendril bends to the right. If an event is occurring on the second of the treatment arms, the tendril bends to the left. 
+
+```{r example_plot, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5}
+library(Tendril)
+
+data("TendrilData")
+
+test <- Tendril(mydata = TendrilData,
+                rotations = Rotations,
+                AEfreqTreshold = 9,
+                Tag = "Comment",
+                Treatments = c("placebo", "active"),
+                Unique.Subject.Identifier = "subjid",
+                Terms = "ae",
+                Treat = "treatment",
+                StartDay = "day",
+                SubjList = SubjList,
+                SubjList.subject = "subjid",
+                SubjList.treatment = "treatment"
+)
+  
+plot(test, type = "basic")
+plot(test, type = "basic", coloring = "p.adj")
+
+```
+
+In the plots above, a clinical trial with two treatment arms, placebo and active, and 80 different adverse effects were simulated ("AE1" to "AE80"). As mentioned above, the Tendril plot is based on an algorithm that evaluates each type of adverse event (AE) in sequence, producing a collection of tendrils (branches) that effectively summarizes the time-resolved safety profile of a clinical trial within a single plot. Events on the first treatment (placebo) cause that tendril to bend to the right, and each event on the second treatment (active) is causing the tendril to bend to the left. The resulting tree-like structure clearly displays those adverse events having the largest differences in relative risk (see AE40); AEs having only a transient increased risk (see AE42); and AEs that are balanced over the treatment arms (see AE44). 
+In the first plot each tendril is colored according to adverse event type and in the second, each event has been colored according to the false discovery rate adjusted p value. There are a number of statistical measures that could be used for coloring, see the plot.tendril documentation.
+
+
+#The class "tendril" object
+The result of the Tendril() function is an object of class tendril that can be referenced to as a base R list. It contains the following items:
+
+* data : a dataframe containig the original dataset, the angles and coordinates used to produce the tendril plot and the statistical analysis results
+* Terms : the type of events argument of the function
+* Treat : the treatment argument of the function
+* Treatments : the available Treatments argument of the function
+* StartDay : the StartDay argument of the function
+* Unique.Subject.Identifier : the Unique.Subject.Identifier argument of the function
+* AEfreqTreshold : the AEfreqTreshold argument of the function
+* Tag : the Tag argument of the function
+* n.tot : a dataframe with the total number of events recorded for each of the treatments. Those numbers are used in the statistical analysis
+* SubjList : The list of subject IDs and treatments
+* SubjList.subject :  the name of the column containing the subject IDs
+* SubjList.treatment : the name of the column containing the treatments names
+
+If Tendril.perm() is called, then the object will also contain:
+
+* PermTerm : The name of the type of event on which permutations are computed
+* perm.from.day : the starting day for the permutations
+* perm.data : permutation results
+* tendril.pi : permutation percentiles calculation results
+
+
+#Making the plot and statistical analysis
+
+The plot can be visualised after calling Tendril() as seen in the example above.
+
+##Tendril()
+The Tendril() function requires several arguments:
+
+* mydata : A dataframe with at least 4 columns
+    1. subjid : the name of the column containing the unique subject identifiers
+    2. treatment : the name of the column containing treatment information
+    3. ae : the name of the column containing the type of events/tendril names
+    4. day : the name of the column containing the day at which the adverse effect was recorded relative to the start of the treatment. Must be of numeric.
+* Treatments : a vector containing the name of the two treatments, as recorded in the treatment column
+* AEfreqTreshold : the minimum number of events in at least one of the treatment arms
+* Rotations : a numeric vector containing the rotation factor for each point of the dataset
+
+
+Here's is how the provided TendrilData sample dataset looks like:
+
+```{r tendrildata_head, echo=FALSE, warning=FALSE, message=FALSE}
+
+head(TendrilData)
+```
+
+Note the four columns containing the subject IDs (subjid), the treatement (treatment), the adverse effect term (ae) and the days (day).
+
+
+The Tendril() function is called as:
+```{r call_tendril, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+test <- Tendril(mydata = TendrilData,
+                rotations = Rotations,
+                AEfreqTreshold = 9,
+                Tag = "Comment",
+                Treatments = c("placebo", "active"),
+                Unique.Subject.Identifier = "subjid",
+                Terms = "ae",
+                Treat = "treatment",
+                StartDay = "day",
+                SubjList = SubjList,
+                SubjList.subject = "subjid",
+                SubjList.treatment = "treatment"
+)
+
+```
+
+NB: If there is any NA in the data, they will be removed by calling na.omit().
+
+The function checks that the arguments are valid and then compute the angles and coordinates of the x and y points in the tendrils.
+
+
+
+```{r tendrilcx_alg, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+
+#Calculate time between events (proportional to distance between points in the plot)
+#Assign rotation to the left or to the right. EVENTS ON THE FIRST TREATMENT BENDS TO THE RIGHT
+data$old.day <- c(0,data$StartDay[1:(length(data$StartDay)-1)])
+data <- transform(data, mod=StartDay-old.day, dir=ifelse(data$Treat==Treatments[1], -1*data$rot.factor, 1*data$rot.factor))
+
+# Make a 0/1 vector that is used to decide which angles that should be summed up to angsum
+data <- transform(data, k=as.numeric(mod != 0)) 
+temp <- aggregate(dir~StartDay, data=data, sum) # Sum the rotations for each StartDay
+data <- merge(data, temp, by = "StartDay") # Create a new column with new rotation data
+
+#Calculate cumulative tendril angles
+data$angsum <- cumsum(data$dir.y*data$k) # Calculate cumulative tendril angles
+
+#Calculate complex numbers
+data <- transform(data, cx=complex(modulus = mod, argument = (pi/2 + angsum*pi/180)))
+data$cx <- cumsum(data$cx)
+  
+#retrive coordinates from complex numbers
+tendril.data <- transform(data,
+                            x=Re(cumsum(data$cx)),
+                            y=Im(cumsum(data$cx)),
+                            ang=Arg(cumsum(data$cx)),
+                            mod=Mod(cumsum(data$cx))
+```
+
+Tendril() then calls the function Tendril.stat(), which will be discussed later.
+
+###Example of Tendril() usage
+```{r example_tendril, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+test <- Tendril(mydata = TendrilData,
+                rotations = Rotations,
+                AEfreqTreshold = 9,
+                Tag = "Comment",
+                Treatments = c("placebo", "active"),
+                Unique.Subject.Identifier = "subjid",
+                Terms = "ae",
+                Treat = "treatment",
+                StartDay = "day",
+                SubjList = SubjList,
+                SubjList.subject = "subjid",
+                SubjList.treatment = "treatment"
+)
+
+```
+
+
+###Plotting
+The package creates a method for pltting the tendril object. Simply use.
+```{r plot, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+# First create a tendril.res object with
+#tendril.res <- Tendril(...)
+p <- plot(tendril.res)
+```
+
+p is a ggplot2 element that can be used to reproduce the plot using:
+
+```{r plot2, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+print(p)
+#or simply
+p
+```
+
+The plot can also be called using 
+```{r plotbasic, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+# First create a tendril.res object with
+#tendril.res <- Tendril(...)
+p <- plot(tendril.res, type = "basic")
+```
+The argument type = "basic", however, is the default.
+
+##Statistical analysis
+The function Tendril.Stat() is called by Tendril(). It performs the following tests:
+
+* prop.test ("p", or "p.adj" or "FDR.tot", for unadjusted, FDR-per-tendril adjusted or FDR-all-tendril adjusted p values, respectively)
+* fisher test ("fish")
+* risk difference ("rdiff")
+* risk ratio ("RR")
+* odds ratio ("OR")
+
+##Permutations
+Permutations can be computed on any specified arm and starting from any day of treatment. To compute permutation, use:
+
+```{r perm.example, echo=TRUE, warning=FALSE, message=FALSE}
+test1 <- Tendril.perm(dataset = test,
+                               PermTerm = "AE40",
+                               n.perm = 200,
+                               perm.from.day = 1)
+```
+```{r perm.example2, echo=FALSE, warning=FALSE, message=FALSE}
+test2 <- Tendril.perm(dataset = test,
+                               PermTerm = "AE44",
+                               n.perm = 200,
+                               perm.from.day = 1)
+```
+
+The function compute the permutations before calling for the percentile calculations contained in Tendril.pi(). The result of the function is an object of class tendril completed with the permutations and percentile dataframe, accessible as described in the section describing the tendril object.
+
+###Plotting
+The package creates a method for plotting the tendril object. Simply use.
+```{r plot_perm, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5}
+# First create a tendril.res object with
+#tendril.res <- Tendril(...)
+
+#To plot permutations:
+#plot(test, type = "permutations") 
+
+#To plot permutations and percentile:
+plot(test1, type = "percentile") # Significantly more AEs on active treatment 
+plot(test2, type = "percentile") # Balance of AEs on treatment arms
+```
+
+#Complete usage example
+
+The following code will use the provided sample data TendrilData and SubjList to produce a complete analysis: compute tendril data, compute statistics, compute permutations for one of the adverse effects and produce a plot:
+
+
+```{r full_example, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+#load library
+library("Tendril")
+#compute tendril data
+data.tendril <- Tendril(mydata = TendrilData,
+                        rotations = Rotations,
+                AEfreqTreshold = 9,
+                Tag = "Comment",
+                Treatments = c("placebo", "active"),
+                Unique.Subject.Identifier = "subjid",
+                Terms = "ae",
+                Treat = "treatment",
+                StartDay = "day",
+                SubjList = SubjList,
+                SubjList.subject = "subjid",
+                SubjList.treatment = "treatment"
+)
+
+#compute permutations
+data.tendril <- Tendril.perm(dataset = data.tendril,
+                               PermTerm="AE40",
+                               n.perm = 200,
+                               perm.from.day = 1)
+
+#do plot
+p <- plot(data.tendril, type = "basic")
+
+#plot permutations
+p <- plot(data.tendril, type = "permutations")
+
+#plot permutations and percentile
+p <- plot(data.tendril, type = "percentile")
+
+#save tendril coordinates and stat results
+write.table(data.tendril$data, "C:mydata.txt", sep="\t", row.names = FALSE)
+
+#save permutation coordinates
+write.table(data.tendril$perm.data, "C:my_permutation_data.txt", sep="\t", row.names = FALSE)
+
+#save permutation percentiles
+write.table(data.tendril$tendril.pi, "C:my_percentile_data.txt", sep="\t", row.names = FALSE)
+
+```
