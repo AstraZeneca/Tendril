@@ -18,12 +18,16 @@ plotbasic <- function(x, coloring = "Terms") {
   Terms <- NULL
 
   if(coloring %in% c("p", "p.adj", "fish")) {
+    if(is.null(x$SubjList)){
+      stop(paste0("There is no SubjList supplied in the Tendril object and therefore the ", coloring, " value is not present."))
+    }
     cc.10 <- log10(cc)
     cc.10[cc.10<(-3)] <- -3
     tendrilpal <- colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
     vals <- rescale(c(-3, -1.3, -1, -0.3, 0))
+    limits_colorbar <- c(-3, 0)
     p <- ggplot(data=x$data, aes(x=x, y=y, group=Terms, color=cc.10), aspect="iso") +
-      scale_colour_gradientn(colours=tendrilpal, values = vals) +
+      scale_colour_gradientn(colours=tendrilpal, values = vals, limits = limits_colorbar) +
       coord_fixed(ratio=1) +
       labs(color = paste("10log", coloring)) +
       geom_path(size=1) +

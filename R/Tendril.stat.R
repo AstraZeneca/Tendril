@@ -1,4 +1,4 @@
-Tendril.stat <- function(dataset) {
+Tendril.stat <- function(dataset, suppress_warnings) {
 
   SubjList <- dataset$SubjList
   Unique.Subject.Identifier <- dataset$SubjList.subject
@@ -48,7 +48,11 @@ Tendril.stat <- function(dataset) {
 
     cols <- c("cum.treat1", "cum.treat2", "tot.treat1", "tot.treat2")
     m <- as.matrix(CountAE.wide[idx,cols])
-    CountAE.wide[idx, ]$p <- apply(m, 1, test)
+    if (suppress_warnings){
+      CountAE.wide[idx, ]$p <- suppressWarnings(apply(m, 1, test))
+    } else {
+      CountAE.wide[idx, ]$p <- apply(m, 1, test)
+    }
     CountAE.wide[idx, ]$p.adj <- p.adjust(CountAE.wide[CountAE.wide$Terms==i,]$p, "fdr")
     CountAE.wide[idx,]$fish <- apply(m, 1, f.test)
     CountAE.wide[idx,]$rdiff <- apply(m, 1, r.diff)
@@ -57,9 +61,8 @@ Tendril.stat <- function(dataset) {
 
 
   }
-
-
-
+  
+  CountAE.wide$Terms <- as.character(CountAE.wide$Terms)
   dataset$data <- left_join(dataset$data, CountAE.wide, by = c("Terms" = "Terms", "StartDay" = "AEstartDay"))
 
   dataset$data$FDR.tot <- p.adjust(dataset$data$p, "fdr")

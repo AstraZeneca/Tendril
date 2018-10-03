@@ -121,6 +121,33 @@ test2 <- Tendril.perm(dataset = test,
 plot(test1, type = "percentile") # Significantly more AEs on active treatment 
 plot(test2, type = "percentile") # Balance of AEs on treatment arms
 
+## ----example_single_rotation_value, eval = TRUE, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5----
+# #load library
+# library("Tendril")
+# #compute tendril data
+# data.tendril <- Tendril(mydata = TendrilData,
+#                         rotations = 5,
+#                         AEfreqTreshold = 9,
+#                         Tag = "Comment",
+#                         Treatments = c("placebo", "active"),
+#                         Unique.Subject.Identifier = "subjid",
+#                         Terms = "ae",
+#                         Treat = "treatment",
+#                         StartDay = "day",
+#                         SubjList = SubjList,
+#                         SubjList.subject = "subjid",
+#                         SubjList.treatment = "treatment",
+#                         filter_double_events = FALSE,
+#                         suppress_warnings = FALSE)
+# )
+# 
+# #compute permutations
+# data.tendril <- Tendril.perm(dataset = data.tendril,
+#                              PermTerm="AE40",
+#                              n.perm = 200,
+#                              perm.from.day = 1)
+#
+
 ## ----full_example, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE----
 #  #load library
 #  library("Tendril")

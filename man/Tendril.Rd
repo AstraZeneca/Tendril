@@ -8,9 +8,10 @@ Tendril(mydata, rotations, AEfreqTreshold = 50, Tag = "Comment",
   Treatments = c("Active", "Placebo"),
   Unique.Subject.Identifier = "Unique.Subject.Identifier",
   Terms = "Dictionary.Derived.Term", Treat = "Actual.Treatment...DB",
-  StartDay = "Analysis.Start.Relative.Day", SubjList,
-  SubjList.subject = "SubjList.Unique.Subject.Identifier",
-  SubjList.treatment = "SubjList.treatment.name")
+  StartDay = "Analysis.Start.Relative.Day", SubjList = NULL,
+  SubjList.subject = NULL, SubjList.treatment = NULL,
+  SubjList.dropoutday = NULL, compensate_imbalance_groups = FALSE,
+  filter_double_events = FALSE, suppress_warnings = FALSE)
 }
 \arguments{
 \item{mydata}{A dataframe containing the data for the tendril calculations}
@@ -36,6 +37,14 @@ Tendril(mydata, rotations, AEfreqTreshold = 50, Tag = "Comment",
 \item{SubjList.subject}{The name of the columns in SubjList containing the subjects IDs}
 
 \item{SubjList.treatment}{The name of the columns in SubjList containing the treatments}
+
+\item{SubjList.dropoutday}{The name of the column in SubjList containing the dropoutday}
+
+\item{compensate_imbalance_groups}{Boolean Whether the rotation factors have been compensated for imbalance in the groups}
+
+\item{filter_double_events}{Boolean whether to filter out events duplicated in subject id and adverse effect}
+
+\item{suppress_warnings}{Boolean whether to suppress warnings from chi squared approximation may be incorrect}
 }
 \value{
 The function return an object of class tendril. The object contains the original dataset added with the tendril coordinates,
@@ -53,6 +62,9 @@ all the function arguments and a dataframe with the results from statistical ana
 \item{data$SubjList }{: A dataframe containing subject IDs and treatments}
 \item{data$SubjList.subject }{: The name of the columns in SubjList containing the subjects IDs}
 \item{data$SubjList.treatment }{: The name of the columns in SubjList containing the treatments}
+\item{data$SubjList.dropoutday }{: The name of the column in SubjList containing the dropoutday}
+\item{data$rotation_vector }{: Rotation vector used to generate the tendril}
+\item{data$compensate_imbalance_groups }{: Boolean Whether the rotation factors have been compensated for imbalance in the groups}
 }
 }
 \description{
@@ -86,4 +98,3 @@ SubjList.treatment = "treatment"
 
 plot(data)
 }
-

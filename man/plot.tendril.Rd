@@ -57,4 +57,3 @@ res <- plot(data, type = "basic", coloring = "p.adj")
 #To re-do the plot after the first call:
 print(res)
 }
-

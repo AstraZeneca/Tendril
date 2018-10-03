@@ -18,4 +18,3 @@ TendrilData
 A dataset containing the minimal 4 columns required to produe a Tendril plot
 }
 \keyword{datasets}
-

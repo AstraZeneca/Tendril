@@ -23,6 +23,10 @@ NULL
 #' @param SubjList A dataframe containing subject IDs and treatments
 #' @param SubjList.subject The name of the columns in SubjList containing the subjects IDs
 #' @param SubjList.treatment The name of the columns in SubjList containing the treatments
+#' @param SubjList.dropoutday The name of the column in SubjList containing the dropoutday
+#' @param compensate_imbalance_groups Boolean Whether the rotation factors have been compensated for imbalance in the groups
+#' @param filter_double_events Boolean whether to filter out events duplicated in subject id and adverse effect
+#' @param suppress_warnings Boolean whether to suppress warnings from chi squared approximation may be incorrect
 #' @return
 #' The function return an object of class tendril. The object contains the original dataset added with the tendril coordinates,
 #' all the function arguments and a dataframe with the results from statistical analysis
@@ -39,6 +43,9 @@ NULL
 #' \item{data$SubjList }{: A dataframe containing subject IDs and treatments}
 #' \item{data$SubjList.subject }{: The name of the columns in SubjList containing the subjects IDs}
 #' \item{data$SubjList.treatment }{: The name of the columns in SubjList containing the treatments}
+#' \item{data$SubjList.dropoutday }{: The name of the column in SubjList containing the dropoutday}
+#' \item{data$rotation_vector }{: Rotation vector used to generate the tendril}
+#' \item{data$compensate_imbalance_groups }{: Boolean Whether the rotation factors have been compensated for imbalance in the groups}
 #' }
 #' @details
 #' The function accepts a dataframe with at least 4 columns named as the arguments Unique.Subject.Identifier, Terms, Treat and StartDay.
@@ -77,22 +84,87 @@ Tendril <- function(mydata,
                     Terms = "Dictionary.Derived.Term",
                     Treat = "Actual.Treatment...DB",
                     StartDay = "Analysis.Start.Relative.Day",
-                    SubjList,
-                    SubjList.subject = "SubjList.Unique.Subject.Identifier",
-                    SubjList.treatment = "SubjList.treatment.name"){
-
+                    SubjList = NULL,
+                    SubjList.subject = NULL,
+                    SubjList.treatment = NULL,
+                    SubjList.dropoutday = NULL,
+                    compensate_imbalance_groups = FALSE,
+                    filter_double_events = FALSE,
+                    suppress_warnings = FALSE){
+  
   #check input data
-  validate.tendril.data(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier, Treat, StartDay, AEfreqTreshold)
-
+  validate.tendril.data(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier,
+                        Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday,
+                        AEfreqTreshold, filter_double_events, suppress_warnings)
+  
+  if (length(rotations) == 1){
+    rotations <- rep(rotations, nrow(mydata))
+  }
+  rotations <- rotations[order(mydata[, StartDay])]
+  mydata <- mydata[order(mydata[, StartDay]),]
+  
   mydata$col.id<-seq(1,dim(mydata)[1],1)
   full.dataset <- mydata #create backup to preserve extracolumn
-
+  
   mydata <- dataSetup(mydata, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay)
-
+  
   SubjList <- SubjList[SubjList[, SubjList.treatment] %in% Treatments,] # Remove unwanted data
-  mydata <- na.omit(mydata[mydata$Treat %in% Treatments & mydata$StartDay>0 & mydata$Unique.Subject.Identifier %in% unique(SubjList[, SubjList.subject]), ]) # Remove unwanted data
+  mydata <- na.omit(mydata[mydata$Treat %in% Treatments & mydata$StartDay>0, ]) # Remove unwanted data
+  if (!is.null(SubjList)){
+    mydata <- mydata[mydata$Unique.Subject.Identifier %in% unique(SubjList[, SubjList.subject]), ] # Remove unwanted data
+  }
   mydata$Treat <- factor(as.character(mydata$Treat), levels = Treatments)  # Only relevant levels of treatments wanted
-
+  
+  if ((!is.null(SubjList.dropoutday)) && (SubjList.dropoutday %in% names(SubjList))){
+    check_dropout_day <- function(subject, day, SubjList, SubjList.subject, SubjList.dropoutday){
+      SubjList[as.character(SubjList[, SubjList.subject]) == as.character(subject), SubjList.dropoutday] < day
+    }
+    # Determine whether an event is after the specified dropoutday
+    event_after_dropout <- mapply(check_dropout_day, mydata[, "Unique.Subject.Identifier"], mydata[, "StartDay"],
+                                  MoreArgs=list(SubjList=SubjList, SubjList.subject=SubjList.subject, SubjList.dropoutday=SubjList.dropoutday))
+    # Remove events after the specified dropoutday
+    mydata <- mydata[!event_after_dropout,]
+    if (any(event_after_dropout)){
+      warning("There are events in mydata that occur on a day after the patient dropoutday specified in SubjList. Those events are filtered out before the analysis was performed.")
+    }
+  }
+  
+  # Filter out double events if input argument "filter_double_events" is set to true
+  if (filter_double_events){
+    mydata <- mydata[!duplicated(mydata[, c("Unique.Subject.Identifier", "Terms")]),]
+  }
+  
+  # If no data is given on day of dropout. Assume there were no dropouts of patients
+  if (!is.null(SubjList)){
+    if (!is.null(SubjList.dropoutday)){
+      if (!SubjList.dropoutday %in% names(SubjList)){
+        SubjList[,SubjList.dropoutday] = max(mydata$StartDay)
+      }
+    }
+  }
+  
+  # Calculate rotations based on proportionality
+  
+  if (compensate_imbalance_groups){
+    if (!is.null(SubjList)){
+      if (!is.null(SubjList.dropoutday)){
+        mydata$rot.factor <- mydata$rot.factor*mapply(function(day, treatment, SubjList, SubjList.treatment, SubjList.dropoutday){
+          nrow(SubjList)/(length(Treatments)*sum(SubjList[SubjList[,SubjList.treatment] == treatment, SubjList.dropoutday] >= day))
+        }, mydata$StartDay, mydata$Treat, MoreArgs=list(SubjList=SubjList, SubjList.treatment=SubjList.treatment, SubjList.dropoutday=SubjList.dropoutday))
+      } else {
+        mydata$rot.factor <- mydata$rot.factor*mapply(function(treatment, SubjList, SubjList.treatment){
+          nrow(SubjList)/(length(Treatments)*nrow(SubjList[SubjList[,SubjList.treatment] == treatment,]))
+        }, mydata$Treat, MoreArgs=list(SubjList=SubjList, SubjList.treatment=SubjList.treatment))
+      }
+    } else {
+      stop("Imbalance groups can not be compensated when no SubjList is supplied.")
+    }
+  }
+  
+  if (any(is.infinite(rotations))){
+    stop("Rotations based on proportionality have become Inf. This indicates that Inf has been supplied as rotations value or a problem has been encountered in the calculation.")
+  }
+  
   # Only work with AE terms that have AEfreqTreshold or more AEs in at least one treatment arm
   tab.all <- as.data.frame(with(mydata, table(Terms, Treat)))
   tab <- tab.all[tab.all$Freq>=AEfreqTreshold,]
@@ -133,33 +205,40 @@ Tendril <- function(mydata,
                          Tag = Tag,
                          SubjList = SubjList,
                          SubjList.subject = SubjList.subject,
-                         SubjList.treatment = SubjList.treatment
+                         SubjList.treatment = SubjList.treatment,
+                         SubjList.dropoutday = SubjList.dropoutday,
+                         rotation_vector = mydata$rot.factor,
+                         compensate_imbalance_groups = compensate_imbalance_groups
                          )
 
   class(tendril.retval) <- "tendril"
-
-  tendril.retval <- Tendril.stat(tendril.retval)
-
-  #format data: assign column names and remove unwanted columns
-  data <- data.frame(Unique.Subject.Identifier = as.character(tendril.retval$data$Unique.Subject.Identifier),
-                     Terms = tendril.retval$data$Terms,
-                     Treat = tendril.retval$data$Treat,
-                     StartDay = tendril.retval$data$StartDay,
-                     rot.factor = tendril.retval$data$rot.factor,
-                     x = tendril.retval$data$x,
-                     y = tendril.retval$data$y,
-                     Tag = tendril.retval$data$Tag,
-                     p = tendril.retval$data$p,
-                     p.adj = tendril.retval$data$p.adj,
-                     fish = tendril.retval$data$fish,
-                     rdiff = tendril.retval$data$rdiff,
-                     RR = tendril.retval$data$RR,
-                     OR = tendril.retval$data$OR,
-                     FDR.tot = tendril.retval$data$FDR.tot,
-                     TermsCount = tendril.retval$data$TermsCount
-  )
-
-  tendril.retval$data <- data
+  
+  if (!is.null(SubjList)){
+    tendril.retval <- Tendril.stat(tendril.retval, suppress_warnings)
+    
+    #format data: assign column names and remove unwanted columns
+    data <- data.frame(Unique.Subject.Identifier = as.character(tendril.retval$data$Unique.Subject.Identifier),
+                       Terms = tendril.retval$data$Terms,
+                       Treat = tendril.retval$data$Treat,
+                       StartDay = tendril.retval$data$StartDay,
+                       rot.factor = tendril.retval$data$rot.factor,
+                       x = tendril.retval$data$x,
+                       y = tendril.retval$data$y,
+                       Tag = tendril.retval$data$Tag,
+                       p = tendril.retval$data$p,
+                       p.adj = tendril.retval$data$p.adj,
+                       fish = tendril.retval$data$fish,
+                       rdiff = tendril.retval$data$rdiff,
+                       RR = tendril.retval$data$RR,
+                       OR = tendril.retval$data$OR,
+                       FDR.tot = tendril.retval$data$FDR.tot,
+                       TermsCount = tendril.retval$data$TermsCount
+    )
+    tendril.retval$data <- data
+  } else {
+    tendril.retval$n.tot <- NULL
+    warning("No SubjList specified. You will still be able to plot a tendril plot. However, care should be taken when intepreting, since an imbalance of the amount of persons per treatment will affect the bending.", call. = FALSE)
+  }
 
   return(tendril.retval)
 }

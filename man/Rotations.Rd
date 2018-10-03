@@ -12,4 +12,3 @@ Rotations
 Example of Rotations in package Tendril.
 }
 \keyword{datasets}
-

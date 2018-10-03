@@ -16,4 +16,3 @@ SubjList
 Example of SubjList in package Tendril.
 }
 \keyword{datasets}
-

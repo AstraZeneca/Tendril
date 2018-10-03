@@ -6,10 +6,33 @@ Tendril.pi <- function(dataset, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
   actualdata$label <- "Actual"
   actualdata$perm.from.day = perm.from.day
   data <- dataset$perm.data
-  polydata <- data[data$type == "Permutation" & data$StartDay >= perm.from.day, ]
 
-  #polydata[polydata$ang<0,]$ang <- polydata[polydata$ang<0,]$ang + 2*pi # OBS, a fix that e.g. does not take angles > 2pi and other specialities into account!
-  polydata <- polydata[order(polydata$ang, decreasing = FALSE), ]
+  add_continues_angle <- function(dataset){
+    dataset$ang_continues <- dataset$ang
+    n_rows <- length(dataset$ang_continues)
+    if (n_rows > 1){
+      for (j in 2:n_rows){
+        if (abs(dataset$ang_continues[j] - dataset$ang_continues[j-1]) > pi ){
+          if ((dataset$ang_continues[j] - dataset$ang_continues[j-1]) > 0){
+            dataset$ang_continues[j:n_rows] <- dataset$ang_continues[j:n_rows] - 2*pi
+          } else {
+            dataset$ang_continues[j:n_rows] <- dataset$ang_continues[j:n_rows] + 2*pi
+          }
+        }
+      }
+    }
+    return(dataset)
+  }
+  
+  data$ang_continues <- data$ang
+  
+  for(i in unique(data$label)){
+    data[data$label == i,] <- add_continues_angle(data[data$label == i,])
+  } 
+  
+  polydata <- data[data$type == "Permutation" & data$StartDay >= perm.from.day, ]
+  polydata <- polydata[order(polydata$ang_continues, decreasing = FALSE), ]
+  
   labelleddata <- NULL
   for(i in unique(polydata$StartDay)) {
     subset<-polydata[polydata$StartDay==i,]

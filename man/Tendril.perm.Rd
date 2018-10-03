@@ -64,4 +64,3 @@ perm.from.day = 1)
 plot(perm.data, type = "permutations")
 plot(perm.data, type = "percentile")
 }
-

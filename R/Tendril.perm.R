@@ -55,9 +55,12 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
   #prepare data
   Unique.Subject.Identifier <- dataset$SubjList.subject
   treatment <- dataset$SubjList.treatment
+  dropoutday <- dataset$SubjList.dropoutday
   SubjList <- dataset$SubjList
   Treats <- dataset$Treatments
   data <- dataset$data[dataset$data$Terms==PermTerm, ]
+  rotation_vector <- dataset$rotation_vector
+  compensate_imbalance_groups <- dataset$compensate_imbalance_groups
 
 
   #check perm.from.day
@@ -66,22 +69,42 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
   perm.nr <- which(data$StartDay>=perm.from.day)
 
   tendril.perm.all <- NULL
-
+  
+  calc_proportional_factor <- function(treatment_event, day, SubjList, dropoutday, Treats){
+    if (is.null(dropoutday)){
+      nrow(SubjList)/(length(Treats)*nrow(SubjList[SubjList[, "PermTreat"] == treatment_event,]))
+    } else {
+      nrow(SubjList)/(length(Treats)*sum(SubjList[SubjList[,"PermTreat"] == treatment_event, "dropoutday"] >= day))
+    }
+  }
+  
   for(i in 1:n.perm) {
-
+    
     permdf<-NULL
     ## Make permutations to treatment assignment  ##
-
-    PermData <- data.frame(SubjID=as.character(SubjList[, Unique.Subject.Identifier]),
-                           PermTreat=sample(SubjList[, treatment])) # Draw from actual distribution of treatments
-
+    if (!is.null(dropoutday)){
+      PermData <- data.frame(SubjID=as.character(SubjList[, Unique.Subject.Identifier]), dropoutday=as.integer(SubjList[, dropoutday]),
+                             PermTreat=sample(SubjList[, treatment])) # Draw from actual distribution of treatments
+    } else {
+      PermData <- data.frame(SubjID=as.character(SubjList[, Unique.Subject.Identifier]),
+                             PermTreat=sample(SubjList[, treatment])) # Draw from actual distribution of treatments
+    }
+  
     data <- data %>% mutate_if(is.factor, as.character)
     PermData <- PermData %>% mutate_if(is.factor, as.character)
     permdf <- left_join(data, PermData, by = c("Unique.Subject.Identifier" = "SubjID"))
     permdf$Treat[perm.nr]<-as.character(permdf$PermTreat[perm.nr])
     permdf$StartDay<-as.integer(permdf$StartDay)
-    permdf$rot.factor<-as.integer(permdf$rot.factor)
-
+    permdf$rot.factor<-as.numeric(permdf$rot.factor)
+    
+    if (compensate_imbalance_groups){
+      permdf$rot.factor[perm.nr] <- as.numeric(rotation_vector[perm.nr]*unlist(mapply(calc_proportional_factor,
+                                                                               permdf$Treat[perm.nr],
+                                                                               permdf$StartDay[perm.nr],
+                                                                               MoreArgs=list(SubjList=PermData,
+                                                                               dropoutday=dropoutday,
+                                                                               Treats = Treats))))
+    }
 
     res <- Tendril.cx(permdf, Treats)
     res$label <- paste("Permutation",i, sep = " ")

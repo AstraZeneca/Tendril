@@ -10,7 +10,7 @@ vignette: |
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-The Tendril Plot – a novel visual summary of the incidence, significance and temporal aspects of adverse events in clinical trials, Martin Karpefors and James Weatherall, submitted to JAMIA, 2017
+The Tendril Plot - a novel visual summary of the incidence, significance and temporal aspects of adverse events in clinical trials, Martin Karpefors and James Weatherall, submitted to JAMIA, 2017
 
 #Introduction
 The Tendril package contains functions designed to compute the x-y coordinates and to build a Tendril plot. Inspired by the [notabilia visialization](http://notabilia.net), the Tendril plot was developed to capture the relative effect of different kind of adverse events for two treatments, including temporal aspects, in a single visualization. Specifically, each tendril (branch) in the Tendril plot represents a type of adverse effect, and the direction of the tendril is dictated by on which treatment arm the event is occurring. If an event is occurring on the first of the two specified treatment arms, the tendril bends to the right. If an event is occurring on the second of the treatment arms, the tendril bends to the left. 
@@ -91,7 +91,7 @@ Here's is how the provided TendrilData sample dataset looks like:
 head(TendrilData)
 ```
 
-Note the four columns containing the subject IDs (subjid), the treatement (treatment), the adverse effect term (ae) and the days (day).
+Note the four columns containing the subject IDs (subjid), the treatment (treatment), the adverse effect term (ae) and the days (day).
 
 
 The Tendril() function is called as:
@@ -137,7 +137,7 @@ data$angsum <- cumsum(data$dir.y*data$k) # Calculate cumulative tendril angles
 data <- transform(data, cx=complex(modulus = mod, argument = (pi/2 + angsum*pi/180)))
 data$cx <- cumsum(data$cx)
   
-#retrive coordinates from complex numbers
+#retrieve coordinates from complex numbers
 tendril.data <- transform(data,
                             x=Re(cumsum(data$cx)),
                             y=Im(cumsum(data$cx)),
@@ -167,7 +167,7 @@ test <- Tendril(mydata = TendrilData,
 
 
 ###Plotting
-The package creates a method for pltting the tendril object. Simply use.
+The package creates a method for plotting the tendril object. Simply use.
 ```{r plot, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
 # First create a tendril.res object with
 #tendril.res <- Tendril(...)
@@ -231,6 +231,45 @@ plot(test1, type = "percentile") # Significantly more AEs on active treatment
 plot(test2, type = "percentile") # Balance of AEs on treatment arms
 ```
 
+##Rotation factor based on the amount of subjects still present in the study
+
+Next to supplying a vector for the Rotations, it is also possible to supply a single value. In this case, the rotation factor of an event will be calculated by dividing the amount of subjects with the same treatment as the subject of the event that are still in the study at the day of the event by the total amount of subjects in the study. This factor will then be multiplied by the value supplied in the rotations parameter. The dropoutday can be specified in the SubjList and the column name of this column should be entered for the argument SubjList.dropoutday. The dropoutday is defined as the last day the subject was still in the study (so it is possible that an adverse effect is registered at the dropoutday).
+
+```{r example_single_rotation_value, eval = TRUE, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5}
+#load library
+library("Tendril")
+#compute tendril data
+data.tendril <- Tendril(mydata = TendrilData,
+                        rotations = 1,
+                AEfreqTreshold = 9,
+                Tag = "Comment",
+                Treatments = c("placebo", "active"),
+                Unique.Subject.Identifier = "subjid",
+                Terms = "ae",
+                Treat = "treatment",
+                StartDay = "day",
+                SubjList = SubjList,
+                SubjList.subject = "subjid",
+                SubjList.treatment = "treatment",
+                filter_double_events = FALSE,
+                suppress_warnings = FALSE)
+
+#compute permutations
+data.tendril <- Tendril.perm(dataset = data.tendril,
+                               PermTerm="AE40",
+                               n.perm = 200,
+                               perm.from.day = 1)
+plot(data.tendril)
+```
+
+##Only count adverse effects reported by subjects the first time
+
+There is an option parameter called filter_double_events which if set to TRUE will only count adverse effects reported by subjects the first time. What this means if a subject reports an adverse effect for the first time, it will be counted. If it reports a different adverse effect on a later day, it will be counted as well. However, if the subject reports an adverse effects it has reported before, this event will not be used to perform the Tendril analysis. The default value for this parameter is FALSE.
+
+##Suppress warnings
+
+The function prop.test might give a warning that the chi squared approximation might be incorrect. If you want to disable getting these warnings, the parameter suppress_warnings can be set to TRUE. The default is FALSE.
+
 #Complete usage example
 
 The following code will use the provided sample data TendrilData and SubjList to produce a complete analysis: compute tendril data, compute statistics, compute permutations for one of the adverse effects and produce a plot:
@@ -251,8 +290,9 @@ data.tendril <- Tendril(mydata = TendrilData,
                 StartDay = "day",
                 SubjList = SubjList,
                 SubjList.subject = "subjid",
-                SubjList.treatment = "treatment"
-)
+                SubjList.treatment = "treatment",
+                filter_double_events = FALSE,
+                suppress_warnings = FALSE)
 
 #compute permutations
 data.tendril <- Tendril.perm(dataset = data.tendril,

@@ -17,6 +17,9 @@
 \item{Tendril.res$SubjList }{: A dataframe containing subject IDs and treatments}
 \item{Tendril.res$SubjList.subject }{: The name of the column in SubjList containing the subjects IDs}
 \item{Tendril.res$SubjList.treatment }{: The name of the columns in SubjList containing the treatments}
+\item{Tendril.res$SubjList.dropoutday }{: The name of the column in SubjList containing the dropoutday}
+\item{Tendril.res$rotation_vector }{: The rotation vector used for the tendril analysis}
+\item{Tendril.res$compensate_imbalance }{: Boolean indicating whether the imbalance in the groups is compensated}
 \item{Tendril.res$n.tot }{: A data frame of 2 variables for number of subjects in each treatment}
 }}
 \usage{
@@ -26,4 +29,3 @@ Tendril.res
 The object contains the following 12 items:
 }
 \keyword{datasets}
-
