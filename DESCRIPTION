@@ -21,7 +21,8 @@ Imports:
     dplyr,
     reshape2,
     magrittr,
-    scales
+    scales,
+    plotly
 RoxygenNote: 6.0.1
 Suggests:
     testthat,
