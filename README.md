@@ -1,5 +1,4 @@
-tendril plot package
-======================
+# Tendril plot package v 0.7
 
 Repository for tendril plot package.
 
@@ -41,6 +40,10 @@ Unfortunately Mojave does not ship with it.
 
     make env
 
+# Changelog
+
+- Version 0.7 (1 Oct 2019)
+    - First public release
 
 
 # Contact
