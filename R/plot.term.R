@@ -18,7 +18,7 @@ plot.term <- function(tendril.data, term) {
   cc.10 <- log10(cc)
   cc.10[cc.10<(-3)] <- -3
   tendrilpal <- colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
-  vals <- rescale(c(-3, -1.3, -1, -0.3, 0))
+  vals <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
   p <- ggplot(data=data, aes(x=x, y=y, group=Terms, color=cc.10), aspect="iso") +
     scale_fill_gradientn(colours=tendrilpal, values = vals, limits = c(-3, 0)) +
     scale_colour_gradientn(colours=darken(tendrilpal), values = vals, limits = c(-3, 0)) +

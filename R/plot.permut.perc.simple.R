@@ -16,7 +16,7 @@ plot.permut.perc.simple <- function(Tendril.perm) {
   cc.10 <- log10(cc)
   cc.10[cc.10<(-3)] <- -3
   tendrilpal <- colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
-  vals <- rescale(c(-3, -1.3, -1, -0.3, 0))
+  vals <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
 
   ggplot(data=Tendril.perm$perm.data, aes(x=x, y=y, group=label), aspect="iso") +
     scale_colour_gradientn(colours=tendrilpal, values = vals, limits = c(-3, 0)) +

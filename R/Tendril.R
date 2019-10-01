@@ -1,10 +1,5 @@
-#' @importFrom dplyr left_join mutate_if
 #' @importFrom magrittr %>%
-#' @importFrom stats aggregate fisher.test na.omit p.adjust prop.test
-#' @importFrom utils tail
 #' @import ggplot2
-#' @importFrom reshape2 dcast
-#' @importFrom scales rescale
 NULL
 
 
@@ -109,7 +104,7 @@ Tendril <- function(mydata,
   mydata <- dataSetup(mydata, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay)
 
   SubjList <- SubjList[SubjList[, SubjList.treatment] %in% Treatments,] # Remove unwanted data
-  mydata <- na.omit(mydata[mydata$Treat %in% Treatments & mydata$StartDay>0, ]) # Remove unwanted data
+  mydata <- stats::na.omit(mydata[mydata$Treat %in% Treatments & mydata$StartDay>0, ]) # Remove unwanted data
   if (!is.null(SubjList)){
     mydata <- mydata[mydata$Unique.Subject.Identifier %in% unique(SubjList[, SubjList.subject]), ] # Remove unwanted data
   }
