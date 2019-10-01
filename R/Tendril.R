@@ -1,8 +1,3 @@
-#' @importFrom magrittr %>%
-#' @import ggplot2
-NULL
-
-
 #' Tendril
 #' @description
 #' Function to calculate coordinates and statistical measures used to create a tendril plot

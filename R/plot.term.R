@@ -19,16 +19,21 @@ plot.term <- function(tendril.data, term) {
   cc.10[cc.10<(-3)] <- -3
   tendrilpal <- colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
   vals <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
-  p <- ggplot(data=data, aes(x=x, y=y, group=Terms, color=cc.10), aspect="iso") +
-    scale_fill_gradientn(colours=tendrilpal, values = vals, limits = c(-3, 0)) +
-    scale_colour_gradientn(colours=darken(tendrilpal), values = vals, limits = c(-3, 0)) +
-    coord_fixed(ratio=1) +
-    labs(color = paste("10log", coloring)) +
-    ggtitle(paste(term,  collapse = "; ")) +
-    geom_path(size=0.5) +
-    geom_point(aes(x=x, y=y, fill=cc.10, colour=cc.10, size=TermsCount), shape=21, stroke=0.1) +
-    theme_bw() +
-    theme(axis.title.x = element_blank(),
+  element_blank <- ggplot2::element_blank
+  unit <- ggplot2::unit
+
+  p <- ggplot2::ggplot(
+    data=data,
+    ggplot2::aes(x=x, y=y, group=Terms, color=cc.10), aspect="iso") +
+    ggplot2::scale_fill_gradientn(colours=tendrilpal, values = vals, limits = c(-3, 0)) +
+    ggplot2::scale_colour_gradientn(colours=darken(tendrilpal), values = vals, limits = c(-3, 0)) +
+    ggplot2::coord_fixed(ratio=1) +
+    ggplot2::labs(color = paste("10log", coloring)) +
+    ggplot2::ggtitle(paste(term,  collapse = "; ")) +
+    ggplot2::geom_path(size=0.5) +
+    ggplot2::geom_point(aes(x=x, y=y, fill=cc.10, colour=cc.10, size=TermsCount), shape=21, stroke=0.1) +
+    ggplot2::theme_bw() +
+    ggplot2::theme(axis.title.x = element_blank(),
           axis.text.x = element_blank(),
           axis.ticks.x = element_blank(),
           axis.title.y = element_blank(),
@@ -36,6 +41,6 @@ plot.term <- function(tendril.data, term) {
           axis.ticks.y = element_blank(),
           legend.key.height=unit(2,"cm"),
           panel.border = element_blank()) +
-    theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-  p
+    ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+  return(p)
 }

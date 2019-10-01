@@ -48,7 +48,7 @@
 #' @export
 
 Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
-
+  `%>%` <- magrittr::`%>%`
   #check input data
   validate.perm.data(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
 

@@ -1,4 +1,5 @@
 plot.interactive <- function(tendril, opacity=0.5) {
+  `%>%` <- magrittr::`%>%`
   cc= tendril$data[["p.adj"]]
 
   cc.10 <- log10(cc)

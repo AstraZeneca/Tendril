@@ -38,6 +38,8 @@ createDataset <- function(coordx, coordy, label, type, StartDay, x){
 joinData <- function(dataset1, dataset2, Tag){
   #make merging columns characters to avoid warning of merging columns
   #with different levels
+  `%>%` <- magrittr::`%>%`
+
   dataset1 <- dataset1 %>% dplyr::mutate_if(is.factor, as.character)
   dataset2 <- dataset2 %>% dplyr::mutate_if(is.factor, as.character)
   dataset1$col.id<-as.numeric(dataset1$col.id)
