@@ -32,4 +32,3 @@ Suggests:
 VignetteBuilder: knitr
 NeedsCompilation: no
 Packaged: 2017-03-16 09:39:42 UTC; JOSA
->>>>>>> master
