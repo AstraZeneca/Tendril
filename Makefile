@@ -2,7 +2,7 @@ help:
 	@echo "make (env|test|unittest|build)"
 
 env:
-	Rscript -e "options(repos = \"http://cran.r-project.org/\"); packrat::init()"
+	Rscript -e "options(repos = \"http://cran.r-project.org/\"); packrat::init(); install.packages(\"knitr\")"
 
 test:
 	Rscript -e "devtools::document()"
