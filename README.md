@@ -1,5 +1,4 @@
-tendril plot package
-======================
+# Tendril plot package v0.7
 
 Repository for tendril plot package.
 
@@ -20,13 +19,16 @@ Unfortunately Mojave does not ship with it.
 2. Install homebrew from https://brew.sh/
 3. Install the required packages to compile Tendril dependencies 
 
+```
     brew install gfortran
     brew install llvm
     brew install boost
     brew install libomp
+```
 
 4. add this to ~/.R/Makevars
 
+```
     CC=/usr/local/opt/llvm/bin/clang
     CXX=/usr/local/opt/llvm/bin/clang++
     CXX11=/usr/local/opt/llvm/bin/clang++
@@ -36,12 +38,16 @@ Unfortunately Mojave does not ship with it.
     LDFLAGS=-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib
     CFLAGS=-I/usr/local/opt/llvm/include
     CPPFLAGS=-I/usr/local/opt/llvm/include
+```
 
 5. Type 
 
     make env
 
+# Changelog
 
+- Version 0.7 (1 Oct 2019)
+    - First public release
 
 # Contact
 
