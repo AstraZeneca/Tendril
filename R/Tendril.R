@@ -91,30 +91,30 @@ Tendril <- function(mydata,
                     compensate_imbalance_groups = FALSE,
                     filter_double_events = FALSE,
                     suppress_warnings = FALSE){
-  
+
   #check input data
   validate.tendril.data(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier,
                         Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday,
                         AEfreqTreshold, filter_double_events, suppress_warnings)
-  
+
   if (length(rotations) == 1){
     rotations <- rep(rotations, nrow(mydata))
   }
   rotations <- rotations[order(mydata[, StartDay])]
   mydata <- mydata[order(mydata[, StartDay]),]
-  
+
   mydata$col.id<-seq(1,dim(mydata)[1],1)
   full.dataset <- mydata #create backup to preserve extracolumn
-  
+
   mydata <- dataSetup(mydata, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay)
-  
+
   SubjList <- SubjList[SubjList[, SubjList.treatment] %in% Treatments,] # Remove unwanted data
   mydata <- na.omit(mydata[mydata$Treat %in% Treatments & mydata$StartDay>0, ]) # Remove unwanted data
   if (!is.null(SubjList)){
     mydata <- mydata[mydata$Unique.Subject.Identifier %in% unique(SubjList[, SubjList.subject]), ] # Remove unwanted data
   }
   mydata$Treat <- factor(as.character(mydata$Treat), levels = Treatments)  # Only relevant levels of treatments wanted
-  
+
   if ((!is.null(SubjList.dropoutday)) && (SubjList.dropoutday %in% names(SubjList))){
     check_dropout_day <- function(subject, day, SubjList, SubjList.subject, SubjList.dropoutday){
       SubjList[as.character(SubjList[, SubjList.subject]) == as.character(subject), SubjList.dropoutday] < day
@@ -128,12 +128,12 @@ Tendril <- function(mydata,
       warning("There are events in mydata that occur on a day after the patient dropoutday specified in SubjList. Those events are filtered out before the analysis was performed.")
     }
   }
-  
+
   # Filter out double events if input argument "filter_double_events" is set to true
   if (filter_double_events){
     mydata <- mydata[!duplicated(mydata[, c("Unique.Subject.Identifier", "Terms")]),]
   }
-  
+
   # If no data is given on day of dropout. Assume there were no dropouts of patients
   if (!is.null(SubjList)){
     if (!is.null(SubjList.dropoutday)){
@@ -142,9 +142,9 @@ Tendril <- function(mydata,
       }
     }
   }
-  
+
   # Calculate rotations based on proportionality
-  
+
   if (compensate_imbalance_groups){
     if (!is.null(SubjList)){
       if (!is.null(SubjList.dropoutday)){
@@ -160,11 +160,11 @@ Tendril <- function(mydata,
       stop("Imbalance groups can not be compensated when no SubjList is supplied.")
     }
   }
-  
+
   if (any(is.infinite(rotations))){
     stop("Rotations based on proportionality have become Inf. This indicates that Inf has been supplied as rotations value or a problem has been encountered in the calculation.")
   }
-  
+
   # Only work with AE terms that have AEfreqTreshold or more AEs in at least one treatment arm
   tab.all <- as.data.frame(with(mydata, table(Terms, Treat)))
   tab <- tab.all[tab.all$Freq>=AEfreqTreshold,]
@@ -211,11 +211,11 @@ Tendril <- function(mydata,
                          compensate_imbalance_groups = compensate_imbalance_groups
                          )
 
-  class(tendril.retval) <- "tendril"
-  
+  class(tendril.retval) <- "Tendril"
+
   if (!is.null(SubjList)){
     tendril.retval <- Tendril.stat(tendril.retval, suppress_warnings)
-    
+
     #format data: assign column names and remove unwanted columns
     data <- data.frame(Unique.Subject.Identifier = as.character(tendril.retval$data$Unique.Subject.Identifier),
                        Terms = tendril.retval$data$Terms,

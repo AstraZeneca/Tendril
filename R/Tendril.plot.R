@@ -44,7 +44,7 @@
 #' print(res)
 #' @export
 
-plot.tendril <- function(x, type = c("basic","permutations","percentile")[1], coloring = "Terms", ...){
+plot.Tendril <- function(x, type = c("basic","permutations","percentile")[1], coloring = "Terms", ...){
 
   if (type == "basic"){
     p<-plotbasic(x, coloring=coloring, ...)

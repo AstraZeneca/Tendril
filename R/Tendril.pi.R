@@ -1,5 +1,5 @@
 #Do the Percentile calculations on the permutations
-Tendril.pi <- function(dataset, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
+TendrilPi <- function(dataset, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
 
   actualdata <- dataset$data[dataset$data$Terms == dataset$Permterm,]
   actualdata$type <- "Actual"
@@ -23,16 +23,16 @@ Tendril.pi <- function(dataset, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
     }
     return(dataset)
   }
-  
+
   data$ang_continues <- data$ang
-  
+
   for(i in unique(data$label)){
     data[data$label == i,] <- add_continues_angle(data[data$label == i,])
-  } 
-  
+  }
+
   polydata <- data[data$type == "Permutation" & data$StartDay >= perm.from.day, ]
   polydata <- polydata[order(polydata$ang_continues, decreasing = FALSE), ]
-  
+
   labelleddata <- NULL
   for(i in unique(polydata$StartDay)) {
     subset<-polydata[polydata$StartDay==i,]
@@ -51,7 +51,7 @@ Tendril.pi <- function(dataset, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
   data <- rbind(labelleddata, actualdata)
   data$perm.from.day <- perm.from.day
   data <- data[data$type == "Percentile",]
-  class(data) <- "tendrilPi"
+  class(data) <- "TendrilPi"
 
   return(data)
 }

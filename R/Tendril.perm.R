@@ -69,7 +69,7 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
   perm.nr <- which(data$StartDay>=perm.from.day)
 
   tendril.perm.all <- NULL
-  
+
   calc_proportional_factor <- function(treatment_event, day, SubjList, dropoutday, Treats){
     if (is.null(dropoutday)){
       nrow(SubjList)/(length(Treats)*nrow(SubjList[SubjList[, "PermTreat"] == treatment_event,]))
@@ -77,9 +77,9 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
       nrow(SubjList)/(length(Treats)*sum(SubjList[SubjList[,"PermTreat"] == treatment_event, "dropoutday"] >= day))
     }
   }
-  
+
   for(i in 1:n.perm) {
-    
+
     permdf<-NULL
     ## Make permutations to treatment assignment  ##
     if (!is.null(dropoutday)){
@@ -89,14 +89,14 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
       PermData <- data.frame(SubjID=as.character(SubjList[, Unique.Subject.Identifier]),
                              PermTreat=sample(SubjList[, treatment])) # Draw from actual distribution of treatments
     }
-  
+
     data <- data %>% mutate_if(is.factor, as.character)
     PermData <- PermData %>% mutate_if(is.factor, as.character)
     permdf <- left_join(data, PermData, by = c("Unique.Subject.Identifier" = "SubjID"))
     permdf$Treat[perm.nr]<-as.character(permdf$PermTreat[perm.nr])
     permdf$StartDay<-as.integer(permdf$StartDay)
     permdf$rot.factor<-as.numeric(permdf$rot.factor)
-    
+
     if (compensate_imbalance_groups){
       permdf$rot.factor[perm.nr] <- as.numeric(rotation_vector[perm.nr]*unlist(mapply(calc_proportional_factor,
                                                                                permdf$Treat[perm.nr],
@@ -126,7 +126,7 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
   #dataset$perm.from.day <- perm.from.day
 
   #calculate percentile
-  tendril.pi <- Tendril.pi(dataset = dataset, pi.low, pi.high, perm.from.day)
+  tendril.pi <- TendrilPi(dataset = dataset, pi.low, pi.high, perm.from.day)
 
   #add results
   dataset$tendril.pi <- tendril.pi

@@ -112,14 +112,14 @@ test_that("output_perm_valid",{
 
   #set seed to make results reproducible
   set.seed(1)
-  
+
   #get dataset from example
   data("TendrilData")
   data <- TendrilData
   data("SubjList")
   SubjList <- SubjList
   load(file = "../Output.perm.constant.rda")
-  
+
   #this calculation is wrapped inside expect_warning because the dataset generates
   # "Chi-squared approximation may be incorrect" warnings
   expect_warning(
@@ -136,22 +136,22 @@ test_that("output_perm_valid",{
                             SubjList.subject = "subjid",
                             SubjList.treatment = "treatment")
   )
-  
+
  res<-Tendril.perm(dataset = tendril.data,
                      PermTerm="AE44",
                      n.perm = 50,
                      perm.from.day = 1)
- 
+
   #must be of class tendril
  expect_equal(
-   "tendril", class(res)
+   "Tendril", class(res)
  )
 
   #must add 4 items to the list
  expect_equal(
     3, length(res)-length(tendril.data)
   )
- 
+
  expect_equal(
    res, Output.perm.constant
  )
@@ -159,32 +159,32 @@ test_that("output_perm_valid",{
 })
 
 test_that("output_perm_proportional_valid",{
-  
+
   #set seed to make results reproducible
   set.seed(1)
-  
+
   #get dataset from example
   load(file = "../Tendril.res.proportional.rotation.factor.rda")
   data <- Tendril.res.proportional.rotation.factor
   load(file = "../Output.perm.proportional.rda")
-  
+
   res<-Tendril.perm(dataset = data,
                     PermTerm="AE44",
                     n.perm = 50,
                     perm.from.day = 1)
-  
+
   #must be of class tendril
   expect_equal(
-    "tendril", class(res)
+    "Tendril", class(res)
   )
-  
+
   #must add 4 items to the list
   expect_equal(
     3, length(res)-length(data)
   )
-  
+
   expect_equal(
     res, Output.perm.proportional
   )
-  
+
 })
