@@ -2,7 +2,7 @@ help:
 	@echo "make (env|test|unittest|build)"
 
 env:
-	Rscript -e "options(repos = \"http://cran.r-project.org/\"); packrat::init()"
+	Rscript -e "options(repos = \"http://cran.r-project.org/\"); packrat::init();"
 
 test:
 	Rscript -e "devtools::document()"
@@ -14,4 +14,4 @@ unittest:
 
 build:
 	Rscript -e "devtools::document()"
-	R CMD build .
+	Rscript -e "devtools::build('.')"
