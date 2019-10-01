@@ -19,6 +19,7 @@ Depends:
 Imports:
     ggplot2,
     dplyr,
+    plyr,
     reshape2,
     magrittr,
     scales,
