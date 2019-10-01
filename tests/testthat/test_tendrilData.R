@@ -178,7 +178,7 @@ test_that("filtering_keeps_some_data",{
   #get data from example
   data("TendrilData")
   data <- TendrilData
-  
+
   #pass an empty dataframe
   expect_error(
     validate.tendril.results(data[NULL, ])
@@ -187,7 +187,7 @@ test_that("filtering_keeps_some_data",{
 })
 
 test_that("tendril_result_correct",{
-  
+
   #get data from example
   data("TendrilData")
   data <- TendrilData
@@ -212,7 +212,7 @@ test_that("tendril_result_correct",{
                  SubjList.subject = "subjid",
                  SubjList.treatment = "treatment")
   )
-  
+
   expect_warning(
     Tendril(mydata = TendrilData,
                    rotations = Rotations,
@@ -232,9 +232,9 @@ test_that("tendril_result_correct",{
 
   #class must be tendril
   expect_equal(
-    "tendril", class(res)
+    "Tendril", class(res)
   )
-  
+
   #list must contain 15 items
   expect_equal(
     15, length(res)
@@ -292,7 +292,7 @@ test_that("tendril_result_correct",{
 })
 
 test_that("tendril_result_correct_filter_double_events",{
-  
+
   #get data from example
   data("TendrilData")
   data <- TendrilData
@@ -300,7 +300,7 @@ test_that("tendril_result_correct_filter_double_events",{
   SubjList <- SubjList
   load(file = "../Tendril.res.single.events.rda")
   Tendril.res.single.events <- Tendril.res.single.events
-  
+
   res <- Tendril(mydata = TendrilData,
                  rotations = Rotations,
                  AEfreqTreshold = 9,
@@ -315,7 +315,7 @@ test_that("tendril_result_correct_filter_double_events",{
                  SubjList.treatment = "treatment",
                  filter_double_events = TRUE,
                  suppress_warnings = TRUE)
-  
+
   #check final result is correct
   expect_equal(
     res, Tendril.res.single.events
@@ -323,7 +323,7 @@ test_that("tendril_result_correct_filter_double_events",{
 })
 
 test_that("tendril_result_no_SubjList_supplied",{
-  
+
   #get data from example
   data("TendrilData")
   data <- TendrilData
@@ -331,7 +331,7 @@ test_that("tendril_result_no_SubjList_supplied",{
   SubjList <- SubjList
   data("Tendril.res")
   Tendril.res <- Tendril.res
-  
+
   #check that a warning is given on the intepretation when no SubjList is supplied
   expect_warning(res <- Tendril(mydata = TendrilData,
                  rotations = Rotations,
@@ -343,7 +343,7 @@ test_that("tendril_result_no_SubjList_supplied",{
                  Treat = "treatment",
                  StartDay = "day",
                  suppress_warnings = TRUE))
-  
+
   #check final result is correct
   expect_equal(
     list(res$data$x, res$data$y), list(Tendril.res$data$x, Tendril.res$data$y)
@@ -351,7 +351,7 @@ test_that("tendril_result_no_SubjList_supplied",{
 })
 
 test_that("tendril_result_no_SubjList_supplied_single_rotation_factor",{
-  
+
   #get data from example
   data("TendrilData")
   data <- TendrilData
@@ -359,7 +359,7 @@ test_that("tendril_result_no_SubjList_supplied_single_rotation_factor",{
   SubjList <- SubjList
   data("Tendril.res")
   Tendril.res <- Tendril.res
-  
+
   #check that a warning is given on the intepretation when no SubjList is supplied
   expect_warning(res <- Tendril(mydata = TendrilData,
                                 rotations = 3,
@@ -373,7 +373,7 @@ test_that("tendril_result_no_SubjList_supplied_single_rotation_factor",{
                                 SubjList.subject = "subjid",
                                 SubjList.treatment = "treatment",
                                 suppress_warnings = TRUE))
-  
+
   #check final result is correct
   expect_equal(
     list(res$data$x, res$data$y), list(Tendril.res$data$x, Tendril.res$data$y)
@@ -381,7 +381,7 @@ test_that("tendril_result_no_SubjList_supplied_single_rotation_factor",{
 })
 
 test_that("tendril_proportional_rotation_factor",{
-  
+
   #get data from example
   load(file = "../Tendril.data.with.dropouts.rda")
   data <- Tendril.data.with.dropouts
@@ -389,7 +389,7 @@ test_that("tendril_proportional_rotation_factor",{
   SubjList.with.dropouts <- SubjList.with.dropouts
   load(file = "../Tendril.res.proportional.rotation.factor.rda")
   Tendril.res.proportional.rotation.factor <- Tendril.res.proportional.rotation.factor
-  
+
   res <- Tendril(mydata = data,
                   rotations = 3,
                   AEfreqTreshold = 9,
@@ -404,7 +404,7 @@ test_that("tendril_proportional_rotation_factor",{
                   SubjList.treatment = "treatment",
                   SubjList.dropout = "dropoutday",
                   suppress_warnings = TRUE)
-  
+
   #check final result is correct
   expect_equal(
     res, Tendril.res.proportional.rotation.factor
@@ -412,7 +412,7 @@ test_that("tendril_proportional_rotation_factor",{
 })
 
 test_that("tendril_error_event_after_dropout",{
-  
+
   #get data from example
   data("TendrilData")
   data <- TendrilData
@@ -420,7 +420,7 @@ test_that("tendril_error_event_after_dropout",{
   SubjList.with.dropouts <- SubjList.with.dropouts
   load(file = "../Tendril.res.proportional.rotation.factor.rda")
   Tendril.res.proportional.rotation.factor <- Tendril.res.proportional.rotation.factor
-  
+
   #check whether an error is given if an event is specified for a subject after it's dropoutdate
   expect_warning(res <- Tendril(mydata = TendrilData,
                                 rotations = 3,
@@ -436,7 +436,7 @@ test_that("tendril_error_event_after_dropout",{
                                 SubjList.treatment = "treatment",
                                 SubjList.dropout = "dropoutday",
                                 suppress_warnings = TRUE))
-  
+
   #check final result is correct
   expect_equal(
     res, Tendril.res.proportional.rotation.factor
@@ -444,7 +444,7 @@ test_that("tendril_error_event_after_dropout",{
 })
 
 test_that("tendril_check_correct_imbalance_and_variable_rotation",{
-  
+
   #get data from example
   load(file = "../Tendril.data.with.dropouts.rda")
   data <- Tendril.data.with.dropouts
@@ -454,7 +454,7 @@ test_that("tendril_check_correct_imbalance_and_variable_rotation",{
   Tendril.res.proportional.correct.imbalance <- Tendril.res.proportional.correct.imbalance
   load(file = "../Variable.rotation.rda")
   Variable.rotation <- Variable.rotation
-  
+
   res <- Tendril(mydata = Tendril.data.with.dropouts,
                                 rotations = Variable.rotation,
                                 AEfreqTreshold = 9,
@@ -470,7 +470,7 @@ test_that("tendril_check_correct_imbalance_and_variable_rotation",{
                                 SubjList.dropout = "dropoutday",
                                 suppress_warnings = TRUE,
                                 compensate_imbalance = TRUE)
-  
+
   #check final result is correct
   expect_equal(
     res, Tendril.res.proportional.correct.imbalance

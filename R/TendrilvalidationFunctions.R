@@ -52,7 +52,7 @@ validate.tendril.results <- function(tab){
 #-------------------
 #validate tendril.stat() input
 validate.tendril.stat <- function(dataset, SubjList, Unique.Subject.Identifier, treatment){
-  if (!"tendril" %in% class(dataset)){
+  if (!"Tendril" %in% class(dataset)){
     stop("Input data is not of class tendril")
   }
   if (!"data.frame" %in% class(SubjList)){
