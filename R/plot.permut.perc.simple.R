@@ -15,12 +15,13 @@ plot.permut.perc.simple <- function(Tendril.perm) {
   cc <- actualData$p.adj
   cc.10 <- log10(cc)
   cc.10[cc.10<(-3)] <- -3
-  tendrilpal <- colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
+  tendrilpal <- grDevices::colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
   vals <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
 
   element_blank <- ggplot2::element_blank
+  aes <- ggplot2::aes
   ggplot2::ggplot(data=Tendril.perm$perm.data,
-    ggplot2::aes(x=x, y=y, group=label), aspect="iso") +
+    aes(x=x, y=y, group=label), aspect="iso") +
     ggplot2::scale_colour_gradientn(colours=tendrilpal, values = vals, limits = c(-3, 0)) +
     ggplot2::geom_path(colour="grey80") +
     ggplot2::geom_path(data=percentileData, size=1, colour="grey50") +

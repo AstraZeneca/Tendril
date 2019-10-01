@@ -1,6 +1,9 @@
 ## Plot time series of net events on active arm ##
 ae.time.series <- function(tendril.data, term) {
-  time.serie <- ddply(tendril.data$data[tendril.data$data$Terms == term,], .(StartDay, Treat), summarize, n=length(Unique.Subject.Identifier))
+  . <- plyr::.
+  summarize <- plyr::summarize
+
+  time.serie <- plyr::ddply(tendril.data$data[tendril.data$data$Terms == term,], .(StartDay, Treat), summarize, n=length(Unique.Subject.Identifier))
   time.s.2 <- reshape2::dcast(time.serie, StartDay ~ Treat, fun.aggregate = mean)
 
   cum.na <- function(x) {

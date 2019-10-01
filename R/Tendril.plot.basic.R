@@ -24,7 +24,7 @@ plotbasic <- function(x, coloring = "Terms") {
   if(coloring %in% c("p", "p.adj", "fish")) {
     cc.10 <- log10(cc)
     cc.10[cc.10<(-3)] <- -3
-    tendrilpal <- colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
+    tendrilpal <- grDevices::colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
     vals <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
     p <- ggplot2::ggplot(data=x$data, aes(x=x, y=y, group=Terms, color=cc.10), aspect="iso") +
       ggplot2::coord_fixed(ratio=1) +
