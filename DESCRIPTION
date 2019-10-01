@@ -1,7 +1,7 @@
 Package: Tendril
 Type: Package
 Title: Compute Tendril
-License: GPL (>=2)
+License: GPL-2
 Author: Martin Karpefors
 Maintainer: Martin Karpefors <martin.karpefors@astrazeneca.com>
 Version: 0.7
