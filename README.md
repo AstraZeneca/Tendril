@@ -49,7 +49,7 @@ Unfortunately Mojave does not ship with it.
 - Version 0.7 (1 Oct 2019)
     - First public release
 
-# Contact
+# Contact information
 
 For further info please contact:
 <Martin.Karpefors@astrazeneca.com>

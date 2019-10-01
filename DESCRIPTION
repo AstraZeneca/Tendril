@@ -10,8 +10,8 @@ Description: The Tendril package provide functionalities to compute the
     (branch) represents a type of events, and the direction of the tendril is
     dictated by on which treatment arm the event is occurring. If an event is
     occurring on the first of the two specified treatment arms, the tendril bends
-    to the right. If an event is occurring on the second of the treatment arms, the
-    tendril bends to the left.
+    in a clockwise direction. If an event is occurring on the second of the treatment arms, the
+    tendril bends in an anti-clockwise direction.
 Encoding: UTF-8
 LazyData: true
 Depends:
