@@ -14,4 +14,4 @@ unittest:
 
 build:
 	Rscript -e "devtools::document()"
-	R CMD build .
+	Rscript -e "devtools::build('.')"
