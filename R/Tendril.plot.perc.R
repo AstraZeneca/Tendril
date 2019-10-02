@@ -33,22 +33,25 @@ plotpercentile <- function(x){
     y<-NULL
     label<-NULL
     type<-NULL
-    p<-ggplot(data=plotdata[plotdata$type=="Permutation", ], aes(x=x, y=y, group=label, color = type), aspect="iso") +
-      geom_path() +
-      geom_path(data=plotdata[plotdata$type=="Percentile", ], aes(x=x, y=y, group=label, color = type))+
-      geom_path(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type))+
-      geom_point(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type), size=2) +
-      scale_color_manual(values = colours) +
-      theme(axis.title.x = element_blank(),
+    aes <- ggplot2::aes
+    element_blank <- ggplot2::element_blank
+
+    p<- ggplot2::ggplot(data=plotdata[plotdata$type=="Permutation", ], aes(x=x, y=y, group=label, color = type), aspect="iso") +
+       ggplot2::geom_path() +
+       ggplot2::geom_path(data=plotdata[plotdata$type=="Percentile", ], aes(x=x, y=y, group=label, color = type))+
+       ggplot2::geom_path(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type))+
+       ggplot2::geom_point(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type), size=2) +
+       ggplot2::scale_color_manual(values = colours) +
+       ggplot2::theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank(),
             axis.title.y = element_blank(),
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank()) +
-      labs(color = "Type") +
-      coord_fixed(ratio=1) +
-      ggtitle(Title) +
-      annotate(geom="text", x=data2.labels$xpos, y=data2.labels$ypos,
+       ggplot2::labs(color = "Type") +
+       ggplot2::coord_fixed(ratio=1) +
+       ggplot2::ggtitle(Title) +
+       ggplot2::annotate(geom="text", x=data2.labels$xpos, y=data2.labels$ypos,
                label = data2.labels$label,
                hjust=data2.labels$hjust, vjust=data2.labels$vjust,
                colour = "white", size = 6, fontface = 2)

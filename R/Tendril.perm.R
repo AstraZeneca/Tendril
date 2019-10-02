@@ -48,7 +48,7 @@
 #' @export
 
 Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
-
+  `%>%` <- magrittr::`%>%`
   #check input data
   validate.perm.data(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
 
@@ -90,9 +90,9 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
                              PermTreat=sample(SubjList[, treatment])) # Draw from actual distribution of treatments
     }
 
-    data <- data %>% mutate_if(is.factor, as.character)
-    PermData <- PermData %>% mutate_if(is.factor, as.character)
-    permdf <- left_join(data, PermData, by = c("Unique.Subject.Identifier" = "SubjID"))
+    data <- data %>% dplyr::mutate_if(is.factor, as.character)
+    PermData <- PermData %>% dplyr::mutate_if(is.factor, as.character)
+    permdf <- dplyr::left_join(data, PermData, by = c("Unique.Subject.Identifier" = "SubjID"))
     permdf$Treat[perm.nr]<-as.character(permdf$PermTreat[perm.nr])
     permdf$StartDay<-as.integer(permdf$StartDay)
     permdf$rot.factor<-as.numeric(permdf$rot.factor)
