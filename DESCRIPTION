@@ -15,7 +15,7 @@ Description: The Tendril package provide functionalities to compute the
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 2.10)
+    R (>= 3.5)
 Imports:
     ggplot2,
     dplyr,
