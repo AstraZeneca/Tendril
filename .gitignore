@@ -4,3 +4,4 @@ packrat
 .Rprofile
 packrat/lib*/
 .Rproj.user
+*.Rproj
