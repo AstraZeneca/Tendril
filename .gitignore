@@ -3,3 +3,5 @@ packrat
 .Rhistory
 .Rprofile
 packrat/lib*/
+.Rproj.user
+*.Rproj
