@@ -17,8 +17,7 @@ plot.term <- function(tendril.data, term) {
 
   cc.10 <- log10(cc)
   cc.10[cc.10<(-3)] <- -3
-  tendrilpal <- grDevices::colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
-  vals <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
+  palette <- tendril_palette()
   element_blank <- ggplot2::element_blank
   unit <- ggplot2::unit
   aes <- ggplot2::aes
@@ -26,8 +25,16 @@ plot.term <- function(tendril.data, term) {
   p <- ggplot2::ggplot(
     data=data,
     aes(x=x, y=y, group=Terms, color=cc.10), aspect="iso") +
-    ggplot2::scale_fill_gradientn(colours=tendrilpal, values = vals, limits = c(-3, 0)) +
-    ggplot2::scale_colour_gradientn(colours=darken(tendrilpal), values = vals, limits = c(-3, 0)) +
+    ggplot2::scale_fill_gradientn(
+      colours = palette$grpalette,
+      values = palette$values,
+      limits = palette$limits
+      ) +
+    ggplot2::scale_colour_gradientn(
+      colours=darken(palette$grpalette),
+      values = palette$values,
+      limits = palette$limits
+      ) +
     ggplot2::coord_fixed(ratio=1) +
     ggplot2::labs(color = paste("10log", coloring)) +
     ggplot2::ggtitle(paste(term,  collapse = "; ")) +
