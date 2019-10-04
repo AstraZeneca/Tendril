@@ -13,3 +13,18 @@ lighten <- function(color, factor=1.4){
   # col <- rgb(t(col), maxColorValue=255)
   col
 }
+
+
+tendril_palette <- function() {
+  # Returns a list containing information about the palette we use
+  grpalette <- grDevices::colorRampPalette( c( "grey15", "red", "darkorange", "gold", "cornflowerblue"  ) )( 5 )
+  values <- scales::rescale(c(-3, -1.3, -1, -0.3, 0))
+  limits <- c(-3, 0)
+  ret <- list(
+    grpalette = grpalette,
+    values = values,
+    limits = limits
+  )
+  return(ret)
+}
+

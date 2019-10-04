@@ -1,3 +1,5 @@
 ^packrat/
 ^\.Rprofile$
 Makefile
+^.*\.Rproj$
+^\.Rproj\.user$
