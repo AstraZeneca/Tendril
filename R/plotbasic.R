@@ -1,5 +1,5 @@
 ## Tendril plot, adjusted with darker border  ##
-plotbasic <- function(x, coloring = "Terms") {
+ggplot2_plotbasic <- function(x, coloring = "Terms") {
   plotdata=data.frame(x= x$data$x,
                       y= x$data$y,
                       Terms= x$data$Terms

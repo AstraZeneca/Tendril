@@ -44,19 +44,32 @@
 #' print(res)
 #' @export
 
-plot.Tendril <- function(x, type = c("basic","permutations","percentile")[1], coloring = "Terms", ...){
+plot.Tendril <- function(
+  x,
+  type = c("basic","permutations","percentile")[1],
+  coloring = "Terms",
+  engine = c("ggplot2", "plotly")[1],
+  ...){
 
-  if (type == "basic"){
-    p<-plotbasic(x, coloring=coloring, ...)
-  }
-  else if (type == "permutations"){
-    p<-plotpermutation(x)
-  }
-  else if (type == "percentile"){
-    p<-plotpercentile(x)
-  }
-  else {
-    stop("Invalid type. Must be one of the following: basic, permutations or percentile")
+  if (engine == "ggplot2") {
+    if (type == "basic"){
+      p <- ggplot2_plotbasic(x, coloring=coloring, ...)
+    }
+    else if (type == "permutations"){
+      p<-plotpermutation(x)
+    }
+    else if (type == "percentile"){
+      p<-plotpercentile(x)
+    }
+    else {
+      stop("Invalid type. Must be one of the following: basic, permutations or percentile")
+    }
+  } else if (engine == "plotly") {
+    if (type == "basic"){
+      p <- plotly_plotbasic(x, coloring=coloring, ...)
+    }
+  } else {
+    stop(paste("Invalid engine", engine))
   }
 
   return(p)
