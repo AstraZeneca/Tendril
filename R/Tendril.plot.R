@@ -67,7 +67,10 @@ plot.Tendril <- function(
   } else if (engine == "plotly") {
     if (type == "basic"){
       p <- plotly_plotbasic(x, coloring=coloring, ...)
+    } else {
+      stop("Invalid type. Must be one of the following: basic")
     }
+
   } else {
     stop(paste("Invalid engine", engine))
   }
