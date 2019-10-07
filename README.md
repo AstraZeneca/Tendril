@@ -46,6 +46,9 @@ Unfortunately Mojave does not ship with it.
 
 # Changelog
 
+- Version git master
+    - #41 Added interactive option to plot using plotly or ggplot2
+
 - Version 0.7 (1 Oct 2019)
     - First public release
 
