@@ -8,12 +8,12 @@ plotly_plotbasic <- function(tendril, coloring, opacity=0.5) {
     cc[cc<(-3)] <- -3
   }
   palette <- tendril_palette()
-
+  max_termscount <- max(tendril$data$TermsCount, na.rm = TRUE)
   p <- tendril$data %>%
     dplyr::group_by(Terms) %>%
     plotly::plot_ly(x=~x, y=~y, width = 700, height = 700,
             mode = "lines+markers", type = "scatter",
-            marker = list(size=~TermsCount/100, opacity=opacity), color = ~cc,
+            marker = list(size=~(TermsCount/max_termscount)*10, opacity=opacity), color = ~cc,
             colors = palette$grpalette,
             line = list(color = "lightgrey"),
             text = ~paste("Term: ", Terms, '<br>Start day:', StartDay, '<br>p.adjusted:', round(p.adj, 4)),
