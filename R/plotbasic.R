@@ -53,7 +53,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms") {
       ggplot2::annotate(geom="text", x=data2.labels$xpos, y=data2.labels$ypos,
                label = data2.labels$label,
                hjust=data2.labels$hjust, vjust=data2.labels$vjust,
-               colour = "white", size = 6, fontface = 2)
+               colour = "grey40", size = 5, fontface = 2)
   } else {
     p <- ggplot2::ggplot(data=x$data, aes(x=x, y=y, group=Terms, color=cc), aspect="iso") +
       ggplot2::coord_fixed(ratio=1) +
@@ -71,7 +71,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms") {
       ggplot2::annotate(geom="text", x=data2.labels$xpos, y=data2.labels$ypos,
                label = data2.labels$label,
                hjust=data2.labels$hjust, vjust=data2.labels$vjust,
-               colour = "white", size = 6, fontface = 2)
+               colour = "grey40", size = 5, fontface = 2)
   }
 
   return(p)
