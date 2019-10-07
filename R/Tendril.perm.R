@@ -9,7 +9,7 @@
 #' @param n.perm the number of permutations. Default 100
 #' @param perm.from.day the starting day for the permutation calculations. Default 1
 #' @param pi.low percentile low value. Default 0.1
-#' @param  pi.high percentile high value. Default 0.9
+#' @param pi.high percentile high value. Default 0.9
 #' @return
 #' The function return an object of class TendrilPerm containing all the input data and a dataframe of permutation results. Use:
 #'
@@ -48,17 +48,17 @@
 #'   perm.from.day = 1)
 #'
 #' # Plot results
-#' plot(perm.data, type = "permutations")
-#' plot(perm.data, type = "percentile")
+#' plot(perm.data)
+#' plot(perm.data, percentile = TRUE)
 #' @export
 
 TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
   `%>%` <- magrittr::`%>%`
   #check input data
   validate.perm.data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
-  print("XX")
 
   retval = list(tendril = tendril)
+  class(retval) <- "TendrilPerm"
 
   #prepare data
   Unique.Subject.Identifier <- tendril$SubjList.subject
@@ -69,7 +69,6 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   data <- tendril$data[tendril$data$Terms==PermTerm, ]
   rotation_vector <- tendril$rotation_vector
   compensate_imbalance_groups <- tendril$compensate_imbalance_groups
-
 
   #check perm.from.day
   validate.perm.day(data, perm.from.day)
@@ -131,13 +130,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   #add results
   retval$Permterm <- PermTerm
   retval$perm.data <- tendril.perm.all
+  retval$tendril.pi <- TendrilPi(tendril, retval$Permterm, retval$perm.data, pi.low, pi.high, perm.from.day)
 
-  #calculate percentile
-  tendril.pi <- TendrilPi(tendril, retval$Permterm, retval$perm.data, pi.low, pi.high, perm.from.day)
-
-  #add results
-  retval$tendril.pi <- tendril.pi
-
-  class(retval) <- "TendrilPerm"
   return(retval)
 }

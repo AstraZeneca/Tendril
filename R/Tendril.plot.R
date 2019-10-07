@@ -18,7 +18,6 @@
 #' @param interactive Specifies if the plot must be interactive or not.
 #' If interactive == TRUE, plotly will be used to render the plot. Otherwise,
 #' (default) the plot will be rendered as a static image using ggplot2.
-#' @param ... Unused arguments
 #' @details
 #' If saving the results of the function to a variable, this will be of class tendril
 #' and will contain the data passed to the plot function and the plot itself
@@ -40,8 +39,8 @@
 #' )
 #'
 #' #Do plot
-#' res <- plot(data, type = "basic", coloring = "Terms")
-#' res <- plot(data, type = "basic", coloring = "p.adj")
+#' res <- plot(data, coloring = "Terms")
+#' res <- plot(data, coloring = "p.adj")
 #'
 #' #To re-do the plot after the first call:
 #' print(res)
@@ -50,8 +49,7 @@
 plot.Tendril <- function(
   x,
   coloring = "Terms",
-  interactive = FALSE,
-  ...){
+  interactive = FALSE){
 
   if (!interactive) {
     p <- ggplot2_plotbasic(x, coloring=coloring, ...)

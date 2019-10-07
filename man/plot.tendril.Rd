@@ -4,14 +4,10 @@
 \alias{plot.Tendril}
 \title{Plot Tendril}
 \usage{
-\method{plot}{Tendril}(x, type = c("basic", "permutations",
-  "percentile")[1], coloring = "Terms", ...)
+\method{plot}{Tendril}(x, coloring = "Terms", interactive = FALSE)
 }
 \arguments{
 \item{x}{An object of class tendril, as made by Tendril()}
-
-\item{type}{A character vector of length 1 describing the type of plot to be produced.
-Available types are: "basic", "permutations" and "percentile"}
 
 \item{coloring}{Name of column used for coloring tendrils (only basic plots).
 Available coloring choices are:
@@ -25,7 +21,12 @@ Available coloring choices are:
 "FDR.tot" - P-values adjusted using the False discovery rate method for all tendrils; and
 "TermsCount" - Total number of events for that specific type of event}
 
-\item{...}{Unused arguments}
+\item{interactive}{Specifies if the plot must be interactive or not.
+If interactive == TRUE, plotly will be used to render the plot. Otherwise,
+(default) the plot will be rendered as a static image using ggplot2.}
+
+\item{type}{A character vector of length 1 describing the type of plot to be produced.
+Available types are: "basic", "permutations" and "percentile"}
 }
 \description{
 Function to plot Tendril results
@@ -51,8 +52,8 @@ SubjList.treatment = "treatment"
 )
 
 #Do plot
-res <- plot(data, type = "basic", coloring = "Terms")
-res <- plot(data, type = "basic", coloring = "p.adj")
+res <- plot(data, coloring = "Terms")
+res <- plot(data, coloring = "p.adj")
 
 #To re-do the plot after the first call:
 print(res)
