@@ -34,8 +34,8 @@ test <- Tendril(mydata = TendrilData,
                 SubjList.treatment = "treatment"
 )
   
-plot(test, type = "basic")
-plot(test, type = "basic", coloring = "p.adj")
+plot(test)
+plot(test, coloring = "p.adj")
 
 ```
 
@@ -186,9 +186,8 @@ The plot can also be called using
 ```{r plotbasic, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
 # First create a tendril.res object with
 #tendril.res <- Tendril(...)
-p <- plot(tendril.res, type = "basic")
+p <- plot(tendril.res)
 ```
-The argument type = "basic", however, is the default.
 
 ##Statistical analysis
 The function Tendril.Stat() is called by Tendril(). It performs the following tests:
@@ -203,13 +202,13 @@ The function Tendril.Stat() is called by Tendril(). It performs the following te
 Permutations can be computed on any specified arm and starting from any day of treatment. To compute permutation, use:
 
 ```{r perm.example, echo=TRUE, warning=FALSE, message=FALSE}
-test1 <- Tendril.perm(dataset = test,
-                               PermTerm = "AE40",
-                               n.perm = 200,
-                               perm.from.day = 1)
+test1 <- TendrilPerm(tendril = test,
+                     PermTerm = "AE40",
+                     n.perm = 200,
+                     perm.from.day = 1)
 ```
 ```{r perm.example2, echo=FALSE, warning=FALSE, message=FALSE}
-test2 <- Tendril.perm(dataset = test,
+test2 <- TendrilPerm(tendril = test,
                                PermTerm = "AE44",
                                n.perm = 200,
                                perm.from.day = 1)
@@ -220,15 +219,9 @@ The function compute the permutations before calling for the percentile calculat
 ###Plotting
 The package creates a method for plotting the tendril object. Simply use.
 ```{r plot_perm, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5}
-# First create a tendril.res object with
-#tendril.res <- Tendril(...)
-
-#To plot permutations:
-#plot(test, type = "permutations") 
-
 #To plot permutations and percentile:
-plot(test1, type = "percentile") # Significantly more AEs on active treatment 
-plot(test2, type = "percentile") # Balance of AEs on treatment arms
+plot(test1, percentile = TRUE) # Significantly more AEs on active treatment 
+plot(test2, percentile = TRUE) # Balance of AEs on treatment arms
 ```
 
 ##Rotation factor based on the amount of subjects still present in the study
@@ -255,10 +248,10 @@ data.tendril <- Tendril(mydata = TendrilData,
                 suppress_warnings = FALSE)
 
 #compute permutations
-data.tendril <- Tendril.perm(dataset = data.tendril,
-                               PermTerm="AE40",
-                               n.perm = 200,
-                               perm.from.day = 1)
+data.tendril <- TendrilPerm(tendril = data.tendril,
+                            PermTerm="AE40",
+                            n.perm = 200,
+                            perm.from.day = 1)
 plot(data.tendril)
 ```
 
@@ -295,22 +288,22 @@ data.tendril <- Tendril(mydata = TendrilData,
                 suppress_warnings = FALSE)
 
 #compute permutations
-data.tendril <- Tendril.perm(dataset = data.tendril,
-                               PermTerm="AE40",
-                               n.perm = 200,
-                               perm.from.day = 1)
+data.tendril <- TendrilPerm(tendril = data.tendril,
+                            PermTerm="AE40",
+                            n.perm = 200,
+                            perm.from.day = 1)
 
 #do plot
-p <- plot(data.tendril, type = "basic")
+p <- plot(data.tendril$tendril)
 
 #plot permutations
-p <- plot(data.tendril, type = "permutations")
+p <- plot(data.tendril)
 
 #plot permutations and percentile
-p <- plot(data.tendril, type = "percentile")
+p <- plot(data.tendril, percentile = TRUE)
 
 #save tendril coordinates and stat results
-write.table(data.tendril$data, "C:mydata.txt", sep="\t", row.names = FALSE)
+write.table(data.tendril$tendril$data, "C:mydata.txt", sep="\t", row.names = FALSE)
 
 #save permutation coordinates
 write.table(data.tendril$perm.data, "C:my_permutation_data.txt", sep="\t", row.names = FALSE)

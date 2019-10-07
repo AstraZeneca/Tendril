@@ -46,15 +46,22 @@
 #' print(res)
 #' @export
 
-plot.Tendril <- function(
-  x,
-  coloring = "Terms",
-  interactive = FALSE){
+plot.Tendril <- function(x, ...) {
 
-  if (!interactive) {
-    p <- ggplot2_plotbasic(x, coloring=coloring, ...)
+  params <- as.list(substitute(list(...)))
+
+  if (is.null(params$coloring)) {
+    params$coloring = "Terms"
+  }
+
+  if (is.null(params$interactive)) {
+    params$interactive = FALSE
+  }
+
+  if (!params$interactive) {
+    p <- ggplot2_plotbasic(x, coloring=params$coloring)
   } else {
-    p <- plotly_plotbasic(x, coloring=coloring, ...)
+    p <- plotly_plotbasic(x, coloring=params$coloring)
   }
 
   return(p)

@@ -32,11 +32,17 @@
 #' #To re-do the plot after the first call:
 #' print(res)
 #' @export
-plot.TendrilPerm <- function(tendril_perm, percentile = FALSE) {
-  if (!percentile){
-    p <- plotpermutation(tendril_perm)
+plot.TendrilPerm <- function(x, ...) {
+  params <- as.list(substitute(list(...)))
+
+  if (is.null(params$percentile)) {
+    params$percentile = FALSE
+  }
+
+  if (params$percentile){
+    p <- plotpercentile(x)
   } else {
-    p <- plotpercentile(tendril_perm)
+    p <- plotpermutation(x)
   }
   return(p)
 }
