@@ -43,7 +43,7 @@ plotpermutation <- function(x){
       ggplot2::annotate(geom="text", x=data2.labels$xpos, y=data2.labels$ypos,
                label = data2.labels$label,
                hjust=data2.labels$hjust, vjust=data2.labels$vjust,
-               colour = "white", size = 6, fontface = 2)
+               colour = "grey40", size = 5, fontface = 2)
 
   return(p)
 

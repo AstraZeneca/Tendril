@@ -18,8 +18,27 @@ plotly_plotbasic <- function(tendril, coloring, opacity=0.5) {
             line = list(color = "lightgrey"),
             text = ~paste("Term: ", Terms, '<br>Start day:', StartDay, '<br>p.adjusted:', round(p.adj, 4)),
             hoverinfo = "text") %>%
+    plotly::add_annotations(
+      x = 0,
+      y = 1,
+      xref = "paper",
+      yref = "paper",
+      text = tendril$Treatments[2],
+      xanchor = "left",
+      showarrow = F
+    ) %>%
+    plotly::add_annotations(
+      x = 1,
+      y = 1,
+      xref = "paper",
+      yref = "paper",
+      text = tendril$Treatments[1],
+      xanchor = "right",
+      showarrow = F
+    ) %>%
     plotly::layout(xaxis = list(nticks = 10, showticklabels = FALSE, title = ""),
            yaxis = list(scaleanchor = "x", showticklabels = FALSE, title = "")
     )
+
   return(p)
 }
