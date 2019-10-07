@@ -15,6 +15,9 @@
 #' "OR" - Odds Ratio;
 #' "FDR.tot" - P-values adjusted using the False discovery rate method for all tendrils; and
 #' "TermsCount" - Total number of events for that specific type of event
+#' @param interactive Specifies if the plot must be interactive or not.
+#' If interactive == TRUE, plotly will be used to render the plot. Otherwise,
+#' (default) the plot will be rendered as a static image using ggplot2.
 #' @param ... Unused arguments
 #' @details
 #' If saving the results of the function to a variable, this will be of class tendril
@@ -48,10 +51,10 @@ plot.Tendril <- function(
   x,
   type = c("basic","permutations","percentile")[1],
   coloring = "Terms",
-  engine = c("ggplot2", "plotly")[1],
+  interactive = FALSE,
   ...){
 
-  if (engine == "ggplot2") {
+  if (!interactive) {
     if (type == "basic"){
       p <- ggplot2_plotbasic(x, coloring=coloring, ...)
     }
@@ -64,15 +67,13 @@ plot.Tendril <- function(
     else {
       stop("Invalid type. Must be one of the following: basic, permutations or percentile")
     }
-  } else if (engine == "plotly") {
+  } else {
     if (type == "basic"){
       p <- plotly_plotbasic(x, coloring=coloring, ...)
     } else {
       stop("Invalid type. Must be one of the following: basic")
     }
 
-  } else {
-    stop(paste("Invalid engine", engine))
   }
 
   return(p)
