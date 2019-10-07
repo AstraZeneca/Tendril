@@ -49,31 +49,14 @@
 
 plot.Tendril <- function(
   x,
-  type = c("basic","permutations","percentile")[1],
   coloring = "Terms",
   interactive = FALSE,
   ...){
 
   if (!interactive) {
-    if (type == "basic"){
-      p <- ggplot2_plotbasic(x, coloring=coloring, ...)
-    }
-    else if (type == "permutations"){
-      p<-plotpermutation(x)
-    }
-    else if (type == "percentile"){
-      p<-plotpercentile(x)
-    }
-    else {
-      stop("Invalid type. Must be one of the following: basic, permutations or percentile")
-    }
+    p <- ggplot2_plotbasic(x, coloring=coloring, ...)
   } else {
-    if (type == "basic"){
-      p <- plotly_plotbasic(x, coloring=coloring, ...)
-    } else {
-      stop("Invalid type. Must be one of the following: basic")
-    }
-
+    p <- plotly_plotbasic(x, coloring=coloring, ...)
   }
 
   return(p)

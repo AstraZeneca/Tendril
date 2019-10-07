@@ -1,7 +1,7 @@
 plotpercentile <- function(x){
 
   #prepare data
-  dataset <- x$data
+  dataset <- x$tendril$data
   perm.data <- x$perm.data
   percentile = x$tendril.pi
 
@@ -25,7 +25,7 @@ plotpercentile <- function(x){
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
-    label = x$Treatments,
+    label = x$tendril$Treatments,
     hjust = c(1,0),
     vjust = c(1,1)
   )

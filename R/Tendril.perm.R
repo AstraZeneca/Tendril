@@ -4,14 +4,14 @@
 #' Permutations are simulated under the null hypothesis. Thus, on average, there will be an equal number of events on each treatment arm.
 #' @details
 #' Make permutation analysis to a specific type of event, as specified in PermTerm.
-#' @param dataset an object of class tendril as produced by Tendril()
+#' @param tendril an object of class tendril as produced by Tendril()
 #' @param PermTerm the name of the type of event (tendril) to calculate permutations on
 #' @param n.perm the number of permutations. Default 100
 #' @param perm.from.day the starting day for the permutation calculations. Default 1
 #' @param pi.low percentile low value. Default 0.1
 #' @param  pi.high percentile high value. Default 0.9
 #' @return
-#' The function return an object of class tendril containing all the input data and a dataframe of permutation results. Use:
+#' The function return an object of class TendrilPerm containing all the input data and a dataframe of permutation results. Use:
 #'
 #' data$perm.data
 #'
@@ -19,48 +19,56 @@
 #'
 #' data$tendril.pi
 #'
-#' to access the permutations and percentiles dataframes, respectively
+#' and
+#'
+#' data$tendril
+#'
+#' to access the permutations, percentiles dataframes, and tendril data respectively
+#'
 #' @examples
-#' # Create dataset
-#' data <- Tendril(mydata = TendrilData,
-#' rotations = Rotations,
-#' AEfreqTreshold = 9,
-#' Tag = "Comment",
-#' Treatments = c("placebo", "active"),
-#' Unique.Subject.Identifier = "subjid",
-#' Terms = "ae",
-#' Treat = "treatment",
-#' StartDay = "day",
-#' SubjList = SubjList,
-#' SubjList.subject = "subjid",
-#' SubjList.treatment = "treatment"
+#' # Create tendril
+#' tendril <- Tendril(mydata = TendrilData,
+#'   rotations = Rotations,
+#'   AEfreqTreshold = 9,
+#'   Tag = "Comment",
+#'   Treatments = c("placebo", "active"),
+#'   Unique.Subject.Identifier = "subjid",
+#'   Terms = "ae",
+#'   Treat = "treatment",
+#'   StartDay = "day",
+#'   SubjList = SubjList,
+#'   SubjList.subject = "subjid",
+#'   SubjList.treatment = "treatment"
 #' )
 #'
 #' # Compute permutations
-#' perm.data <- Tendril.perm(dataset = data,
-#' PermTerm="AE40",
-#' n.perm = 200,
-#' perm.from.day = 1)
+#' perm.data <- TendrilPerm(tendril = tendril,
+#'   PermTerm="AE40",
+#'   n.perm = 200,
+#'   perm.from.day = 1)
 #'
 #' # Plot results
 #' plot(perm.data, type = "permutations")
 #' plot(perm.data, type = "percentile")
 #' @export
 
-Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
+TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
   `%>%` <- magrittr::`%>%`
   #check input data
-  validate.perm.data(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
+  validate.perm.data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
+  print("XX")
+
+  retval = list(tendril = tendril)
 
   #prepare data
-  Unique.Subject.Identifier <- dataset$SubjList.subject
-  treatment <- dataset$SubjList.treatment
-  dropoutday <- dataset$SubjList.dropoutday
-  SubjList <- dataset$SubjList
-  Treats <- dataset$Treatments
-  data <- dataset$data[dataset$data$Terms==PermTerm, ]
-  rotation_vector <- dataset$rotation_vector
-  compensate_imbalance_groups <- dataset$compensate_imbalance_groups
+  Unique.Subject.Identifier <- tendril$SubjList.subject
+  treatment <- tendril$SubjList.treatment
+  dropoutday <- tendril$SubjList.dropoutday
+  SubjList <- tendril$SubjList
+  Treats <- tendril$Treatments
+  data <- tendril$data[tendril$data$Terms==PermTerm, ]
+  rotation_vector <- tendril$rotation_vector
+  compensate_imbalance_groups <- tendril$compensate_imbalance_groups
 
 
   #check perm.from.day
@@ -121,16 +129,15 @@ Tendril.perm <- function(dataset, PermTerm, n.perm=100, perm.from.day=1, pi.low=
   tendril.perm.all$perm.from.day<-perm.from.day
 
   #add results
-  dataset$Permterm <- PermTerm
-  dataset$perm.data <- tendril.perm.all
-  #dataset$perm.from.day <- perm.from.day
+  retval$Permterm <- PermTerm
+  retval$perm.data <- tendril.perm.all
 
   #calculate percentile
-  tendril.pi <- TendrilPi(dataset = dataset, pi.low, pi.high, perm.from.day)
+  tendril.pi <- TendrilPi(tendril, retval$Permterm, retval$perm.data, pi.low, pi.high, perm.from.day)
 
   #add results
-  dataset$tendril.pi <- tendril.pi
+  retval$tendril.pi <- tendril.pi
 
-  return(dataset)
-
+  class(retval) <- "TendrilPerm"
+  return(retval)
 }
