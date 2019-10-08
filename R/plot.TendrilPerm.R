@@ -40,9 +40,9 @@ plot.TendrilPerm <- function(x, ...) {
   }
 
   if (params$percentile){
-    p <- plotpercentile(x)
+    p <- plot.permut.perc.simple(x)
   } else {
-    p <- plotpermutation(x)
+    p <- plot.permut.perc.simple(x)
   }
   return(p)
 }

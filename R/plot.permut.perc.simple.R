@@ -1,14 +1,16 @@
 ## Customize permutation plot 2 ( Grey simulated - p.adj actual ) ##
-plot.permut.perc.simple <- function(Tendril.perm) {
-  Tendril.perm$perm.data[Tendril.perm$perm.data$ang<0,]$ang <- Tendril.perm$perm.data[Tendril.perm$perm.data$ang<0,]$ang + 2*pi
-  Tendril.perm$tendril.pi <- TendrilPi(Tendril.perm)
+plot.permut.perc.simple <- function(tendril_perm) {
+  tendril_perm$perm.data[tendril_perm$perm.data$ang<0,]$ang <- tendril_perm$perm.data[tendril_perm$perm.data$ang<0,]$ang + 2*pi
+  tendril_perm$tendril.pi <- TendrilPi(tendril_perm$tendril, tendril_perm$Permterm, tendril_perm$perm.data)
 
-  percentileData <- data.frame(x=Tendril.perm$tendril.pi$x, y=Tendril.perm$tendril.pi$y)
-  percentileData$type=Tendril.perm$tendril.pi$type
-  percentileData$label=Tendril.perm$tendril.pi$label
-  actualData <- data.frame(x=Tendril.perm$data[Tendril.perm$data$Terms==Tendril.perm$Permterm,]$x,
-                           y=Tendril.perm$data[Tendril.perm$data$Terms==Tendril.perm$Permterm,]$y,
-                           p.adj=Tendril.perm$data[Tendril.perm$data$Terms==Tendril.perm$Permterm,]$p.adj)
+  percentileData <- data.frame(x=tendril_perm$tendril.pi$x, y=tendril_perm$tendril.pi$y)
+  percentileData$type=tendril_perm$tendril.pi$type
+  percentileData$label=tendril_perm$tendril.pi$label
+  actualData <- data.frame(
+    x=tendril_perm$tendril$data[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$x,
+    y=tendril_perm$tendril$ata[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$y,
+    p.adj=tendril_perm$tendril$data[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$p.adj
+    )
   actualData$type="Actual data"
   actualData$label="Actual data"
 
@@ -19,7 +21,7 @@ plot.permut.perc.simple <- function(Tendril.perm) {
 
   element_blank <- ggplot2::element_blank
   aes <- ggplot2::aes
-  ggplot2::ggplot(data=Tendril.perm$perm.data,
+  ggplot2::ggplot(data=tendril_perm$perm.data,
     aes(x=x, y=y, group=label), aspect="iso") +
     ggplot2::scale_colour_gradientn(
       colours=palette$grpalette,
@@ -32,6 +34,6 @@ plot.permut.perc.simple <- function(Tendril.perm) {
     ggplot2::geom_point(data=actualData, aes(colour=cc.10), size=2) +
     ggplot2::coord_fixed(ratio=1)  +
     ggplot2::theme_bw() +
-    ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
-    ggplot2::ggtitle(Tendril.perm$Permterm)
+    ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+    #ggplot2::ggtitle(tendril_perm$Permterm)
 }
