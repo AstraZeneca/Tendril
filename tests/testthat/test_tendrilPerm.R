@@ -1,4 +1,4 @@
-context("tendril.perm input check")
+context("TendrilPerm input check")
 
 test_that("input_perm_valid",{
 
@@ -27,83 +27,83 @@ test_that("input_perm_valid",{
 
   #wrong dataset
   expect_error(
-    Tendril.perm(dataset = list(1,2),
-                   PermTerm="V1",
-                   n.perm = 500,
-                   perm.from.day = 1,
-                   pi.low = 0.1,
-                   pi.high = 0.9)
+    TendrilPerm(tendril = list(1,2),
+                PermTerm="V1",
+                n.perm = 500,
+                perm.from.day = 1,
+                pi.low = 0.1,
+                pi.high = 0.9)
   )
 
 
   #PerTerm not available
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                   PermTerm="wrong",
-                   n.perm = 500,
-                   perm.from.day = 1,
-                 pi.low = 0.1,
-                 pi.high = 0.9)
+    TendrilPerm(tendril = tendril.data,
+                PermTerm="wrong",
+                n.perm = 500,
+                perm.from.day = 1,
+                pi.low = 0.1,
+                pi.high = 0.9)
   )
 
   #n.perm not a positive integer
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                   PermTerm="V1",
-                   n.perm = -500,
-                   perm.from.day = 1,
-                 pi.low = 0.1,
+    TendrilPerm(tendril = tendril.data,
+                PermTerm="V1",
+                n.perm = -500,
+                perm.from.day = 1,
+                pi.low = 0.1,
                  pi.high = 0.9)
   )
 
   #perm.from.day not a positive integer
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                   PermTerm="V1",
-                   n.perm = 500,
-                   perm.from.day = -1,
-                 pi.low = 0.1,
-                 pi.high = 0.9)
+    TendrilPerm(tendril = tendril.data,
+                PermTerm="V1",
+                n.perm = 500,
+                perm.from.day = -1,
+                pi.low = 0.1,
+                pi.high = 0.9)
   )
 
   #pi not a numeric
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                 PermTerm="V1",
-                 n.perm = 500,
-                 perm.from.day = -1,
-                 pi.low = "a",
-                 pi.high = 0.9)
+    TendrilPerm(dataset = tendril.data,
+                PermTerm="V1",
+                n.perm = 500,
+                perm.from.day = -1,
+                pi.low = "a",
+                pi.high = 0.9)
   )
 
   #pi.low>pi.high
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                 PermTerm="V1",
-                 n.perm = 500,
-                 perm.from.day = -1,
-                 pi.low = 0.9,
-                 pi.high = 0.1)
+    TendrilPerm(dataset = tendril.data,
+                PermTerm="V1",
+                n.perm = 500,
+                perm.from.day = -1,
+                pi.low = 0.9,
+                pi.high = 0.1)
   )
 
   #pi <0
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                 PermTerm="V1",
-                 n.perm = 500,
-                 perm.from.day = -1,
-                 pi.low =  -1,
-                 pi.high = 0.9)
+    TendrilPerm(dataset = tendril.data,
+                PermTerm="V1",
+                n.perm = 500,
+                perm.from.day = -1,
+                pi.low =  -1,
+                pi.high = 0.9)
   )
 
   #pi >1
   expect_error(
-    Tendril.perm(dataset = tendril.data,
-                 PermTerm="V1",
-                 n.perm = 500,
-                 perm.from.day = -1,
-                 pi.low = 0.1,
-                 pi.high = 2)
+    TendrilPerm(dataset = tendril.data,
+                PermTerm="V1",
+                n.perm = 500,
+                perm.from.day = -1,
+                pi.low = 0.1,
+                pi.high = 2)
   )
 
 })
@@ -137,24 +137,22 @@ test_that("output_perm_valid",{
                             SubjList.treatment = "treatment")
   )
 
- res<-Tendril.perm(dataset = tendril.data,
-                     PermTerm="AE44",
-                     n.perm = 50,
-                     perm.from.day = 1)
+ res<-TendrilPerm(tendril = tendril.data,
+                  PermTerm="AE44",
+                  n.perm = 50,
+                  perm.from.day = 1)
 
-  #must be of class tendril
- expect_equal(
-   "Tendril", class(res)
- )
+  #must be of class TendrilPerm
+  expect_equal("TendrilPerm", class(res))
 
-  #must add 4 items to the list
- expect_equal(
-    3, length(res)-length(tendril.data)
-  )
-
- expect_equal(
-   res, Output.perm.constant
- )
+  expect_named(res, c('tendril', 'Permterm', 'perm.data', 'tendril.pi'))
+  # FIXME the format of this file is now old compared to the current
+  # layout of the TendrilPerm object. Therefore, I just redirect to
+  # the appropriate entities. Files will have to be recreated with
+  # the new layout
+  expect_equal(res$Permterm, Output.perm.constant$Permterm)
+  expect_equal(res$perm.data, Output.perm.constant$perm.data)
+  expect_equal(res$tendril.pi, Output.perm.constant$tendril.pi)
 
 })
 
@@ -166,25 +164,21 @@ test_that("output_perm_proportional_valid",{
   #get dataset from example
   load(file = "../Tendril.res.proportional.rotation.factor.rda")
   data <- Tendril.res.proportional.rotation.factor
+
   load(file = "../Output.perm.proportional.rda")
 
-  res<-Tendril.perm(dataset = data,
-                    PermTerm="AE44",
-                    n.perm = 50,
-                    perm.from.day = 1)
+  res<-TendrilPerm(tendril = data,
+                   PermTerm="AE44",
+                   n.perm = 50,
+                   perm.from.day = 1)
 
-  #must be of class tendril
-  expect_equal(
-    "Tendril", class(res)
-  )
-
-  #must add 4 items to the list
-  expect_equal(
-    3, length(res)-length(data)
-  )
-
-  expect_equal(
-    res, Output.perm.proportional
-  )
-
+  expect_equal("TendrilPerm", class(res))
+  expect_named(res, c('tendril', 'Permterm', 'perm.data', 'tendril.pi'))
+  # FIXME the format of this file is now old compared to the current
+  # layout of the TendrilPerm object. Therefore, I just redirect to
+  # the appropriate entities. Files will have to be recreated with
+  # the new layout
+  expect_equal(res$Permterm, Output.perm.proportional$Permterm)
+  expect_equal(res$perm.data, Output.perm.proportional$perm.data)
+  expect_equal(res$tendril.pi, Output.perm.proportional$tendril.pi)
 })

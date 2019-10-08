@@ -1,11 +1,12 @@
 #Do the Percentile calculations on the permutations
-TendrilPi <- function(dataset, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
+TendrilPi <- function(tendril, Permterm, perm.data, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
 
-  actualdata <- dataset$data[dataset$data$Terms == dataset$Permterm,]
+  actualdata <- tendril$data[tendril$data$Terms == Permterm,]
   actualdata$type <- "Actual"
   actualdata$label <- "Actual"
   actualdata$perm.from.day = perm.from.day
-  data <- dataset$perm.data
+
+  data <- perm.data
 
   add_continues_angle <- function(dataset){
     dataset$ang_continues <- dataset$ang

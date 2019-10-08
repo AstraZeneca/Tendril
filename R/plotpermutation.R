@@ -1,7 +1,7 @@
 plotpermutation <- function(x){
   #prepare data
   perm.data <- x$perm.data
-  dataset <- x$data
+  dataset <- x$tendril$data
   data <- dataset[dataset$Terms == unique(perm.data$Terms),]
 
   #get data from actual and permutations and bind together
@@ -15,7 +15,7 @@ plotpermutation <- function(x){
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
-    label = x$Treatments,
+    label = x$tendril$Treatments,
     hjust = c(1,0),
     vjust = c(1,1)
   )

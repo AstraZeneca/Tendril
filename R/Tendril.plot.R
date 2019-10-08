@@ -18,7 +18,6 @@
 #' @param interactive Specifies if the plot must be interactive or not.
 #' If interactive == TRUE, plotly will be used to render the plot. Otherwise,
 #' (default) the plot will be rendered as a static image using ggplot2.
-#' @param ... Unused arguments
 #' @details
 #' If saving the results of the function to a variable, this will be of class tendril
 #' and will contain the data passed to the plot function and the plot itself
@@ -40,40 +39,29 @@
 #' )
 #'
 #' #Do plot
-#' res <- plot(data, type = "basic", coloring = "Terms")
-#' res <- plot(data, type = "basic", coloring = "p.adj")
+#' res <- plot(data, coloring = "Terms")
+#' res <- plot(data, coloring = "p.adj")
 #'
 #' #To re-do the plot after the first call:
 #' print(res)
 #' @export
 
-plot.Tendril <- function(
-  x,
-  type = c("basic","permutations","percentile")[1],
-  coloring = "Terms",
-  interactive = FALSE,
-  ...){
+plot.Tendril <- function(x, ...) {
 
-  if (!interactive) {
-    if (type == "basic"){
-      p <- ggplot2_plotbasic(x, coloring=coloring, ...)
-    }
-    else if (type == "permutations"){
-      p<-plotpermutation(x)
-    }
-    else if (type == "percentile"){
-      p<-plotpercentile(x)
-    }
-    else {
-      stop("Invalid type. Must be one of the following: basic, permutations or percentile")
-    }
+  params <- as.list(substitute(list(...)))
+
+  if (is.null(params$coloring)) {
+    params$coloring = "Terms"
+  }
+
+  if (is.null(params$interactive)) {
+    params$interactive = FALSE
+  }
+
+  if (!params$interactive) {
+    p <- ggplot2_plotbasic(x, coloring=params$coloring)
   } else {
-    if (type == "basic"){
-      p <- plotly_plotbasic(x, coloring=coloring, ...)
-    } else {
-      stop("Invalid type. Must be one of the following: basic")
-    }
-
+    p <- plotly_plotbasic(x, coloring=params$coloring)
   }
 
   return(p)
