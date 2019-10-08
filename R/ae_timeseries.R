@@ -1,5 +1,30 @@
-## Plot time series of net events on active arm ##
-ae_timeseries <- function(tendril, term) {
+#' Plot time series
+#' @description
+#' Plot time series of net events on active arm
+#' @param tendril An object of class Tendril, as made by Tendril()
+#' @param term A character vector of length 1 describing the Term
+#' @examples
+#' # generate data using Tendril()
+#' data <- Tendril(
+#'   mydata = TendrilData,
+#'   rotations = Rotations,
+#'   AEfreqTreshold = 9,
+#'   Tag = "Comment",
+#'   Treatments = c("placebo", "active"),
+#'   Unique.Subject.Identifier = "subjid",
+#'   Terms = "ae",
+#'   Treat = "treatment",
+#'   StartDay = "day",
+#'   SubjList = SubjList,
+#'   SubjList.subject = "subjid",
+#'   SubjList.treatment = "treatment"
+#' )
+#'
+#' # do plot
+#' plot_timeseries(data, term="AE33")
+#' @export
+
+plot_timeseries <- function(tendril, term) {
   . <- plyr::.
   summarize <- plyr::summarize
 
@@ -29,6 +54,6 @@ ae_timeseries <- function(tendril, term) {
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::xlab("Day since randomization") +
-    ggplot2::ylab(paste("Net events on", treatments[[2]]) # + ylim(c(-5, 80))
+    ggplot2::ylab(paste("Net events on", treatments[[2]]))
   return(plot)
 }
