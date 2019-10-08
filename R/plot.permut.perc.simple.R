@@ -1,15 +1,17 @@
 ## Customize permutation plot 2 ( Grey simulated - p.adj actual ) ##
 plot.permut.perc.simple <- function(tendril_perm) {
-  tendril_perm$perm.data[tendril_perm$perm.data$ang<0,]$ang <- tendril_perm$perm.data[tendril_perm$perm.data$ang<0,]$ang + 2*pi
-  tendril_perm$tendril.pi <- TendrilPi(tendril_perm$tendril, tendril_perm$Permterm, tendril_perm$perm.data)
 
-  percentileData <- data.frame(x=tendril_perm$tendril.pi$x, y=tendril_perm$tendril.pi$y)
-  percentileData$type=tendril_perm$tendril.pi$type
-  percentileData$label=tendril_perm$tendril.pi$label
+  percentileData <- data.frame(
+    x = tendril_perm$tendril.pi$x,
+    y = tendril_perm$tendril.pi$y
+  )
+  percentileData$type = tendril_perm$tendril.pi$type
+  percentileData$label = tendril_perm$tendril.pi$label
+
   actualData <- data.frame(
-    x=tendril_perm$tendril$data[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$x,
-    y=tendril_perm$tendril$ata[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$y,
-    p.adj=tendril_perm$tendril$data[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$p.adj
+    x = tendril_perm$tendril$data[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$x,
+    y = tendril_perm$tendril$ata[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$y,
+    p.adj = tendril_perm$tendril$data[tendril_perm$tendril$data$Terms==tendril_perm$Permterm,]$p.adj
     )
   actualData$type="Actual data"
   actualData$label="Actual data"
@@ -21,6 +23,7 @@ plot.permut.perc.simple <- function(tendril_perm) {
 
   element_blank <- ggplot2::element_blank
   aes <- ggplot2::aes
+
   ggplot2::ggplot(data=tendril_perm$perm.data,
     aes(x=x, y=y, group=label), aspect="iso") +
     ggplot2::scale_colour_gradientn(
