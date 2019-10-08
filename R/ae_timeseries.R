@@ -29,6 +29,6 @@ ae_timeseries <- function(tendril, term) {
     ggplot2::geom_point() +
     ggplot2::geom_line() +
     ggplot2::xlab("Day since randomization") +
-    ggplot2::ylab("Net events on active") # + ylim(c(-5, 80))
+    ggplot2::ylab(paste("Net events on", treatments[[2]]) # + ylim(c(-5, 80))
   return(plot)
 }
