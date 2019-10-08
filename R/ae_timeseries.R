@@ -1,9 +1,12 @@
 ## Plot time series of net events on active arm ##
-ae_timeseries <- function(tendril.data, term) {
+ae_timeseries <- function(tendril, term) {
   . <- plyr::.
   summarize <- plyr::summarize
 
-  time.serie <- plyr::ddply(tendril.data$data[tendril.data$data$Terms == term,], .(StartDay, Treat), summarize, n=length(Unique.Subject.Identifier))
+  time.serie <- plyr::ddply(tendril$data[tendril$data$Terms == term,], .(StartDay, Treat), summarize, n=length(Unique.Subject.Identifier))
+  if (nrow(time.serie) == 0) {
+    stop(paste("No matching data for selected term value", term))
+  }
   time.s.2 <- reshape2::dcast(time.serie, StartDay ~ Treat, fun.aggregate = mean)
 
   cum.na <- function(x) {
@@ -11,13 +14,17 @@ ae_timeseries <- function(tendril.data, term) {
     return(cumsum(x))
   }
 
-  time.s.2$Placebo.cumsum <- cum.na(time.s.2$Placebo)
-  time.s.2$Active.cumsum <- cum.na(time.s.2$`Ticagrelor 90mg bd`)
-  time.s.2$Net <- time.s.2$Active.cumsum-time.s.2$Placebo.cumsum
+  treatments <- tendril$Treatments
+  treatments_cumsum <- paste0(treatments, ".cumsum")
+  time.s.2[[ treatments_cumsum[[1]] ]] <- cum.na(time.s.2[[treatments[[1]]]])
+  time.s.2[[ treatments_cumsum[[2]] ]] <- cum.na(time.s.2[[treatments[[2]]]])
+  time.s.2$net <- (
+    time.s.2[[ treatments_cumsum[[2]] ]] -
+    time.s.2[[ treatments_cumsum[[1]] ]])
 
   plot <- ggplot2::ggplot(
     data = time.s.2,
-    ggplot2::aes(x=StartDay, y=Net, col=)) +
+    ggplot2::aes(x=StartDay, y=net, col=)) +
     ggplot2::ggtitle(term) +
     ggplot2::geom_point() +
     ggplot2::geom_line() +
