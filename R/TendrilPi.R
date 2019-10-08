@@ -32,8 +32,9 @@ TendrilPi <- function(tendril, Permterm, perm.data, pi.low=0.1, pi.high=0.9, per
   }
 
   polydata <- data[data$type == "Permutation" & data$StartDay >= perm.from.day, ]
-  polydata <- polydata[order(polydata$ang_continues, decreasing = FALSE), ]
 
+
+  polydata <- polydata[order(polydata$ang_continues, decreasing = FALSE), ]
   labelleddata <- NULL
   for(i in unique(polydata$StartDay)) {
     subset<-polydata[polydata$StartDay==i,]
@@ -44,7 +45,7 @@ TendrilPi <- function(tendril, Permterm, perm.data, pi.low=0.1, pi.high=0.9, per
     subset$label[limit.low]<-"Low.percentile"
     subset$label[limit.high]<-"High.percentile"
     labelleddata<-rbind(labelleddata, subset)
-}
+  }
 
   labelleddata <- with(labelleddata, labelleddata[ order(type,StartDay),])
   labelleddata$type[labelleddata$label=="Low.percentile" | labelleddata$label=="High.percentile"] <- "Percentile"
