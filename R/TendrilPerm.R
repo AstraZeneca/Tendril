@@ -42,14 +42,14 @@
 #' )
 #'
 #' # Compute permutations
-#' perm.data <- TendrilPerm(tendril = tendril,
+#' perm <- TendrilPerm(tendril = tendril,
 #'   PermTerm="AE40",
 #'   n.perm = 200,
 #'   perm.from.day = 1)
 #'
 #' # Plot results
-#' plot(perm.data)
-#' plot(perm.data, percentile = TRUE)
+#' plot(perm)
+#' plot(perm, percentile = TRUE)
 #' @export
 
 TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
@@ -57,7 +57,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   #check input data
   validate.perm.data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
 
-  retval = list(tendril = tendril)
+  retval = list()
   class(retval) <- "TendrilPerm"
 
   #prepare data
@@ -75,7 +75,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
 
   perm.nr <- which(data$StartDay>=perm.from.day)
 
-  tendril.perm.all <- NULL
+  perm_data <- NULL
 
   calc_proportional_factor <- function(treatment_event, day, SubjList, dropoutday, Treats){
     if (is.null(dropoutday)){
@@ -116,21 +116,21 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
     res <- Tendril.cx(permdf, Treats)
     res$label <- paste("Permutation",i, sep = " ")
 
-    tendril.perm.all <- rbind(tendril.perm.all, res)
+    perm_data <- rbind(perm_data, res)
 
   }
 
   # Calculate coordinates and arguments etc
-  val <- tendril.perm.all$cx
-  tendril.perm.all$type <- "Permutation"
-  tendril.perm.all <- cxDataFormat(tendril.perm.all)
-  tendril.perm.all$PermTreat <- NULL
-  tendril.perm.all$perm.from.day<-perm.from.day
+  perm_data$type <- "Permutation"
+  perm_data <- cxDataFormat(perm_data)
+  perm_data$PermTreat <- NULL
+  perm_data$perm.from.day<-perm.from.day
 
-  #add results
+  retval$tendril <- tendril
   retval$Permterm <- PermTerm
-  retval$perm.data <- tendril.perm.all
-  retval$tendril.pi <- TendrilPi(tendril, retval$Permterm, retval$perm.data, pi.low, pi.high, perm.from.day)
+  retval$perm.data <- perm_data
+  retval$perm.data[retval$perm.data$ang<0,]$ang <- retval$perm.data[retval$perm.data$ang<0,]$ang + 2*pi
+  retval$tendril.pi <- TendrilPi(retval$tendril, retval$Permterm, retval$perm.data, pi.low, pi.high, perm.from.day)
 
   return(retval)
 }
