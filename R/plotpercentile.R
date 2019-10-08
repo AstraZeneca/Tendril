@@ -48,6 +48,8 @@ plotpercentile <- function(x){
             axis.title.y = element_blank(),
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank()) +
+       ggplot2::theme_bw() +
+       ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
        ggplot2::labs(color = "Type") +
        ggplot2::coord_fixed(ratio=1) +
        ggplot2::ggtitle(Title) +
