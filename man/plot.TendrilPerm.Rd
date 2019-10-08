@@ -9,8 +9,9 @@
 \arguments{
 \item{x}{An object of class TendrilPerm, as made by TendrilPerm()}
 
-\item{percentile}{Specifies if the plot must show percentile values. Default
-is FALSE.}
+\item{...}{Additional parameters that can be passed to the function:
+- percentile: Specifies if the plot must show percentile values. Default
+  is FALSE.}
 }
 \description{
 Function to plot TendrilPerm results
