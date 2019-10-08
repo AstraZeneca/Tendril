@@ -2,8 +2,9 @@
 #' @description
 #' Function to plot TendrilPerm results
 #' @param x An object of class TendrilPerm, as made by TendrilPerm()
-#' @param percentile Specifies if the plot must show percentile values. Default
-#' is FALSE.
+#' @param ... Additional parameters that can be passed to the function:
+#'     - percentile: Specifies if the plot must show percentile values. Default
+#'       is FALSE.
 #' @examples
 #' # generate data using Tendril()
 #' data <- Tendril(mydata = TendrilData,
