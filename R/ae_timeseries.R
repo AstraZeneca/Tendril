@@ -1,5 +1,5 @@
 ## Plot time series of net events on active arm ##
-ae.time.series <- function(tendril.data, term) {
+ae_timeseries <- function(tendril.data, term) {
   . <- plyr::.
   summarize <- plyr::summarize
 
