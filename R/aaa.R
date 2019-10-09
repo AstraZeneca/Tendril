@@ -1,7 +1,7 @@
 utils::globalVariables("StartDay")
 utils::globalVariables("Treat")
 utils::globalVariables("Unique.Subject.Identifier")
-utils::globalVariables("Net")
+utils::globalVariables("net")
 utils::globalVariables("Terms")
 utils::globalVariables("y")
 utils::globalVariables("label")
