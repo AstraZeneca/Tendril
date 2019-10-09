@@ -29,8 +29,9 @@ ggplot2_plotbasic <- function(x, coloring = "Terms") {
       ggplot2::coord_fixed(ratio=1) +
       ggplot2::labs(color = paste("10log", coloring)) +
       ggplot2::geom_path(size=1) +
-      ggplot2::geom_point(aes(x=x, y=y, fill=cc.10, colour=cc.10, size=TermsCount), shape=21, stroke=0.1) +
+      ggplot2::geom_point(aes(x=x, y=y, fill=cc.10, colour=cc.10, size=TermsCount), shape=21, size=1.5, stroke=0.5) +
       ggplot2::scale_fill_gradientn(
+        "p-value",
         colours=palette$grpalette,
         values = palette$values,
         limits = palette$limits
@@ -40,6 +41,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms") {
         values = palette$values,
         limits = palette$limits
         ) +
+      ggplot2::theme_bw() +
       ggplot2::theme(
             axis.title.x = element_blank(),
             axis.text.x = element_blank(),
@@ -48,18 +50,18 @@ ggplot2_plotbasic <- function(x, coloring = "Terms") {
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank(),
             legend.key.height=unit(2,"cm")) +
-      ggplot2::theme_bw() +
       ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
       ggplot2::annotate(geom="text", x=data2.labels$xpos, y=data2.labels$ypos,
                label = data2.labels$label,
                hjust=data2.labels$hjust, vjust=data2.labels$vjust,
-               colour = "grey40", size = 5, fontface = 2)
+               colour = "grey40", size = 5, fontface = 2) +
+      ggplot2::guides(color=FALSE)
   } else {
     p <- ggplot2::ggplot(data=x$data, aes(x=x, y=y, group=Terms, color=cc), aspect="iso") +
       ggplot2::coord_fixed(ratio=1) +
       ggplot2::labs(color = coloring) +
       ggplot2::geom_path(size=1) +
-      ggplot2::geom_point(size=3) +
+      ggplot2::geom_point(size=2) +
       ggplot2::theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank(),
