@@ -1,8 +1,8 @@
 #' Plot time series
 #' @description
-#' Plot time series of net events on active arm
+#' Plot time series of net events on a second treatment arm
 #' @param tendril An object of class Tendril, as made by Tendril()
-#' @param term A character vector of length 1 describing the Term
+#' @param term A character vector of length 1 describing the Term to select
 #' @examples
 #' # generate data using Tendril()
 #' data <- Tendril(
