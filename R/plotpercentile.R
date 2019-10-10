@@ -1,7 +1,7 @@
 plotpercentile <- function(x){
 
   #prepare data
-  dataset <- x$data
+  dataset <- x$tendril$data
   perm.data <- x$perm.data
   percentile = x$tendril.pi
 
@@ -25,7 +25,7 @@ plotpercentile <- function(x){
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
-    label = x$Treatments,
+    label = x$tendril$Treatments,
     hjust = c(1,0),
     vjust = c(1,1)
   )
@@ -42,13 +42,13 @@ plotpercentile <- function(x){
        ggplot2::geom_path(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type))+
        ggplot2::geom_point(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type), size=2) +
        ggplot2::scale_color_manual(values = colours) +
+       ggplot2::theme_bw() +
        ggplot2::theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
             axis.ticks.x = element_blank(),
             axis.title.y = element_blank(),
             axis.text.y = element_blank(),
             axis.ticks.y = element_blank()) +
-       ggplot2::theme_bw() +
        ggplot2::theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
        ggplot2::labs(color = "Type") +
        ggplot2::coord_fixed(ratio=1) +
