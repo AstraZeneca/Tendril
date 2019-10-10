@@ -11,7 +11,7 @@ plotpermutation <- function(x){
 
   #plot parameters
   Title <- paste(unique(perm.data$Terms), ", from day: ", unique(plotdata$perm.from.day), sep = "")
-  colours <- c("#F8766D", "#00BFC4")#line colours
+  colours <- c("#F8766D", "grey80") #line colours  c("#F8766D", "#00BFC4")
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
