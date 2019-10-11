@@ -60,9 +60,9 @@ plot.Tendril <- function(x, term=NULL, ...) {
   }
 
   if (!params$interactive) {
-    p <- ggplot2_plotbasic(x, coloring=params$coloring, term)
+    p <- ggplot2_plotbasic(x, coloring=params$coloring, term=term)
   } else {
-    p <- plotly_plotbasic(x, coloring=params$coloring, term)
+    p <- plotly_plotbasic(x, coloring=params$coloring)
   }
 
   return(p)
