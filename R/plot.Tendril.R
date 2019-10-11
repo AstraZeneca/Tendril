@@ -47,7 +47,7 @@
 #' print(res)
 #' @export
 
-plot.Tendril <- function(x, ...) {
+plot.Tendril <- function(x, term=NULL, ...) {
 
   params <- as.list(substitute(list(...)))
 
@@ -60,9 +60,9 @@ plot.Tendril <- function(x, ...) {
   }
 
   if (!params$interactive) {
-    p <- ggplot2_plotbasic(x, coloring=params$coloring)
+    p <- ggplot2_plotbasic(x, coloring=params$coloring, term)
   } else {
-    p <- plotly_plotbasic(x, coloring=params$coloring)
+    p <- plotly_plotbasic(x, coloring=params$coloring, term)
   }
 
   return(p)
