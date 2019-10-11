@@ -1,4 +1,4 @@
-plotly_plotbasic <- function(tendril, coloring, opacity=0.5) {
+plotly_plotbasic <- function(tendril, coloring, term, opacity=0.5) {
   `%>%` <- magrittr::`%>%`
 
   plotdata <- tendril$data
@@ -6,6 +6,19 @@ plotly_plotbasic <- function(tendril, coloring, opacity=0.5) {
   
   palette <- tendril_palette()
   max_termscount <- max(plotdata$TermsCount, na.rm = TRUE)
+  
+  x.min <- min(plotdata$x)
+  x.max <- max(plotdata$x)
+  y.min <- min(plotdata$y)
+  y.max <- max(plotdata$y)
+  
+  if (length(term) > 0) {
+    plotdata <- plotdata[plotdata$Terms %in% term,]
+  }
+  
+  if (!is.null(term)) {
+    plotdata$Terms<-factor(plotdata$Terms,levels=term)
+  }
   
   if(coloring %in% c("p", "p.adj", "fish")) {
     plotdata$cc.10 <- pmax(log10(plotdata[[coloring]]), -3)
@@ -44,8 +57,14 @@ plotly_plotbasic <- function(tendril, coloring, opacity=0.5) {
         xanchor = "right",
         showarrow = F
       ) %>%
-      plotly::layout(xaxis = list(nticks = 10, showticklabels = FALSE, title = ""),
-                     yaxis = list(scaleanchor = "x", showticklabels = FALSE, title = "")
+      plotly::layout(xaxis = list(nticks = 10,
+                                  range = c(x.min, x.max),
+                                  showticklabels = FALSE,
+                                  title = ""),
+                     yaxis = list(scaleanchor = "x",
+                                  range=c(y.min, y.max),
+                                  showticklabels = FALSE,
+                                  title = "")
       )
   } else {
     p <- plotdata %>% 
@@ -76,8 +95,14 @@ plotly_plotbasic <- function(tendril, coloring, opacity=0.5) {
         xanchor = "right",
         showarrow = F
       ) %>%
-      plotly::layout(xaxis = list(nticks = 10, showticklabels = FALSE, title = ""),
-                     yaxis = list(scaleanchor = "x", showticklabels = FALSE, title = "")
+      plotly::layout(xaxis = list(nticks = 10,
+                                  range = c(x.min, x.max),
+                                  showticklabels = FALSE,
+                                  title = ""),
+                     yaxis = list(scaleanchor = "x",
+                                  range=c(y.min, y.max),
+                                  showticklabels = FALSE,
+                                  title = "")
       )
   }
 
