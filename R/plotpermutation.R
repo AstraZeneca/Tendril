@@ -6,12 +6,16 @@ plotpermutation <- function(x){
 
   #get data from actual and permutations and bind together
   actualdata <- createDataset(data$x, data$y, "Actual", "Actual", data$StartDay, perm.data)
+  actualdata$p.adj<-data$p.adj
   plotdata <- createDataset(perm.data$x, perm.data$y, perm.data$label, perm.data$type, perm.data$StartDay, perm.data)
+  plotdata$p.adj<-perm.data$p.adj
   plotdata<- rbind(actualdata, plotdata)
-
+  
+  plotdata$cc.10<-pmax(log10(plotdata$p.adj), -3)
+  palette <- tendril_palette()
+  
   #plot parameters
   Title <- paste(unique(perm.data$Terms), ", from day: ", unique(plotdata$perm.from.day), sep = "")
-  colours <- c("#F8766D", "grey80") #line colours  c("#F8766D", "#00BFC4")
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
@@ -26,11 +30,15 @@ plotpermutation <- function(x){
   aes <- ggplot2::aes
   element_blank <- ggplot2::element_blank
 
-  p<-ggplot2::ggplot(data=plotdata[plotdata$type=="Permutation", ], aes(x=x, y=y, group=label, color = type), aspect="iso") +
-      ggplot2::geom_path() +
-      ggplot2::geom_path(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type))+
-      ggplot2::geom_point(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = type), size=2) +
-      ggplot2::scale_color_manual(values = colours[c(1,2)]) +
+  p<-ggplot2::ggplot(data=plotdata[plotdata$type=="Permutation", ], aes(x=x, y=y, group=label), aspect="iso") +
+    ggplot2::scale_colour_gradientn("log(p-val)",
+        colours=palette$grpalette,
+        values = palette$values,
+        limits = palette$limits
+      ) +
+      ggplot2::geom_path(color = "Grey80") +
+      ggplot2::geom_path(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = cc.10))+
+      ggplot2::geom_point(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = cc.10), size=2) +
       ggplot2::theme_bw() +
       ggplot2::theme(axis.title.x = element_blank(),
             axis.text.x = element_blank(),
