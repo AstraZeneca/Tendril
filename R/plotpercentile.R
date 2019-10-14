@@ -25,9 +25,6 @@ plotpercentile <- function(x){
   #plot title
   Title <- paste(unique(perm.data$Terms), ", from day: ", unique(plotdata$perm.from.day), sep = "")
 
-  #line colours
-#  colours <- c("#F8766D", "grey50", "grey80")  # c("#F8766D", "darkgoldenrod1", "#00BFC4")
-
   #reference labeles
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
