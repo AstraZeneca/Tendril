@@ -36,7 +36,11 @@ plotly_plotbasic <- function(tendril, coloring, term, opacity=0.5) {
                                 color = ~cc.10, 
                                 colorscale="RdBu",
                                 colorbar=list(title="log(p-val)")), 
-                  text = ~paste("Term: ", Terms, '<br>Start day:', StartDay, '<br>p.adjusted:', round(p.adj, 4)), 
+                  text = ~paste("Term: ", Terms,
+                                '<br>Start day:', StartDay,
+                                '<br>Frequency:', TermsCount,
+                                '<br>p.adjusted:', round(p.adj, 4),
+                                sep=""), 
                   hoverinfo = "text",
                   inherit=FALSE) %>%
       plotly::add_annotations(
@@ -74,7 +78,11 @@ plotly_plotbasic <- function(tendril, coloring, term, opacity=0.5) {
                                     opacity=opacity),
                       color = ~Terms,
                       colors="Dark2",
-                      text = ~paste("Term: ", Terms, '<br>Start day:', StartDay, '<br>p.adjusted:', round(p.adj, 4)), 
+                      text = ~paste("Term: ", Terms,
+                                    '<br>Start day:', StartDay,
+                                    '<br>Frequency:', TermsCount,
+                                    '<br>p.adjusted:', round(p.adj, 4),
+                                    sep=""), 
                       hoverinfo = "text",
                       showlegend=TRUE) %>%
       plotly::add_annotations(
