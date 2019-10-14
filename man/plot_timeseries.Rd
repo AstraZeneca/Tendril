@@ -4,12 +4,13 @@
 \alias{plot_timeseries}
 \title{Plot time series}
 \usage{
-plot_timeseries(tendril, term)
+plot_timeseries(tendril, term = NULL)
 }
 \arguments{
 \item{tendril}{An object of class Tendril, as made by Tendril()}
 
-\item{term}{A character vector of length 1 describing the Term to select}
+\item{term}{A character vector describing the value or values of Term to
+select; defaults to \code{NULL} which corresponds to all values}
 }
 \description{
 Plot time series of net events on a second treatment arm
@@ -33,4 +34,6 @@ data <- Tendril(
 
 # do plot
 plot_timeseries(data, term="AE33")
+plot_timeseries(data, term=c("AE33","AE40"))
+plot_timeseries(data, term=NULL)
 }
