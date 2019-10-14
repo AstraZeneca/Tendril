@@ -4,7 +4,7 @@ Title: Compute Tendril
 License: GPL-2
 Author: Martin Karpefors
 Maintainer: Martin Karpefors <martin.karpefors@astrazeneca.com>
-Version: 0.7
+Version: 0.8.0
 Description: The Tendril package provide functionalities to compute the
     coordinates to produce a tendril plot. In the tendril plot, each tendril
     (branch) represents a type of events, and the direction of the tendril is
