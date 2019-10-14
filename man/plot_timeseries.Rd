@@ -9,10 +9,10 @@ plot_timeseries(tendril, term)
 \arguments{
 \item{tendril}{An object of class Tendril, as made by Tendril()}
 
-\item{term}{A character vector of length 1 describing the Term}
+\item{term}{A character vector of length 1 describing the Term to select}
 }
 \description{
-Plot time series of net events on active arm
+Plot time series of net events on a second treatment arm
 }
 \examples{
 # generate data using Tendril()

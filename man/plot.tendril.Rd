@@ -4,16 +4,16 @@
 \alias{plot.Tendril}
 \title{Plot Tendril}
 \usage{
-\method{plot}{Tendril}(x, ...)
+\method{plot}{Tendril}(x, term = NULL, coloring = "Terms",
+  interactive = FALSE, ...)
 }
 \arguments{
 \item{x}{An object of class tendril, as made by Tendril()}
 
-\item{...}{Additional parameters that can be passed to the function:
-- type: A character vector of length 1 describing the type of plot to be produced.
-  Available types are: "basic", "permutations" and "percentile"
-- coloring: Name of column used for coloring tendrils (only basic plots).
-  Available coloring choices are:
+\item{term}{The term to extract.}
+
+\item{coloring}{Name of column used for coloring tendrils (only basic plots).
+Available coloring choices are:
   "Terms" - One tendril one color;
   "p" - Prop.test;
   "p.adj" - P-values adjusted using the False discovery rate method within each tendril;
@@ -22,10 +22,13 @@
   "RR" - Risk Ratio;
   "OR" - Odds Ratio;
   "FDR.tot" - P-values adjusted using the False discovery rate method for all tendrils; and
-  "TermsCount" - Total number of events for that specific type of event
-- interactive: Specifies if the plot must be interactive or not.
-  If interactive == TRUE, plotly will be used to render the plot. Otherwise,
-  (default) the plot will be rendered as a static image using ggplot2.}
+  "TermsCount" - Total number of events for that specific type of event}
+
+\item{interactive}{Specifies if the plot must be interactive or not.
+If interactive == TRUE, plotly will be used to render the plot. Otherwise,
+(default) the plot will be rendered as a static image using ggplot2.}
+
+\item{...}{unused}
 }
 \description{
 Function to plot Tendril results
