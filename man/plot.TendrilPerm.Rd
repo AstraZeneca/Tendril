@@ -4,14 +4,28 @@
 \alias{plot.TendrilPerm}
 \title{Plot TendrilPerm}
 \usage{
-\method{plot}{TendrilPerm}(x, ...)
+\method{plot}{TendrilPerm}(x, coloring = "p.adj", percentile = FALSE,
+  ...)
 }
 \arguments{
 \item{x}{An object of class TendrilPerm, as made by TendrilPerm()}
 
-\item{...}{Additional parameters that can be passed to the function:
-- percentile: Specifies if the plot must show percentile values. Default
-  is FALSE.}
+\item{coloring}{Name of column used for coloring tendrils.
+Available coloring choices are:
+  "Terms" - One tendril one color;
+  "p" - Prop.test;
+  "p.adj" - P-values adjusted using the False discovery rate method within each tendril;
+  "fish" - Fisher.test;
+  "rdiff" - Risk difference;
+  "RR" - Risk Ratio;
+  "OR" - Odds Ratio;
+  "FDR.tot" - P-values adjusted using the False discovery rate method for all tendrils; and
+  "TermsCount" - Total number of events for that specific type of event}
+
+\item{percentile}{Specifies if the plot must show percentile values.
+Default is FALSE.}
+
+\item{...}{unused}
 }
 \description{
 Function to plot TendrilPerm results

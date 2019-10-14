@@ -2,9 +2,20 @@
 #' @description
 #' Function to plot TendrilPerm results
 #' @param x An object of class TendrilPerm, as made by TendrilPerm()
-#' @param ... Additional parameters that can be passed to the function:
-#'     - percentile: Specifies if the plot must show percentile values. Default
-#'       is FALSE.
+#' @param coloring Name of column used for coloring tendrils.
+#' Available coloring choices are:
+#'   "Terms" - One tendril one color;
+#'   "p" - Prop.test;
+#'   "p.adj" - P-values adjusted using the False discovery rate method within each tendril;
+#'   "fish" - Fisher.test;
+#'   "rdiff" - Risk difference;
+#'   "RR" - Risk Ratio;
+#'   "OR" - Odds Ratio;
+#'   "FDR.tot" - P-values adjusted using the False discovery rate method for all tendrils; and
+#'   "TermsCount" - Total number of events for that specific type of event
+#' @param percentile Specifies if the plot must show percentile values.
+#' Default is FALSE.
+#' @param ... unused
 #' @examples
 #' # generate data using Tendril()
 #' data <- Tendril(mydata = TendrilData,
@@ -33,14 +44,8 @@
 #' #To re-do the plot after the first call:
 #' print(res)
 #' @export
-plot.TendrilPerm <- function(x, coloring="p.adj", ...) {
-  params <- as.list(substitute(list(...)))
-
-  if (is.null(params$percentile)) {
-    params$percentile = FALSE
-  }
-
-  if (params$percentile){
+plot.TendrilPerm <- function(x, coloring="p.adj", percentile=FALSE, ...) {
+  if (percentile){
     p <- plotpercentile(x, coloring)
   } else {
     p <- plotpermutation(x, coloring)
