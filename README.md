@@ -54,7 +54,10 @@ Unfortunately Mojave does not ship with it.
 
 # Changelog
 
+See the [CHANGELOG](CHANGELOG.md)
+
 - Version 0.8.0 (14 Oct 2019)
+    - #59 Add Frequency to hover text
     - #57 Time series of net event
     - #56 Corrected colouring on percentile and permutation plots for Terms, rdiff, RR and OR
     - #55 Change colouring in perm perc.
