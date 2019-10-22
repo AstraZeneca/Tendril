@@ -62,9 +62,21 @@ Tendril.stat <- function(dataset, suppress_warnings) {
 
   }
 
+  CountAE.wide <- dplyr::select(CountAE.wide,
+                                Terms,
+                                AEstartDay,
+                                p,
+                                p.adj,
+                                fish,
+                                rdiff,
+                                RR,
+                                OR)
+  
   CountAE.wide$Terms <- as.character(CountAE.wide$Terms)
   dataset$data <- dplyr::left_join(dataset$data, CountAE.wide, by = c("Terms" = "Terms", "StartDay" = "AEstartDay"))
+  dataset$data$Terms <- factor(dataset$data$Terms)
 
+  
   dataset$data$FDR.tot <- stats::p.adjust(dataset$data$p, "fdr")
 
   dataset$n.tot <- data.frame(n.treat1 = n.treat1,
