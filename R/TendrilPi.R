@@ -1,11 +1,6 @@
 #Do the Percentile calculations on the permutations
 TendrilPi <- function(tendril, Permterm, perm.data, pi.low=0.1, pi.high=0.9, perm.from.day = 1) {
 
-  actualdata <- tendril$data[tendril$data$Terms == Permterm,]
-  actualdata$type <- "Actual"
-  actualdata$label <- "Actual"
-  actualdata$perm.from.day = perm.from.day
-
   data <- perm.data
 
   add_continues_angle <- function(dataset){
@@ -48,10 +43,19 @@ TendrilPi <- function(tendril, Permterm, perm.data, pi.low=0.1, pi.high=0.9, per
 
   labelleddata <- with(labelleddata, labelleddata[ order(type,StartDay),])
   labelleddata$type[labelleddata$label=="Low.percentile" | labelleddata$label=="High.percentile"] <- "Percentile"
-  labelleddata <- labelleddata[,colnames(labelleddata) %in% colnames(actualdata)]
-  data <- rbind(labelleddata, actualdata)
+  data <- labelleddata
   data$perm.from.day <- perm.from.day
   data <- data[data$type == "Percentile",]
+  data <- dplyr::select(data,
+                        StartDay,
+                        Terms,
+                        x,
+                        y,
+                        label,
+                        type,
+                        ang,
+                        perm.from.day)
+  
   class(data) <- "TendrilPi"
 
   return(data)
