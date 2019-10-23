@@ -58,8 +58,6 @@ Tendril.stat <- function(dataset, suppress_warnings) {
     CountAE.wide[idx,]$rdiff <- apply(m, 1, r.diff)
     CountAE.wide[idx,]$RR <- apply(m, 1, r.ratio)
     CountAE.wide[idx,]$OR <- apply(m, 1, o.ratio)
-
-
   }
 
   CountAE.wide <- dplyr::select(CountAE.wide,
@@ -76,13 +74,11 @@ Tendril.stat <- function(dataset, suppress_warnings) {
   dataset$data <- dplyr::left_join(dataset$data, CountAE.wide, by = c("Terms" = "Terms", "StartDay" = "AEstartDay"))
   dataset$data$Terms <- factor(dataset$data$Terms)
 
-  
   dataset$data$FDR.tot <- stats::p.adjust(dataset$data$p, "fdr")
 
   dataset$n.tot <- data.frame(n.treat1 = n.treat1,
                               n.treat2 = n.treat2
                              )
-
 
   return(dataset)
 }

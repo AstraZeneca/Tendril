@@ -37,9 +37,6 @@ joinData <- function(dataset1, dataset2, Tag){
   dataset1$col.id<-as.numeric(dataset1$col.id)
   dataset2$col.id<-as.numeric(dataset2$col.id)
   joined <- dplyr::left_join(dataset1, dataset2, by = c("col.id" = "col.id"))
-#  joined<-joined[-c(11, seq(17,21,1))]
-#  colnames(joined)<- c("StartDay", "Unique.Subject.Identifier", "Terms", "Treat", "rot.factor", "col.id",
-#                   "old.day", "mod", "dir", "k", "angsum", "cx", "x", "y", "ang")
   joined$Tag <- Tag
   if (length(which(is.na(colnames(joined))))>0){
     joined <- joined[,-c(which(is.na(colnames(joined))))]

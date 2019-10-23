@@ -249,26 +249,6 @@ Tendril <- function(mydata,
 
   if (!is.null(SubjList)){
     tendril.retval <- Tendril.stat(tendril.retval, suppress_warnings)
-
-    #format data: assign column names and remove unwanted columns
-#    data <- data.frame(Unique.Subject.Identifier = as.character(tendril.retval$data$Unique.Subject.Identifier),
-#                       Terms = tendril.retval$data$Terms,
-#                       Treat = tendril.retval$data$Treat,
-#                       StartDay = tendril.retval$data$StartDay,
-#                       rot.factor = tendril.retval$data$rot.factor,
-#                       x = tendril.retval$data$x,
-#                       y = tendril.retval$data$y,
-#                       Tag = tendril.retval$data$Tag,
-#                       p = tendril.retval$data$p,
-#                       p.adj = tendril.retval$data$p.adj,
-#                       fish = tendril.retval$data$fish,
-#                       rdiff = tendril.retval$data$rdiff,
-#                       RR = tendril.retval$data$RR,
-#                       OR = tendril.retval$data$OR,
-#                       FDR.tot = tendril.retval$data$FDR.tot,
-#                       TermsCount = tendril.retval$data$TermsCount
-#    )
-#    tendril.retval$data <- data
   } else {
     tendril.retval$n.tot <- NULL
     warning("No SubjList specified. You will still be able to plot a tendril plot. However, care should be taken when intepreting, since an imbalance of the amount of persons per treatment will affect the bending.", call. = FALSE)
