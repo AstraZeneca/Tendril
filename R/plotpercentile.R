@@ -9,14 +9,11 @@ plotpercentile <- function(x, coloring){
   data <- dataset[dataset$Terms == unique(perm.data$Terms),]
   actualdata <- createDataset(data$x, data$y, "Actual", "Actual", data$StartDay, perm.data)
   actualdata$color <- data[[coloring]]
-  normdf <- createDataset(0, 0, "Actual", "Actual", 0, perm.data)
-  normdf$color <- 0
-  actualdata<- rbind(normdf, actualdata)
   plotdata <- createDataset(perm.data$x, perm.data$y, perm.data$label, perm.data$type, perm.data$StartDay, perm.data)
-  plotdata$color <- perm.data[[coloring]]
+  plotdata$color <- NA
   plotdata<- rbind(actualdata, plotdata)
-  percdata <- createDataset(percentile$x, percentile$y, percentile$label, percentile$type, percentile$StartDay, perm.data)
-  percdata$color <- percentile[[coloring]]
+  percdata <- createDataset(percentile$x, percentile$y, percentile$label, percentile$type, percentile$StartDay, percentile)
+  percdata$color <- NA
   plotdata<- rbind(plotdata, percdata)
 
   if (coloring %in% c("p","p.adj","fish")) {
@@ -56,7 +53,7 @@ plotpercentile <- function(x, coloring){
     }
     p <- p +
       ggplot2::geom_path(color="grey80") +
-      ggplot2::geom_path(data=plotdata[plotdata$type=="Percentile", ], aes(x=x, y=y, group=label), color="grey40", size=1.25)
+      ggplot2::geom_path(data=plotdata[plotdata$type=="Percentile", ], aes(x=x, y=y, group=label), color="grey40", size=1)
     if (coloring != "Terms") {
       p <- p +
         ggplot2::geom_path(data=plotdata[plotdata$type=="Actual", ], aes(x=x, y=y, group=label, color = color))+

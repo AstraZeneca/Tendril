@@ -57,9 +57,6 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   #check input data
   validate.perm.data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
 
-  retval = list(tendril = tendril)
-  class(retval) <- "TendrilPerm"
-
   #prepare data
   Unique.Subject.Identifier <- tendril$SubjList.subject
   treatment <- tendril$SubjList.treatment
@@ -67,9 +64,15 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   SubjList <- tendril$SubjList
   Treats <- tendril$Treatments
   data <- tendril$data[tendril$data$Terms==PermTerm, ]
-  rotation_vector <- tendril$rotation_vector
+  rotation_vector <- tendril$rotation_vector[tendril$data$Terms==PermTerm]
   compensate_imbalance_groups <- tendril$compensate_imbalance_groups
 
+  # Prepare TendrilPerm object to return
+  retval <- list(tendril = tendril)
+  retval$tendril$data <- data
+  retval$tendril$rotation_vector <- rotation_vector
+  class(retval) <- "TendrilPerm"
+  
   #check perm.from.day
   validate.perm.day(data, perm.from.day)
 
@@ -127,6 +130,16 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   tendril.perm.all$PermTreat <- NULL
   tendril.perm.all$perm.from.day<-perm.from.day
 
+  # Keep only required variables in tendril.perm.all
+  tendril.perm.all <- dplyr::select(tendril.perm.all,
+                                    StartDay,
+                                    Terms,
+                                    x,
+                                    y,
+                                    label,
+                                    type,
+                                    ang,
+                                    perm.from.day)
   #add results
   retval$Permterm <- PermTerm
   retval$perm.data <- tendril.perm.all

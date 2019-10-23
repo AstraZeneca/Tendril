@@ -8,7 +8,7 @@ plotpermutation <- function(x, coloring){
   actualdata <- createDataset(data$x, data$y, "Actual", "Actual", data$StartDay, perm.data)
   actualdata$color<-data[[coloring]]
   plotdata <- createDataset(perm.data$x, perm.data$y, perm.data$label, perm.data$type, perm.data$StartDay, perm.data)
-  plotdata$color<-perm.data[[coloring]]
+  plotdata$color<-NA
   plotdata<- rbind(actualdata, plotdata)
   
   if (coloring %in% c("p","p.adj","fish")) {
