@@ -35,7 +35,7 @@ test <- Tendril(mydata = TendrilData,
   
 plot(test)
 plot(test, coloring = "p.adj")
-plot(test,term = c("AE40", "AE42", "AE44"))
+plot(test, term = c("AE40", "AE42", "AE44"))
 
 ```
 
