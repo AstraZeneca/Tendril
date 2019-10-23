@@ -1,17 +1,9 @@
-dataSetup <- function(mydata, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay){
-  data <- data.frame(Unique.Subject.Identifier = mydata[[Unique.Subject.Identifier]],
-                     Terms = mydata[[Terms]],
-                     Treat = mydata[[Treat]],
-                     StartDay = mydata[[StartDay]],
-                     rot.factor = rotations,
-                     col.id = seq(1,dim(mydata)[1],1)
-  )
-  colnames(data) <- c("Unique.Subject.Identifier",
-                      "Terms",
-                      "Treat",
-                      "StartDay",
-                      "rot.factor",
-                      "col.id")
+dataSetup <- function(data, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay){
+  data <- dplyr::rename_(data, "Unique.Subject.Identifier" = Unique.Subject.Identifier)
+  data <- dplyr::rename_(data, "Terms" = Terms)
+  data <- dplyr::rename_(data, "Treat" = Treat)
+  data <- dplyr::rename_(data, "StartDay" = StartDay)
+  data <- plyr::mutate(data, rot.factor = rotations)
   return(data)
 }
 
@@ -45,9 +37,6 @@ joinData <- function(dataset1, dataset2, Tag){
   dataset1$col.id<-as.numeric(dataset1$col.id)
   dataset2$col.id<-as.numeric(dataset2$col.id)
   joined <- dplyr::left_join(dataset1, dataset2, by = c("col.id" = "col.id"))
-  joined<-joined[-c(11, seq(17,21,1))]
-  colnames(joined)<- c("StartDay", "Unique.Subject.Identifier", "Terms", "Treat", "rot.factor", "col.id",
-                   "old.day", "mod", "dir", "k", "angsum", "cx", "x", "y", "ang")
   joined$Tag <- Tag
   if (length(which(is.na(colnames(joined))))>0){
     joined <- joined[,-c(which(is.na(colnames(joined))))]
