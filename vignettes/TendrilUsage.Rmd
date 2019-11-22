@@ -15,6 +15,8 @@ vignette: |
 The `Tendril` package contains functions designed to compute the x-y coordinates and to build a Tendril plot. Inspired by the [notabilia visialization](http://notabilia.net), the Tendril plot was developed to capture the relative effect of different kind of adverse events for two treatments, including temporal aspects, in a single visualization. Specifically, each tendril (branch) in the Tendril plot represents a type of adverse effect, and the direction of the tendril is dictated by on which treatment arm the event is occurring. If an event is occurring on the first of the two specified treatment arms, the tendril bends clockwise (to the right). If an event is occurring on the second of the treatment arms, the tendril bends anti-clockwise (to the left). 
 
 ```{r example_plot, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5}
+library(Tendril)
+
 data("TendrilData")
 
 test <- Tendril(mydata = TendrilData,
@@ -197,6 +199,8 @@ The following code will use the provided sample data `TendrilData` and `SubjList
 
 
 ```{r full_example, echo=TRUE, eval=FALSE, warning=FALSE, message=FALSE}
+#load library
+library("Tendril")
 #compute tendril data
 data.tendril <- Tendril(mydata = TendrilData,
                         rotations = Rotations,
