@@ -213,23 +213,6 @@ test_that("tendril_result_correct",{
                  SubjList.treatment = "treatment")
   )
 
-  expect_warning(
-    Tendril(mydata = TendrilData,
-                   rotations = Rotations,
-                   AEfreqThreshold = 9,
-                   Tag = "Comment",
-                   Treatments = c("placebo", "active"),
-                   Unique.Subject.Identifier = "subjid",
-                   Terms = "ae",
-                   Treat = "treatment",
-                   StartDay = "day",
-                   SubjList = SubjList,
-                   SubjList.subject = "subjid",
-                   SubjList.treatment = "treatment",
-                   suppress_warnings = TRUE),
-            regexp = NA
-  )
-
   #class must be tendril
   expect_equal(
     "Tendril", class(res)
@@ -301,20 +284,22 @@ test_that("tendril_result_correct_filter_double_events",{
   load(file = "../Tendril.res.single.events.rda")
   Tendril.res.single.events <- Tendril.res.single.events
 
-  res <- Tendril(mydata = TendrilData,
-                 rotations = Rotations,
-                 AEfreqThreshold = 9,
-                 Tag = "Comment",
-                 Treatments = c("placebo", "active"),
-                 Unique.Subject.Identifier = "subjid",
-                 Terms = "ae",
-                 Treat = "treatment",
-                 StartDay = "day",
-                 SubjList = SubjList,
-                 SubjList.subject = "subjid",
-                 SubjList.treatment = "treatment",
-                 filter_double_events = TRUE,
-                 suppress_warnings = TRUE)
+  expect_warning(
+    res <- Tendril(mydata = TendrilData,
+                   rotations = Rotations,
+                   AEfreqThreshold = 9,
+                   Tag = "Comment",
+                   Treatments = c("placebo", "active"),
+                   Unique.Subject.Identifier = "subjid",
+                   Terms = "ae",
+                   Treat = "treatment",
+                   StartDay = "day",
+                   SubjList = SubjList,
+                   SubjList.subject = "subjid",
+                   SubjList.treatment = "treatment",
+                   filter_double_events = TRUE,
+                   suppress_warnings = TRUE)
+  )
 
   #check final result is correct
   expect_equal(
@@ -390,20 +375,22 @@ test_that("tendril_proportional_rotation_factor",{
   load(file = "../Tendril.res.proportional.rotation.factor.rda")
   Tendril.res.proportional.rotation.factor <- Tendril.res.proportional.rotation.factor
 
-  res <- Tendril(mydata = data,
-                  rotations = 3,
-                  AEfreqThreshold = 9,
-                  Tag = "Comment",
-                  Treatments = c("placebo", "active"),
-                  Unique.Subject.Identifier = "subjid",
-                  Terms = "ae",
-                  Treat = "treatment",
-                  StartDay = "day",
-                  SubjList = SubjList.with.dropouts,
-                  SubjList.subject = "subjid",
-                  SubjList.treatment = "treatment",
-                  SubjList.dropout = "dropoutday",
-                  suppress_warnings = TRUE)
+  expect_warning(
+    res <- Tendril(mydata = data,
+                    rotations = 3,
+                    AEfreqThreshold = 9,
+                    Tag = "Comment",
+                    Treatments = c("placebo", "active"),
+                    Unique.Subject.Identifier = "subjid",
+                    Terms = "ae",
+                    Treat = "treatment",
+                    StartDay = "day",
+                    SubjList = SubjList.with.dropouts,
+                    SubjList.subject = "subjid",
+                    SubjList.treatment = "treatment",
+                    SubjList.dropout = "dropoutday",
+                    suppress_warnings = TRUE)
+  )
 
   #check final result is correct
   expect_equal(
@@ -455,21 +442,23 @@ test_that("tendril_check_correct_imbalance_and_variable_rotation",{
   load(file = "../Variable.rotation.rda")
   Variable.rotation <- Variable.rotation
 
-  res <- Tendril(mydata = Tendril.data.with.dropouts,
-                                rotations = Variable.rotation,
-                                AEfreqThreshold = 9,
-                                Tag = "Comment",
-                                Treatments = c("placebo", "active"),
-                                Unique.Subject.Identifier = "subjid",
-                                Terms = "ae",
-                                Treat = "treatment",
-                                StartDay = "day",
-                                SubjList = SubjList.with.dropouts,
-                                SubjList.subject = "subjid",
-                                SubjList.treatment = "treatment",
-                                SubjList.dropout = "dropoutday",
-                                suppress_warnings = TRUE,
-                                compensate_imbalance = TRUE)
+  expect_warning(
+    res <- Tendril(mydata = Tendril.data.with.dropouts,
+                                  rotations = Variable.rotation,
+                                  AEfreqThreshold = 9,
+                                  Tag = "Comment",
+                                  Treatments = c("placebo", "active"),
+                                  Unique.Subject.Identifier = "subjid",
+                                  Terms = "ae",
+                                  Treat = "treatment",
+                                  StartDay = "day",
+                                  SubjList = SubjList.with.dropouts,
+                                  SubjList.subject = "subjid",
+                                  SubjList.treatment = "treatment",
+                                  SubjList.dropout = "dropoutday",
+                                  suppress_warnings = TRUE,
+                                  compensate_imbalance = TRUE)
+  )
 
   #check final result is correct
   expect_equal(
