@@ -46,7 +46,7 @@ Make permutation analysis to a specific type of event, as specified in PermTerm.
 # Create tendril
 tendril <- Tendril(mydata = TendrilData,
   rotations = Rotations,
-  AEfreqTreshold = 9,
+  AEfreqThreshold = 9,
   Tag = "Comment",
   Treatments = c("placebo", "active"),
   Unique.Subject.Identifier = "subjid",

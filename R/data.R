@@ -23,7 +23,7 @@
 #' \item{Tendril.res$Treat }{: Column containing the name of the treatments}
 #' \item{Tendril.res$StartDay }{: Column containing the start days of the events}
 #' \item{Tendril.res$Treatments }{: The names of the treatments causing the tendrils to bend}
-#' \item{Tendril.res$AEfreqTreshold }{: The frequency treshold for the events to be included in the analysis}
+#' \item{Tendril.res$AEfreqThreshold }{: The frequency threshold for the events to be included in the analysis}
 #' \item{Tendril.res$Tag }{: A tag or comment associated with the analysis}
 #' \item{Tendril.res$SubjList }{: A dataframe containing subject IDs and treatments}
 #' \item{Tendril.res$SubjList.subject }{: The name of the column in SubjList containing the subjects IDs}
@@ -47,7 +47,7 @@
 #' \item{Tendril.perm.res$Treat }{: Column containing the name of the treatments}
 #' \item{Tendril.perm.res$StartDay }{: Column containing the start days of the events}
 #' \item{Tendril.perm.res$Treatments }{: The names of the treatments causing the tendrils to bend}
-#' \item{Tendril.perm.res$AEfreqTreshold }{: The frequency treshold for the events to be included in the analysis}
+#' \item{Tendril.perm.res$AEfreqThreshold }{: The frequency threshold for the events to be included in the analysis}
 #' \item{Tendril.perm.res$Tag }{: A tag or comment associated with the analysis}
 #' \item{Tendril.perm.res$SubjList }{: A dataframe containing subject IDs and treatments}
 #' \item{Tendril.perm.res$SubjList.subject }{: The name of the column in SubjList containing the subjects IDs}

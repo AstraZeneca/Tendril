@@ -13,7 +13,7 @@ test_that("input_perm_valid",{
   expect_warning(
     tendril.data <- Tendril(mydata = TendrilData,
                             rotations = Rotations,
-                            AEfreqTreshold = 9,
+                            AEfreqThreshold = 9,
                             Tag = "Comment",
                             Treatments = c("placebo", "active"),
                             Unique.Subject.Identifier = "subjid",
@@ -125,7 +125,7 @@ test_that("output_perm_valid",{
   expect_warning(
     tendril.data <- Tendril(mydata = TendrilData,
                             rotations = Rotations,
-                            AEfreqTreshold = 9,
+                            AEfreqThreshold = 9,
                             Tag = "Comment",
                             Treatments = c("placebo", "active"),
                             Unique.Subject.Identifier = "subjid",

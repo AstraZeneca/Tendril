@@ -4,7 +4,7 @@
 \alias{Tendril}
 \title{Tendril}
 \usage{
-Tendril(mydata, rotations, AEfreqTreshold = 50, Tag = "Comment",
+Tendril(mydata, rotations, AEfreqThreshold = 50, Tag = "Comment",
   Treatments = c("Active", "Placebo"),
   Unique.Subject.Identifier = "Unique.Subject.Identifier",
   Terms = "Dictionary.Derived.Term", Treat = "Actual.Treatment...DB",
@@ -18,7 +18,7 @@ Tendril(mydata, rotations, AEfreqTreshold = 50, Tag = "Comment",
 
 \item{rotations}{a vector of same length as mydata containing the rotation factors for all the events}
 
-\item{AEfreqTreshold}{The minimum frequency treshold of events to be included in the analysis. Default is 50}
+\item{AEfreqThreshold}{The minimum frequency threshold of events to be included in the analysis. Default is 50}
 
 \item{Tag}{A tag or comment associated with the analysis}
 
@@ -56,7 +56,7 @@ all the function arguments and a dataframe with the results from statistical ana
 \item{data$Treat }{: Column containing the name of the treatments}
 \item{data$StartDay }{: Column containing the days of the events}
 \item{data$Treatments }{: The names of the treatments causing the tendrils to bend}
-\item{data$AEfreqTreshold }{: The frequency treshold for the events to be included in the analysis}
+\item{data$AEfreqThreshold }{: The frequency threshold for the events to be included in the analysis}
 \item{data$Tag }{: A tag or comment associated with the analysis}
 \item{data$n.tot }{: A dataframe with the total number of events for each treatment. Used in the statistical calculations}
 \item{data$SubjList }{: A dataframe containing subject IDs and treatments}
@@ -84,7 +84,7 @@ The result can be saved to file using write.table() with argument row.names = FA
 \examples{
 data <- Tendril(mydata = TendrilData,
 rotations = Rotations,
-AEfreqTreshold=9,
+AEfreqThreshold=9,
 Tag = "Comment",
 Treatments = c("placebo", "active"),
 Unique.Subject.Identifier = "subjid",
