@@ -36,7 +36,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
 
   #negative frequency
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqTreshold = -9,
             Tag = "Comment",
@@ -49,7 +49,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
 
   #frequency not a number
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqTreshold = c(1,2),
             Tag = "Comment",
@@ -62,7 +62,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
 
   #negative rot.factor
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqTreshold = 9,
             Tag = "Comment",
@@ -75,7 +75,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
 
   #rotations not a valid vector
   expect_error(
-    validate.tendril.data(mydata = lTendrilData,
+    validate_tendril_data(mydata = lTendrilData,
                           rotations = c(1,2),
                           AEfreqTreshold = 9,
             Tag = "Comment",
@@ -98,7 +98,7 @@ test_that("columns_exists",{
 
   #SartDay does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqTreshold = 9,
             Tag = "Comment",
@@ -111,7 +111,7 @@ test_that("columns_exists",{
 
   #Unique.Subject.Identifier does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
                           AEfreqTreshold = 9,
             Tag = "Comment",
@@ -124,7 +124,7 @@ test_that("columns_exists",{
 
   #Terms does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqTreshold = 9,
             Tag = "Comment",
@@ -137,7 +137,7 @@ test_that("columns_exists",{
 
   #Treat does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqTreshold = 9,
             Tag = "Comment",
@@ -160,7 +160,7 @@ test_that("treatments exists",{
 
   #the treatments does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
                           AEfreqTreshold = 9,
             Tag = "Comment",
@@ -181,7 +181,7 @@ test_that("filtering_keeps_some_data",{
 
   #pass an empty dataframe
   expect_error(
-    validate.tendril.results(data[NULL, ])
+    validate_tendril_results(data[NULL, ])
   )
 
 })

@@ -83,7 +83,7 @@ Tendril <- function(mydata,
                     suppress_warnings = FALSE){
 
   #check input data
-  validate.tendril.data(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier,
+  validate_tendril_data(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier,
                         Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday,
                         AEfreqThreshold, filter_double_events, suppress_warnings)
 
@@ -189,7 +189,7 @@ Tendril <- function(mydata,
   tab.all <- as.data.frame(with(mydata, table(Terms, Treat)))
   tab <- tab.all[tab.all$Freq>=AEfreqThreshold,]
 
-  validate.tendril.results(tab)
+  validate_tendril_results(tab)
 
   AE <- unique(tab$Terms)
   mydata <- mydata[mydata$Terms %in% AE, ]

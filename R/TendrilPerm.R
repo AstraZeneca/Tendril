@@ -55,7 +55,7 @@
 TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
   `%>%` <- magrittr::`%>%`
   #check input data
-  validate.perm.data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
+  validate_perm_data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
 
   #prepare data
   Unique.Subject.Identifier <- tendril$SubjList.subject
@@ -74,7 +74,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   class(retval) <- "TendrilPerm"
 
   #check perm.from.day
-  validate.perm.day(data, perm.from.day)
+  validate_perm_day(data, perm.from.day)
 
   perm.nr <- which(data$StartDay>=perm.from.day)
 

@@ -1,6 +1,6 @@
 #------------------------
 # check if an input is a positive integer
-is.not.positive.integer <- function(x){
+is_not_positive_integer <- function(x){
   if (is.na(x) || !is.numeric(x) || x <= 0 || x %% 1 != 0 || length(x) != 1){
     res <- TRUE
 
@@ -11,7 +11,7 @@ is.not.positive.integer <- function(x){
 }
 #-------------------
 #validate tendril() input and intermediate table
-validate.tendril.data <- function(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier, Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday, AEfreqTreshold, filter_double_events, suppress_warnings){
+validate_tendril_data <- function(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier, Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday, AEfreqTreshold, filter_double_events, suppress_warnings){
   if (!"data.frame" %in% class(mydata)){
     stop("The dataset is not a dataframe")
   }
@@ -33,7 +33,7 @@ validate.tendril.data <- function(mydata, rotations, Treatments, Terms, Unique.S
   if (!is.numeric(mydata[[StartDay]])){
     stop("Days column must contain only numeric values")
   }
-  if (is.not.positive.integer(AEfreqTreshold)){
+  if (is_not_positive_integer(AEfreqTreshold)){
     stop("The frequency must be a positive integer")
   }
   if (!(is.logical(filter_double_events) && !is.na(filter_double_events))|| !length(filter_double_events)==1){
@@ -44,14 +44,14 @@ validate.tendril.data <- function(mydata, rotations, Treatments, Terms, Unique.S
   }
 }
 
-validate.tendril.results <- function(tab){
+validate_tendril_results <- function(tab){
   if (dim(tab)[1] == 0){
     stop("No sample with the defined frequency threshold")
   }
 }
 #-------------------
 #validate tendril.stat() input
-validate.tendril.stat <- function(dataset, SubjList, Unique.Subject.Identifier, treatment){
+validate_tendril_stat <- function(dataset, SubjList, Unique.Subject.Identifier, treatment){
   if (!"Tendril" %in% class(dataset)){
     stop("Input data is not of class tendril")
   }
@@ -68,11 +68,11 @@ validate.tendril.stat <- function(dataset, SubjList, Unique.Subject.Identifier, 
 }
 #-------------------
 #validate tendril.perm() input dataset
-validate.perm.data <- function(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high){
+validate_perm_data <- function(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high){
   if (length(PermTerm) != 1 || !PermTerm %in% dataset$data$Terms){
     stop("PermTerm not valid")
   }
-  if (is.not.positive.integer(n.perm)){
+  if (is_not_positive_integer(n.perm)){
     stop("The number of permutations must be a positive integer")
   }
   if (!is.numeric(pi.low) | !is.numeric(pi.high)){
@@ -86,8 +86,8 @@ validate.perm.data <- function(dataset, PermTerm, n.perm, perm.from.day, pi.low,
   }
 }
 
-validate.perm.day <- function(data, perm.from.day){
-  if (is.not.positive.integer(perm.from.day)){
+validate_perm_day <- function(data, perm.from.day){
+  if (is_not_positive_integer(perm.from.day)){
     stop("The starting day for permutations must be positive")
   }
 

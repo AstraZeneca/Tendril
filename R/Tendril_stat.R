@@ -5,7 +5,7 @@ Tendril_stat <- function(dataset, suppress_warnings) {
   treatment <- dataset$SubjList.treatment
 
   #check the SubjList
-  validate.tendril.stat(dataset, SubjList, Unique.Subject.Identifier, treatment)
+  validate_tendril_stat(dataset, SubjList, Unique.Subject.Identifier, treatment)
 
   n.treat1 <- length(which(SubjList[, treatment] == dataset$Treatments[1]))
   n.treat2 <- length(which(SubjList[, treatment] == dataset$Treatments[2]))
