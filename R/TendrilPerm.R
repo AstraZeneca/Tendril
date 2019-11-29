@@ -72,7 +72,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   retval$tendril$data <- data
   retval$tendril$rotation_vector <- rotation_vector
   class(retval) <- "TendrilPerm"
-  
+
   #check perm.from.day
   validate.perm.day(data, perm.from.day)
 
@@ -116,7 +116,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
                                                                                Treats = Treats))))
     }
 
-    res <- Tendril.cx(permdf, Treats)
+    res <- Tendril_cx(permdf, Treats)
     res$label <- paste("Permutation",i, sep = " ")
 
     tendril.perm.all <- rbind(tendril.perm.all, res)

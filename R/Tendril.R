@@ -96,14 +96,14 @@ Tendril <- function(mydata,
   mydata <- dataSetup(mydata, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay)
 
   SubjList <- SubjList[SubjList[, SubjList.treatment] %in% Treatments,]       # Remove unwanted treatments from SubjList
-  
+
   # Remove any records with unwated treatments, non-positice start days or missing values of key variables from mydata
   mydata <- (mydata[mydata$Treat %in% Treatments & mydata$StartDay>0, ])
   mydata <- (mydata[!is.na(Unique.Subject.Identifier), ])
   mydata <- (mydata[!is.na(Terms), ])
   mydata <- (mydata[!is.na(Treat), ])
   mydata <- (mydata[!is.na(StartDay), ])
-  
+
   if (!is.null(SubjList)){
     mydata <- mydata[mydata$Unique.Subject.Identifier %in% unique(SubjList[, SubjList.subject]), ] # Remove unwanted data
   }
@@ -119,7 +119,7 @@ Tendril <- function(mydata,
                                   SubjList.dropoutday){
       SubjList[as.character(SubjList[, SubjList.subject]) == as.character(subject), SubjList.dropoutday] < day
     }
-    
+
     # Determine whether an event is after the specified dropoutday
     event_after_dropout <- mapply(check_dropout_day, mydata[, "Unique.Subject.Identifier"], mydata[, "StartDay"],
                                   MoreArgs=list(SubjList=SubjList, SubjList.subject=SubjList.subject, SubjList.dropoutday=SubjList.dropoutday))
@@ -200,14 +200,14 @@ Tendril <- function(mydata,
   #compute all arms
   for(i in AE) {
     subdata <- mydata[mydata$Terms==i, ]
-    tendril.data <- rbind(tendril.data, Tendril.cx(subdata, Treatments))
+    tendril.data <- rbind(tendril.data, Tendril_cx(subdata, Treatments))
   }
 
   # Calculate coordinates and arguments etc
   tendril.data <- cxDataFormat(tendril.data)
 
-  tendril.data$Tag <- Tag 
-  
+  tendril.data$Tag <- Tag
+
   #add a count for number of events in each arm
   for (i in 1: length(unique(tendril.data$Terms))){
     subset.length <- length(which(tendril.data$Terms == unique(tendril.data$Terms)[i]))
@@ -224,10 +224,10 @@ Tendril <- function(mydata,
                                 -angsum,
                                 -cx,
                                 -ang)
-  
+
   # Set Terms to factor
   tendril.data$Terms <- factor(tendril.data$Terms)
-  
+
   #list of results
   tendril.retval <- list(data = tendril.data,
                          Terms = Terms,

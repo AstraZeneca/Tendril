@@ -1,5 +1,5 @@
 #function to compute the x-y and angles of the tendrils
-Tendril.cx <- function(data, Treatments) {
+Tendril_cx <- function(data, Treatments) {
 
   # Sort in time
   data <- data[order(data$StartDay, decreasing = FALSE),]
