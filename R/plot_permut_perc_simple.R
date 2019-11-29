@@ -1,5 +1,5 @@
 ## Customize permutation plot 2 ( Grey simulated - p.adj actual ) ##
-plot.permut.perc.simple <- function(Tendril.perm) {
+plot_permut_perc_simple <- function(Tendril.perm) {
   Tendril.perm$perm.data[Tendril.perm$perm.data$ang<0,]$ang <- Tendril.perm$perm.data[Tendril.perm$perm.data$ang<0,]$ang + 2*pi
   Tendril.perm$tendril.pi <- TendrilPi(Tendril.perm)
 
