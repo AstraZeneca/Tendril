@@ -1,4 +1,4 @@
-Tendril.stat <- function(dataset, suppress_warnings) {
+Tendril_stat <- function(dataset, suppress_warnings) {
 
   SubjList <- dataset$SubjList
   Unique.Subject.Identifier <- dataset$SubjList.subject
@@ -69,7 +69,7 @@ Tendril.stat <- function(dataset, suppress_warnings) {
                                 rdiff,
                                 RR,
                                 OR)
-  
+
   CountAE.wide$Terms <- as.character(CountAE.wide$Terms)
   dataset$data <- dplyr::left_join(dataset$data, CountAE.wide, by = c("Terms" = "Terms", "StartDay" = "AEstartDay"))
   dataset$data$Terms <- factor(dataset$data$Terms)

@@ -117,7 +117,7 @@ The function checks that the arguments are valid and then computes the angles an
 
 The time between consecutive events of each type is proportional to the distance between connected points on the tendril plot.  The angular displacement at each point is determined by the excess number of treatments on the first arm (rotating clockwise) or the excess number of treatments on the second arm (rotating anticlockwise) at each point in time.
 
-If the argument `SubjList` provides a data frame of subjects, treatments and optionally drop-out days then `Tendril` calls the function `Tendril.stat` to estimate the statistical significance of the imbalance at each data point.  Statistical significance is estimated using an unadjusted Chi-square test (`p`), a false discovery rate (FDR) adjusted Chi-square test (`p.adj`), or Fisher's Exact test (`fish`).  Additional statistics are provided for the risk difference (`rdiff`), risk ratio (`RR`) and odds ratio (`OR`).
+If the argument `SubjList` provides a data frame of subjects, treatments and optionally drop-out days then `Tendril` calls the function `Tendril_stat` to estimate the statistical significance of the imbalance at each data point.  Statistical significance is estimated using an unadjusted Chi-square test (`p`), a false discovery rate (FDR) adjusted Chi-square test (`p.adj`), or Fisher's Exact test (`fish`).  Additional statistics are provided for the risk difference (`rdiff`), risk ratio (`RR`) and odds ratio (`OR`).
 
 ## `TendrilPerm`
 
