@@ -11,7 +11,7 @@ is.not.positive.integer <- function(x){
 }
 #-------------------
 #validate tendril() input and intermediate table
-validate.tendril.data <- function(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier, Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday, AEfreqTreshold, filter_double_events, suppress_warnings){
+validate.tendril.data <- function(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier, Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday, AEfreqThreshold, filter_double_events, suppress_warnings){
   if (!"data.frame" %in% class(mydata)){
     stop("The dataset is not a dataframe")
   }
@@ -33,7 +33,7 @@ validate.tendril.data <- function(mydata, rotations, Treatments, Terms, Unique.S
   if (!is.numeric(mydata[[StartDay]])){
     stop("Days column must contain only numeric values")
   }
-  if (is.not.positive.integer(AEfreqTreshold)){
+  if (is.not.positive.integer(AEfreqThreshold)){
     stop("The frequency must be a positive integer")
   }
   if (!(is.logical(filter_double_events) && !is.na(filter_double_events))|| !length(filter_double_events)==1){

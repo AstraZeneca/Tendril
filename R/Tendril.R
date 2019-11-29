@@ -8,7 +8,7 @@
 #' @param Treat The name of the column containing the name of the treatments
 #' @param StartDay The name column containing the days of the events
 #' @param Treatments The names of the two treatments to be included in the tendril. The first treatment bends to the right and second treatment bends to the left. Must be a vector of two elements and the two elements must be found in the Treatment column
-#' @param AEfreqThreshold The minimum frequency treshold of events to be included in the analysis. Default is 50
+#' @param AEfreqThreshold The minimum frequency threshold of events to be included in the analysis. Default is 50
 #' @param Tag A tag or comment associated with the analysis
 #' @param SubjList A dataframe containing subject IDs and treatments
 #' @param SubjList.subject The name of the columns in SubjList containing the subjects IDs
@@ -27,7 +27,7 @@
 #' \item{data$Treat }{: Column containing the name of the treatments}
 #' \item{data$StartDay }{: Column containing the days of the events}
 #' \item{data$Treatments }{: The names of the treatments causing the tendrils to bend}
-#' \item{data$AEfreqThreshold }{: The frequency treshold for the events to be included in the analysis}
+#' \item{data$AEfreqThreshold }{: The frequency threshold for the events to be included in the analysis}
 #' \item{data$Tag }{: A tag or comment associated with the analysis}
 #' \item{data$n.tot }{: A dataframe with the total number of events for each treatment. Used in the statistical calculations}
 #' \item{data$SubjList }{: A dataframe containing subject IDs and treatments}
@@ -96,14 +96,14 @@ Tendril <- function(mydata,
   mydata <- dataSetup(mydata, rotations, Unique.Subject.Identifier, Terms, Treat, StartDay)
 
   SubjList <- SubjList[SubjList[, SubjList.treatment] %in% Treatments,]       # Remove unwanted treatments from SubjList
-  
+
   # Remove any records with unwated treatments, non-positice start days or missing values of key variables from mydata
   mydata <- (mydata[mydata$Treat %in% Treatments & mydata$StartDay>0, ])
   mydata <- (mydata[!is.na(Unique.Subject.Identifier), ])
   mydata <- (mydata[!is.na(Terms), ])
   mydata <- (mydata[!is.na(Treat), ])
   mydata <- (mydata[!is.na(StartDay), ])
-  
+
   if (!is.null(SubjList)){
     mydata <- mydata[mydata$Unique.Subject.Identifier %in% unique(SubjList[, SubjList.subject]), ] # Remove unwanted data
   }
@@ -119,7 +119,7 @@ Tendril <- function(mydata,
                                   SubjList.dropoutday){
       SubjList[as.character(SubjList[, SubjList.subject]) == as.character(subject), SubjList.dropoutday] < day
     }
-    
+
     # Determine whether an event is after the specified dropoutday
     event_after_dropout <- mapply(check_dropout_day, mydata[, "Unique.Subject.Identifier"], mydata[, "StartDay"],
                                   MoreArgs=list(SubjList=SubjList, SubjList.subject=SubjList.subject, SubjList.dropoutday=SubjList.dropoutday))
@@ -206,8 +206,8 @@ Tendril <- function(mydata,
   # Calculate coordinates and arguments etc
   tendril.data <- cxDataFormat(tendril.data)
 
-  tendril.data$Tag <- Tag 
-  
+  tendril.data$Tag <- Tag
+
   #add a count for number of events in each arm
   for (i in 1: length(unique(tendril.data$Terms))){
     subset.length <- length(which(tendril.data$Terms == unique(tendril.data$Terms)[i]))
@@ -224,10 +224,10 @@ Tendril <- function(mydata,
                                 -angsum,
                                 -cx,
                                 -ang)
-  
+
   # Set Terms to factor
   tendril.data$Terms <- factor(tendril.data$Terms)
-  
+
   #list of results
   tendril.retval <- list(data = tendril.data,
                          Terms = Terms,
