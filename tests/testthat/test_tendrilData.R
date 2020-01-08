@@ -12,7 +12,7 @@ test_that("input_dataset_is_dataframe",{
   expect_error(
     Tendril(mydata = list(1,2),
             rotations = Rotations,
-            AEfreqTreshold = 9,
+            AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -38,7 +38,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqTreshold = -9,
+            AEfreqThreshold = -9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -51,7 +51,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqTreshold = c(1,2),
+            AEfreqThreshold = c(1,2),
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -64,7 +64,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqTreshold = 9,
+            AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -77,7 +77,7 @@ test_that("input_frequency_and_rot_are positive_numbers",{
   expect_error(
     validate.tendril.data(mydata = lTendrilData,
                           rotations = c(1,2),
-                          AEfreqTreshold = 9,
+                          AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -100,7 +100,7 @@ test_that("columns_exists",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqTreshold = 9,
+            AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -113,7 +113,7 @@ test_that("columns_exists",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-                          AEfreqTreshold = 9,
+                          AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "wrong",
@@ -126,7 +126,7 @@ test_that("columns_exists",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqTreshold = 9,
+            AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -139,7 +139,7 @@ test_that("columns_exists",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqTreshold = 9,
+            AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -162,7 +162,7 @@ test_that("treatments exists",{
   expect_error(
     validate.tendril.data(mydata = TendrilData,
                           rotations = Rotations,
-                          AEfreqTreshold = 9,
+                          AEfreqThreshold = 9,
             Tag = "Comment",
             Treatments = c("wrong", "active"),
             Unique.Subject.Identifier = "subjid",
@@ -201,7 +201,7 @@ test_that("tendril_result_correct",{
   expect_warning(
     res <- Tendril(mydata = TendrilData,
                    rotations = Rotations,
-                 AEfreqTreshold = 9,
+                 AEfreqThreshold = 9,
                  Tag = "Comment",
                  Treatments = c("placebo", "active"),
                  Unique.Subject.Identifier = "subjid",
@@ -216,7 +216,7 @@ test_that("tendril_result_correct",{
   expect_warning(
     Tendril(mydata = TendrilData,
                    rotations = Rotations,
-                   AEfreqTreshold = 9,
+                   AEfreqThreshold = 9,
                    Tag = "Comment",
                    Treatments = c("placebo", "active"),
                    Unique.Subject.Identifier = "subjid",
@@ -260,9 +260,9 @@ test_that("tendril_result_correct",{
     "subjid", res$Unique.Subject.Identifier
   )
 
-  #value of list item: test$AEfreqTreshold
+  #value of list item: test$AEfreqThreshold
   expect_equal(
-    9, res$AEfreqTreshold
+    9, res$AEfreqThreshold
   )
 
   #value of list item: test$Tag
@@ -303,7 +303,7 @@ test_that("tendril_result_correct_filter_double_events",{
 
   res <- Tendril(mydata = TendrilData,
                  rotations = Rotations,
-                 AEfreqTreshold = 9,
+                 AEfreqThreshold = 9,
                  Tag = "Comment",
                  Treatments = c("placebo", "active"),
                  Unique.Subject.Identifier = "subjid",
@@ -335,7 +335,7 @@ test_that("tendril_result_no_SubjList_supplied",{
   #check that a warning is given on the intepretation when no SubjList is supplied
   expect_warning(res <- Tendril(mydata = TendrilData,
                  rotations = Rotations,
-                 AEfreqTreshold = 9,
+                 AEfreqThreshold = 9,
                  Tag = "Comment",
                  Treatments = c("placebo", "active"),
                  Unique.Subject.Identifier = "subjid",
@@ -363,7 +363,7 @@ test_that("tendril_result_no_SubjList_supplied_single_rotation_factor",{
   #check that a warning is given on the intepretation when no SubjList is supplied
   expect_warning(res <- Tendril(mydata = TendrilData,
                                 rotations = 3,
-                                AEfreqTreshold = 9,
+                                AEfreqThreshold = 9,
                                 Tag = "Comment",
                                 Treatments = c("placebo", "active"),
                                 Unique.Subject.Identifier = "subjid",
@@ -392,7 +392,7 @@ test_that("tendril_proportional_rotation_factor",{
 
   res <- Tendril(mydata = data,
                   rotations = 3,
-                  AEfreqTreshold = 9,
+                  AEfreqThreshold = 9,
                   Tag = "Comment",
                   Treatments = c("placebo", "active"),
                   Unique.Subject.Identifier = "subjid",
@@ -424,7 +424,7 @@ test_that("tendril_error_event_after_dropout",{
   #check whether an error is given if an event is specified for a subject after it's dropoutdate
   expect_warning(res <- Tendril(mydata = TendrilData,
                                 rotations = 3,
-                                AEfreqTreshold = 9,
+                                AEfreqThreshold = 9,
                                 Tag = "Comment",
                                 Treatments = c("placebo", "active"),
                                 Unique.Subject.Identifier = "subjid",
@@ -457,7 +457,7 @@ test_that("tendril_check_correct_imbalance_and_variable_rotation",{
 
   res <- Tendril(mydata = Tendril.data.with.dropouts,
                                 rotations = Variable.rotation,
-                                AEfreqTreshold = 9,
+                                AEfreqThreshold = 9,
                                 Tag = "Comment",
                                 Treatments = c("placebo", "active"),
                                 Unique.Subject.Identifier = "subjid",
