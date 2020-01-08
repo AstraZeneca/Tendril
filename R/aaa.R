@@ -1,9 +1,30 @@
-utils::globalVariables("StartDay")
-utils::globalVariables("Treat")
-utils::globalVariables("Unique.Subject.Identifier")
-utils::globalVariables("net")
-utils::globalVariables("Terms")
-utils::globalVariables("y")
-utils::globalVariables("label")
-utils::globalVariables("x")
-utils::globalVariables("TermsCount")
+utils::globalVariables(
+  c("StartDay",
+    "Treat",
+    "Unique.Subject.Identifier",
+    "net",
+    "Terms",
+    "y",
+    "label",
+    "x",
+    "TermsCount",
+    "AEstartDay",
+    "Net",
+    "OR",
+    "RR",
+    "ang",
+    "angsum",
+    "cc",
+    "cc.10",
+    "color",
+    "cx",
+    "dir.x",
+    "dir.y",
+    "fish",
+    "k",
+    "mod" ,
+    "old.day",
+    "p",
+    "p.adj",
+    "rdiff",
+    "type"))

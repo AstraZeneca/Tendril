@@ -137,7 +137,7 @@ test_that("output_perm_valid",{
                             SubjList.treatment = "treatment")
   )
 
- res<-TendrilPerm(tendril = tendril.data,
+  res<-TendrilPerm(tendril = tendril.data,
                   PermTerm="AE44",
                   n.perm = 50,
                   perm.from.day = 1)
@@ -171,13 +171,8 @@ test_that("output_perm_proportional_valid",{
                    PermTerm="AE44",
                    n.perm = 50,
                    perm.from.day = 1)
-
   expect_equal("TendrilPerm", class(res))
   expect_named(res, c('tendril', 'Permterm', 'perm.data', 'tendril.pi'))
-  # FIXME the format of this file is now old compared to the current
-  # layout of the TendrilPerm object. Therefore, I just redirect to
-  # the appropriate entities. Files will have to be recreated with
-  # the new layout
   expect_equal(res$Permterm, Output.perm.proportional$Permterm)
   expect_equal(res$perm.data, Output.perm.proportional$perm.data)
   expect_equal(res$tendril.pi, Output.perm.proportional$tendril.pi)

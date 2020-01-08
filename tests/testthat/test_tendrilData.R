@@ -150,6 +150,7 @@ test_that("columns_exists",{
 
 })
 
+
 test_that("treatments exists",{
 
   #get data from example
@@ -198,9 +199,9 @@ test_that("tendril_result_correct",{
 
   #this calculation is wrapped inside expect_warning because the dataset generates
   # "Chi-squared approximation may be incorrect" warnings
-  expect_warning(
-    res <- Tendril(mydata = TendrilData,
-                   rotations = Rotations,
+    res <- Tendril(
+                 mydata = TendrilData,
+                 rotations = Rotations,
                  AEfreqThreshold = 9,
                  Tag = "Comment",
                  Treatments = c("placebo", "active"),
@@ -210,25 +211,8 @@ test_that("tendril_result_correct",{
                  StartDay = "day",
                  SubjList = SubjList,
                  SubjList.subject = "subjid",
-                 SubjList.treatment = "treatment")
-  )
-
-  expect_warning(
-    Tendril(mydata = TendrilData,
-                   rotations = Rotations,
-                   AEfreqThreshold = 9,
-                   Tag = "Comment",
-                   Treatments = c("placebo", "active"),
-                   Unique.Subject.Identifier = "subjid",
-                   Terms = "ae",
-                   Treat = "treatment",
-                   StartDay = "day",
-                   SubjList = SubjList,
-                   SubjList.subject = "subjid",
-                   SubjList.treatment = "treatment",
-                   suppress_warnings = TRUE),
-            regexp = NA
-  )
+                 SubjList.treatment = "treatment",
+                 suppress_warnings = TRUE)
 
   #class must be tendril
   expect_equal(
