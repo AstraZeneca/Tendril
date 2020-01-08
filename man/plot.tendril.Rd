@@ -41,7 +41,7 @@ and will contain the data passed to the plot function and the plot itself
 # generate data using Tendril()
 data <- Tendril(mydata = TendrilData,
 rotations = Rotations,
-AEfreqTreshold = 9,
+AEfreqThreshold = 9,
 Tag = "Comment",
 Treatments = c("placebo", "active"),
 Unique.Subject.Identifier = "subjid",

@@ -8,7 +8,7 @@ test_that("Creation of plot timeseries",{
     mydata = Tendril(
       mydata = TendrilData,
       rotations = Rotations,
-      AEfreqTreshold = 9,
+      AEfreqThreshold = 9,
       Tag = "Comment",
       Treatments = c("placebo", "active"),
       Unique.Subject.Identifier = "subjid",
