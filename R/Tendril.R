@@ -8,7 +8,7 @@
 #' @param Treat The name of the column containing the name of the treatments
 #' @param StartDay The name column containing the days of the events
 #' @param Treatments The names of the two treatments to be included in the tendril. The first treatment bends to the right and second treatment bends to the left. Must be a vector of two elements and the two elements must be found in the Treatment column
-#' @param AEfreqThreshold The minimum frequency treshold of events to be included in the analysis. Default is 50
+#' @param AEfreqThreshold The minimum frequency threshold of events to be included in the analysis. Default is 50
 #' @param Tag A tag or comment associated with the analysis
 #' @param SubjList A dataframe containing subject IDs and treatments
 #' @param SubjList.subject The name of the columns in SubjList containing the subjects IDs
@@ -27,7 +27,7 @@
 #' \item{data$Treat }{: Column containing the name of the treatments}
 #' \item{data$StartDay }{: Column containing the days of the events}
 #' \item{data$Treatments }{: The names of the treatments causing the tendrils to bend}
-#' \item{data$AEfreqThreshold }{: The frequency treshold for the events to be included in the analysis}
+#' \item{data$AEfreqThreshold }{: The frequency threshold for the events to be included in the analysis}
 #' \item{data$Tag }{: A tag or comment associated with the analysis}
 #' \item{data$n.tot }{: A dataframe with the total number of events for each treatment. Used in the statistical calculations}
 #' \item{data$SubjList }{: A dataframe containing subject IDs and treatments}
