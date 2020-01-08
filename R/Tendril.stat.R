@@ -6,7 +6,6 @@ Tendril.stat <- function(dataset, suppress_warnings) {
 
   #check the SubjList
   validate.tendril.stat(dataset, SubjList, Unique.Subject.Identifier, treatment)
-
   n.treat1 <- length(which(SubjList[, treatment] == dataset$Treatments[1]))
   n.treat2 <- length(which(SubjList[, treatment] == dataset$Treatments[2]))
 
@@ -69,8 +68,8 @@ Tendril.stat <- function(dataset, suppress_warnings) {
                                 rdiff,
                                 RR,
                                 OR)
-  
-  CountAE.wide$Terms <- as.character(CountAE.wide$Terms)
+
+  CountAE.wide$Terms <- factor(CountAE.wide$Terms)
   dataset$data <- dplyr::left_join(dataset$data, CountAE.wide, by = c("Terms" = "Terms", "StartDay" = "AEstartDay"))
   dataset$data$Terms <- factor(dataset$data$Terms)
 
