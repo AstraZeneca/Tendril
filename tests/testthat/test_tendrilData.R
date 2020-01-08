@@ -213,6 +213,26 @@ test_that("tendril_result_correct",{
                  SubjList.treatment = "treatment")
   )
 
+<<<<<<< HEAD
+=======
+  expect_warning(
+    Tendril(mydata = TendrilData,
+                   rotations = Rotations,
+                   AEfreqThreshold = 9,
+                   Tag = "Comment",
+                   Treatments = c("placebo", "active"),
+                   Unique.Subject.Identifier = "subjid",
+                   Terms = "ae",
+                   Treat = "treatment",
+                   StartDay = "day",
+                   SubjList = SubjList,
+                   SubjList.subject = "subjid",
+                   SubjList.treatment = "treatment",
+                   suppress_warnings = TRUE),
+            regexp = NA
+  )
+
+>>>>>>> master
   #class must be tendril
   expect_equal(
     "Tendril", class(res)
@@ -284,6 +304,7 @@ test_that("tendril_result_correct_filter_double_events",{
   load(file = "../Tendril.res.single.events.rda")
   Tendril.res.single.events <- Tendril.res.single.events
 
+<<<<<<< HEAD
   expect_warning(
     res <- Tendril(mydata = TendrilData,
                    rotations = Rotations,
@@ -300,6 +321,22 @@ test_that("tendril_result_correct_filter_double_events",{
                    filter_double_events = TRUE,
                    suppress_warnings = TRUE)
   )
+=======
+  res <- Tendril(mydata = TendrilData,
+                 rotations = Rotations,
+                 AEfreqThreshold = 9,
+                 Tag = "Comment",
+                 Treatments = c("placebo", "active"),
+                 Unique.Subject.Identifier = "subjid",
+                 Terms = "ae",
+                 Treat = "treatment",
+                 StartDay = "day",
+                 SubjList = SubjList,
+                 SubjList.subject = "subjid",
+                 SubjList.treatment = "treatment",
+                 filter_double_events = TRUE,
+                 suppress_warnings = TRUE)
+>>>>>>> master
 
   #check final result is correct
   expect_equal(
