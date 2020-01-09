@@ -83,13 +83,16 @@ Tendril <- function(mydata,
                     suppress_warnings = FALSE){
 
   #check input data
-  validate.tendril.data(mydata, rotations, Treatments, Terms, Unique.Subject.Identifier,
-                        Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday,
-                        AEfreqThreshold, filter_double_events, suppress_warnings)
+  .validate_tendril_data(
+    mydata, rotations, Treatments, Terms, Unique.Subject.Identifier,
+    Treat, StartDay, SubjList, SubjList.subject, SubjList.dropoutday,
+    AEfreqThreshold, filter_double_events, suppress_warnings
+    )
 
   if (length(rotations) == 1){
     rotations <- rep(rotations, nrow(mydata))
   }
+
   rotations <- rotations[order(mydata[, StartDay])]
   mydata <- mydata[order(mydata[, StartDay]),]
 
@@ -255,4 +258,57 @@ Tendril <- function(mydata,
   }
 
   return(tendril.retval)
+}
+
+# Private function. Validates the data passed to Tendril
+.validate_tendril_data <- function(
+                                  mydata,
+                                  rotations,
+                                  Treatments,
+                                  Terms,
+                                  Unique.Subject.Identifier,
+                                  Treat,
+                                  StartDay,
+                                  SubjList,
+                                  SubjList.subject,
+                                  SubjList.dropoutday,
+                                  AEfreqThreshold,
+                                  filter_double_events,
+                                  suppress_warnings){
+
+  if (!"data.frame" %in% class(mydata)) {
+    stop("The dataset is not a dataframe")
+  }
+  if ((!"data.frame" %in% class(SubjList)) && (!is.null(SubjList))) {
+    stop("SubjList is not a dataframe")
+  }
+  if (!(dim(mydata)[1] == length(rotations) || length(rotations) == 1) ||
+      !is.numeric(rotations)) {
+    stop("Rotations must be a numeric vector of length 1 or equal to the number of rows in mydata")
+  }
+  if (sum(
+        c(Treat, Terms, Unique.Subject.Identifier, StartDay) %in% colnames(mydata)
+      ) != 4){
+    stop("One or more columns not available in the dataset")
+  }
+  if (length(Treatments) != 2){
+    stop("2 Treatment must be provided")
+  }
+  if (all(Treatments %in% mydata[[Treat]]) == FALSE){
+    stop("At least one of the Treatments is not available in the Treatment column")
+  }
+  if (!is.numeric(mydata[[StartDay]])){
+    stop("Days column must contain only numeric values")
+  }
+  if (is.not.positive.integer(AEfreqThreshold)){
+    stop("The frequency must be a positive integer")
+  }
+  if (!(is.logical(filter_double_events) && !is.na(filter_double_events)) ||
+      !length(filter_double_events) == 1) {
+    stop("filter_double_events must be a boolean of length 1")
+  }
+  if (!(is.logical(suppress_warnings) && !is.na(suppress_warnings)) ||
+      !length(suppress_warnings) == 1) {
+    stop("suppress_warnings must be a boolean of length 1")
+  }
 }
