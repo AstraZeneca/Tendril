@@ -460,3 +460,33 @@ test_that("tendril_check_correct_imbalance_and_variable_rotation",{
     res, Tendril.res.proportional.correct.imbalance
   )
 })
+
+test_that("tendril_check_for_presence_of_term",{
+  #get data from example
+  data("TendrilData")
+  data <- TendrilData
+  data("SubjList")
+  SubjList <- SubjList
+  load(file = "../Tendril.res.single.events.rda")
+  Tendril.res.single.events <- Tendril.res.single.events
+
+  res <- Tendril(mydata = TendrilData,
+                 rotations = Rotations,
+                 AEfreqThreshold = 9,
+                 Tag = "Comment",
+                 Treatments = c("placebo", "active"),
+                 Unique.Subject.Identifier = "subjid",
+                 Terms = "ae",
+                 Treat = "treatment",
+                 StartDay = "day",
+                 SubjList = SubjList,
+                 SubjList.subject = "subjid",
+                 SubjList.treatment = "treatment",
+                 filter_double_events = TRUE,
+                 suppress_warnings = TRUE)
+
+  expect_error(
+    plot(res, term="dsfds"),
+    regexp = 'Specified term')
+
+})
