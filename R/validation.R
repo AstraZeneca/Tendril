@@ -10,12 +10,6 @@ is.not.positive.integer <- function(x){
   return(res)
 }
 #-------------------
-validate.tendril.results <- function(tab){
-  if (dim(tab)[1] == 0){
-    stop("No sample with the defined frequency threshold")
-  }
-}
-#-------------------
 #validate tendril.stat() input
 validate.tendril.stat <- function(dataset, SubjList, Unique.Subject.Identifier, treatment){
   if (!"Tendril" %in% class(dataset)){
