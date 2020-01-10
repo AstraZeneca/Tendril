@@ -1,5 +1,5 @@
 ## Plot single tendrils ##
-plot.term <- function(tendril.data, term) {
+plot_term <- function(tendril.data, term) {
   data <- tendril.data$data[tendril.data$data$Terms %in% term,]
   cc <- data$p.adj
   coloring <- "p.adj"
