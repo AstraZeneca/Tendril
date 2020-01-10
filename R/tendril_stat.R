@@ -1,4 +1,4 @@
-Tendril.stat <- function(dataset, suppress_warnings) {
+tendril_stat <- function(dataset, suppress_warnings) {
 
   SubjList <- dataset$SubjList
   Unique.Subject.Identifier <- dataset$SubjList.subject

@@ -116,7 +116,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
                                                                                Treats = Treats))))
     }
 
-    res <- Tendril.cx(permdf, Treats)
+    res <- tendril_cx(permdf, Treats)
     res$label <- paste("Permutation",i, sep = " ")
 
     tendril.perm.all <- rbind(tendril.perm.all, res)
