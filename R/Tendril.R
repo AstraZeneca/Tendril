@@ -192,7 +192,7 @@ Tendril <- function(mydata,
   tab.all <- as.data.frame(with(mydata, table(Terms, Treat)))
   tab <- tab.all[tab.all$Freq>=AEfreqThreshold,]
 
-  validate.tendril.results(tab)
+  .validate_tendril_results(tab)
 
   AE <- unique(tab$Terms)
   mydata <- mydata[mydata$Terms %in% AE, ]
@@ -260,7 +260,9 @@ Tendril <- function(mydata,
   return(tendril.retval)
 }
 
-# Private function. Validates the data passed to Tendril
+#### Private functions ######
+
+# Validates the data passed to Tendril
 .validate_tendril_data <- function(
                                   mydata,
                                   rotations,
@@ -310,5 +312,11 @@ Tendril <- function(mydata,
   if (!(is.logical(suppress_warnings) && !is.na(suppress_warnings)) ||
       !length(suppress_warnings) == 1) {
     stop("suppress_warnings must be a boolean of length 1")
+  }
+}
+
+.validate_tendril_results <- function(tab){
+  if (dim(tab)[1] == 0){
+    stop("No sample with the defined frequency threshold")
   }
 }

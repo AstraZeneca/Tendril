@@ -182,7 +182,8 @@ test_that("filtering_keeps_some_data",{
 
   #pass an empty dataframe
   expect_error(
-    validate.tendril.results(data[NULL, ])
+    .validate_tendril_results(data[NULL, ]),
+    regexp="No sample with the defined frequency threshold"
   )
 
 })
