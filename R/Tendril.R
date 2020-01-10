@@ -203,7 +203,7 @@ Tendril <- function(mydata,
   #compute all arms
   for(i in AE) {
     subdata <- mydata[mydata$Terms==i, ]
-    tendril.data <- rbind(tendril.data, Tendril.cx(subdata, Treatments))
+    tendril.data <- rbind(tendril.data, tendril_cx(subdata, Treatments))
   }
 
   # Calculate coordinates and arguments etc
@@ -251,7 +251,7 @@ Tendril <- function(mydata,
   class(tendril.retval) <- "Tendril"
 
   if (!is.null(SubjList)){
-    tendril.retval <- Tendril.stat(tendril.retval, suppress_warnings)
+    tendril.retval <- tendril_stat(tendril.retval, suppress_warnings)
   } else {
     tendril.retval$n.tot <- NULL
     warning("No SubjList specified. You will still be able to plot a tendril plot. However, care should be taken when intepreting, since an imbalance of the amount of persons per treatment will affect the bending.", call. = FALSE)
