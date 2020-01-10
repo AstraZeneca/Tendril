@@ -72,25 +72,6 @@ test_that("input_frequency_and_rot_are positive_numbers",{
       regexp="The frequency must be a positive integer"
   )
 
-  #negative rot.factor
-  expect_error(
-    .validate_tendril_data(mydata = TendrilData,
-                          rotations = Rotations,
-            AEfreqThreshold = 9,
-            Treatments = c("placebo", "active"),
-            Unique.Subject.Identifier = "subjid",
-            SubjList = SubjList,
-            SubjList.subject = "subjid",
-            SubjList.dropout = "dropoutday",
-            Terms = "ae",
-            Treat = "treatment",
-            StartDay = "day",
-            filter_double_events = FALSE,
-            suppress_warnings = FALSE
-            ),
-    regexp="x"
-  )
-
   #rotations not a valid vector
   expect_error(
     .validate_tendril_data(mydata = TendrilData,
