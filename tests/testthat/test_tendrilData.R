@@ -36,54 +36,78 @@ test_that("input_frequency_and_rot_are positive_numbers",{
 
   #negative frequency
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
-            AEfreqThreshold = -9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
-            Unique.Subject.Identifier = "subjid",
             Terms = "ae",
+            Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            AEfreqThreshold = -9,
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+      regexp="The frequency must be a positive integer"
     )
 
   #frequency not a number
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqThreshold = c(1,2),
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+      regexp="The frequency must be a positive integer"
   )
 
   #negative rot.factor
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="x"
   )
 
   #rotations not a valid vector
   expect_error(
-    validate.tendril.data(mydata = lTendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = c(1,2),
                           AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="Rotations must be a numeric vector of length 1 or equal to the number of rows in mydata"
   )
 
 })
@@ -98,54 +122,78 @@ test_that("columns_exists",{
 
   #SartDay does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "treatment",
-            StartDay = "wrong")
+            StartDay = "wrong",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="One or more columns not available in the dataset"
   )
 
   #Unique.Subject.Identifier does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
                           AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "wrong",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="One or more columns not available in the dataset"
   )
 
   #Terms does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "wrong",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="One or more columns not available in the dataset"
   )
 
   #Treat does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
             AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("placebo", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "wrong",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="One or more columns not available in the dataset"
   )
 
 })
@@ -161,15 +209,21 @@ test_that("treatments exists",{
 
   #the treatments does not exist
   expect_error(
-    validate.tendril.data(mydata = TendrilData,
+    .validate_tendril_data(mydata = TendrilData,
                           rotations = Rotations,
                           AEfreqThreshold = 9,
-            Tag = "Comment",
             Treatments = c("wrong", "active"),
             Unique.Subject.Identifier = "subjid",
+            SubjList = SubjList,
+            SubjList.subject = "subjid",
+            SubjList.dropout = "dropoutday",
             Terms = "ae",
             Treat = "treatment",
-            StartDay = "day")
+            StartDay = "day",
+            filter_double_events = FALSE,
+            suppress_warnings = FALSE
+            ),
+    regexp="At least one of the Treatments is not available in the Treatment column"
   )
 
 })
