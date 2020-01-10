@@ -46,9 +46,9 @@
 #' @export
 plot.TendrilPerm <- function(x, coloring="p.adj", percentile=FALSE, ...) {
   if (percentile){
-    p <- plotpercentile(x, coloring)
+    p <- plot_percentile(x, coloring)
   } else {
-    p <- plotpermutation(x, coloring)
+    p <- plot_permutation(x, coloring)
   }
   return(p)
 }

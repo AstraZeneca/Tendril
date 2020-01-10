@@ -1,4 +1,4 @@
-plotpermutation <- function(x, coloring){
+plot_permutation <- function(x, coloring){
   #prepare data
   perm.data <- x$perm.data
   dataset <- x$tendril$data
@@ -10,12 +10,12 @@ plotpermutation <- function(x, coloring){
   plotdata <- createDataset(perm.data$x, perm.data$y, perm.data$label, perm.data$type, perm.data$StartDay, perm.data)
   plotdata$color<-NA
   plotdata<- rbind(actualdata, plotdata)
-  
+
   if (coloring %in% c("p","p.adj","fish")) {
     plotdata$color<-pmax(log10(plotdata$color), -3)
   }
   palette <- tendril_palette()
-  
+
   #plot parameters
   Title <- paste(unique(perm.data$Terms), ", from day: ", unique(plotdata$perm.from.day), sep = "")
   data2.labels <- data.frame(
