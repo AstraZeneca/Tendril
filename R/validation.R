@@ -10,23 +10,6 @@ is.not.positive.integer <- function(x){
   return(res)
 }
 #-------------------
-#validate tendril.stat() input
-validate.tendril.stat <- function(dataset, SubjList, Unique.Subject.Identifier, treatment){
-  if (!"Tendril" %in% class(dataset)){
-    stop("Input data is not of class tendril")
-  }
-  if (!"data.frame" %in% class(SubjList)){
-    stop("SubjList is not of class data.frame")
-  }
-  if (sum(c(Unique.Subject.Identifier, treatment) %in% colnames(SubjList)) < 2){
-    stop("Not all the columns are available in the SubjList")
-  }
-  if (sum(unique(as.character(SubjList[, treatment])) %in% dataset$Treatments) < 2){
-    stop("Not all the treatments in the list are available in the dataframe")
-  }
-
-}
-#-------------------
 #validate tendril.perm() input dataset
 validate.perm.data <- function(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high){
   if (length(PermTerm) != 1 || !PermTerm %in% dataset$data$Terms){
