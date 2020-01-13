@@ -48,10 +48,10 @@
 
 plot.Tendril <- function(x, term=NULL, coloring="Terms", interactive=FALSE, ...) {
 
-  if (!(term %in% x$Terms)) {
+  if (!is.null(term) && !(term %in% levels(x$data$Terms))) {
     stop(paste("Specified term",
                term,
-               "is not in the list of availble terms", x$Terms))
+               "is not in the list of available terms", x$Terms, '\n'))
   }
 
   if (!interactive) {
