@@ -55,7 +55,7 @@
 TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0.1, pi.high=0.9) {
   `%>%` <- magrittr::`%>%`
   #check input data
-  validate.perm.data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
+  .validate_perm_data(tendril, PermTerm, n.perm, perm.from.day, pi.low, pi.high)
 
   #prepare data
   Unique.Subject.Identifier <- tendril$SubjList.subject
@@ -74,7 +74,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   class(retval) <- "TendrilPerm"
 
   #check perm.from.day
-  validate.perm.day(data, perm.from.day)
+  .validate_perm_day(data, perm.from.day)
 
   perm.nr <- which(data$StartDay>=perm.from.day)
 
@@ -116,7 +116,7 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
                                                                                Treats = Treats))))
     }
 
-    res <- Tendril.cx(permdf, Treats)
+    res <- tendril_cx(permdf, Treats)
     res$label <- paste("Permutation",i, sep = " ")
 
     tendril.perm.all <- rbind(tendril.perm.all, res)
@@ -146,4 +146,36 @@ TendrilPerm <- function(tendril, PermTerm, n.perm=100, perm.from.day=1, pi.low=0
   retval$tendril.pi <- TendrilPi(tendril, retval$Permterm, retval$perm.data, pi.low, pi.high, perm.from.day)
 
   return(retval)
+}
+
+########## Private ######
+
+# validate tendril.perm() input dataset
+.validate_perm_data <- function(dataset, PermTerm, n.perm, perm.from.day, pi.low, pi.high){
+  if (length(PermTerm) != 1 || !PermTerm %in% dataset$data$Terms){
+    stop("PermTerm not valid")
+  }
+  if (is.not.positive.integer(n.perm)){
+    stop("The number of permutations must be a positive integer")
+  }
+  if (!is.numeric(pi.low) | !is.numeric(pi.high)){
+    stop("pi.low and pi.high must be numeric")
+  }
+  if (pi.low >= pi.high){
+    stop("pi.low must be smaller than pi.high.")
+  }
+  if (pi.low <0 | pi.high<0 | pi.low >1 | pi.high>1){
+    stop("pi.low and pi.high must be between 0 and 1")
+  }
+}
+
+
+.validate_perm_day <- function(data, perm.from.day){
+  if (is.not.positive.integer(perm.from.day)){
+    stop("The starting day for permutations must be positive")
+  }
+
+  if (length(which(data$StartDay>=perm.from.day)) < 1){
+    stop("Not enough datapoint available. Lower the permutation starting day")
+  }
 }

@@ -2,7 +2,7 @@
 # of the tendrils. This function is technically an internal method to the
 # Tendril object, but we don't have proper OO in this implementation so
 # take it at face value.
-Tendril.cx <- function(data, Treatments) {
+tendril_cx <- function(data, Treatments) {
   # Sort in time
   data <- data[order(data$StartDay, decreasing = FALSE),]
 

@@ -1,11 +1,11 @@
-Tendril.stat <- function(dataset, suppress_warnings) {
+tendril_stat <- function(dataset, suppress_warnings) {
 
   SubjList <- dataset$SubjList
   Unique.Subject.Identifier <- dataset$SubjList.subject
   treatment <- dataset$SubjList.treatment
 
   #check the SubjList
-  validate.tendril.stat(dataset, SubjList, Unique.Subject.Identifier, treatment)
+  .validate_tendril_stat(dataset, SubjList, Unique.Subject.Identifier, treatment)
   n.treat1 <- length(which(SubjList[, treatment] == dataset$Treatments[1]))
   n.treat2 <- length(which(SubjList[, treatment] == dataset$Treatments[2]))
 
@@ -80,4 +80,29 @@ Tendril.stat <- function(dataset, suppress_warnings) {
                              )
 
   return(dataset)
+}
+
+
+####### Private #######
+
+# validate tendril.stat() input
+.validate_tendril_stat <- function(
+    dataset,
+    SubjList,
+    Unique.Subject.Identifier,
+    treatment
+    ){
+  if (!"Tendril" %in% class(dataset)){
+    stop("Input data is not of class tendril")
+  }
+  if (!"data.frame" %in% class(SubjList)){
+    stop("SubjList is not of class data.frame")
+  }
+  if (sum(c(Unique.Subject.Identifier, treatment) %in% colnames(SubjList)) < 2){
+    stop("Not all the columns are available in the SubjList")
+  }
+  if (sum(unique(as.character(SubjList[, treatment])) %in% dataset$Treatments) < 2){
+    stop("Not all the treatments in the list are available in the dataframe")
+  }
+
 }
