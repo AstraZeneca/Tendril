@@ -1,4 +1,4 @@
-plotly_plotbasic <- function(tendril, coloring, term, opacity=1.0) {
+plotly_plotbasic <- function(tendril, coloring, term) {
   `%>%` <- magrittr::`%>%`
 
   plotdata <- tendril$data
@@ -38,7 +38,6 @@ plotly_plotbasic <- function(tendril, coloring, term, opacity=1.0) {
       plotly::add_markers(x=~x, y=~y,
                   mode = "markers", type = "scatter",
                   marker = list(size=~(TermsCount/max_termscount)*10,
-                                opacity=opacity,
                                 color = ~cc.10,
                                 colorscale=colorscale,
                                 zmin=palette_data[[1]],
@@ -86,8 +85,7 @@ plotly_plotbasic <- function(tendril, coloring, term, opacity=1.0) {
     p <- plotdata %>%
       dplyr::group_by(Terms) %>%
       plotly::plot_ly(x=~x, y=~y,type="scatter",mode="lines+markers",
-                      marker = list(size=~(TermsCount/max_termscount)*10,
-                                    opacity=opacity),
+                      marker = list(size=~(TermsCount/max_termscount)*10),
                       color = ~Terms,
                       colors="Dark2",
                       text = ~paste("Term: ", Terms,
