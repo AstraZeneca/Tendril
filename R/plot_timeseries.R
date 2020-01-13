@@ -51,7 +51,7 @@ plot_timeseries <- function(tendril, term=NULL) {
   }
 
   time.grp <- dplyr::group_by(time.s.2, Terms)
-  time.grp <- dplyr::mutate_at(time.grp, 2:3, cum.na)
+  time.grp <- dplyr::mutate_at(time.grp, 3:4, cum.na)
   time.s.2 <- dplyr::ungroup(time.grp)
   time.s.2 <- as.data.frame(time.s.2)
 
