@@ -48,6 +48,12 @@
 
 plot.Tendril <- function(x, term=NULL, coloring="Terms", interactive=FALSE, ...) {
 
+  if (!(term %in% x$Terms)) {
+    stop(paste("Specified term",
+               term,
+               "is not in the list of availble terms", x$Terms))
+  }
+
   if (!interactive) {
     p <- ggplot2_plotbasic(x, coloring=coloring, term=term)
   } else {
