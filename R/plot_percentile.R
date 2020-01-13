@@ -1,4 +1,4 @@
-plotpercentile <- function(x, coloring){
+plot_percentile <- function(x, coloring){
 
   #prepare data
   dataset <- x$tendril$data
@@ -20,7 +20,7 @@ plotpercentile <- function(x, coloring){
     plotdata$color<-pmax(log10(plotdata$color), -3)
   }
   palette <- tendril_palette()
-  
+
   #plot title
   Title <- paste(unique(perm.data$Terms), ", from day: ", unique(plotdata$perm.from.day), sep = "")
 
