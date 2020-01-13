@@ -1,5 +1,19 @@
 # Changelog
 
+- Version 2.0.0 (13 January 2020)
+
+    - #63 Update TendrilPerm and TendrilPi functions to output only relevent data
+    - #61 Typo in Tendril object element
+    - #62 Update Tendril function to retain other input data
+    - #67 Updated vignette for Tendril package
+    - #69 Fix tests that are currently failing
+    - #75 Added error message for plotting with an unexisting term
+    - #19 Tendril.cx should return information without modifying data in place (Fixed as #76 Cleanup of code and documentation of behavior)
+    - #21 Remove usage of dots in non S3 methods
+    - #72 plot\_timeseries problems (incorrect indexing leads to wrong data being plotted)
+    - #73 Interactive plot color palette (should matching non-interactive one)
+    - #87 Removed internal opacity term
+
 - Version 0.8.0 (14 Oct 2019)
     - #59 Add Frequency to hover text
     - #57 Time series of net event
