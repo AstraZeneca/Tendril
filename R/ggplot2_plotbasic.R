@@ -5,20 +5,20 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
                          Terms = x$data$Terms,
                          cc = x$data[[coloring]]
   )
-  
+
   x.min <- min(plotdata$x)
   x.max <- max(plotdata$x)
   y.min <- min(plotdata$y)
   y.max <- max(plotdata$y)
-  
+
   if (length(term) > 0) {
     plotdata <- plotdata[plotdata$Terms %in% term,]
   }
-  
+
   if (!is.null(term)) {
     plotdata$Terms<-factor(plotdata$Terms,levels=term)
   }
-  
+
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
@@ -45,7 +45,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
       ggplot2::geom_path(size=1) +
       ggplot2::geom_point(aes(x=x, y=y, fill=cc.10, colour=cc.10, size=TermsCount), shape=21, size=1.5, stroke=0.5) +
       ggplot2::scale_fill_gradientn(
-        "p-value",
+        "log(p-val)",
         colours=palette$grpalette,
         values = palette$values,
         limits = palette$limits
@@ -115,7 +115,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
                           label = data2.labels$label,
                           hjust=data2.labels$hjust, vjust=data2.labels$vjust,
                           colour = "grey40", size = 5, fontface = 2)
-      
+
     }
   }
 
