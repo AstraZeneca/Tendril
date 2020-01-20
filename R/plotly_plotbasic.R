@@ -28,7 +28,7 @@ plotly_plotbasic <- function(tendril, coloring, term) {
     for (i in seq_len(length(palette$values))) {
       colorscale[[i]] <- c(palette$values[[i]], palette$grpalette[[i]])
     }
-    print("Helo")
+
     p <- plotdata %>%
       dplyr::group_by(Terms) %>%
       plotly::plot_ly(x=~x, y=~y,type="scatter",mode="lines",
