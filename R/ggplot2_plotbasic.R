@@ -5,20 +5,20 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
                          Terms = x$data$Terms,
                          cc = x$data[[coloring]]
   )
-  
+
   x.min <- min(plotdata$x)
   x.max <- max(plotdata$x)
   y.min <- min(plotdata$y)
   y.max <- max(plotdata$y)
-  
+
   if (length(term) > 0) {
     plotdata <- plotdata[plotdata$Terms %in% term,]
   }
-  
+
   if (!is.null(term)) {
     plotdata$Terms<-factor(plotdata$Terms,levels=term)
   }
-  
+
   data2.labels <- data.frame(
     xpos = c(Inf, -Inf),
     ypos = c(Inf, Inf),
@@ -34,7 +34,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
   element_blank <- ggplot2::element_blank
   unit <- ggplot2::unit
 
-  if(coloring %in% c("p", "p.adj", "fish")) {
+  if(coloring %in% c("p", "p.adj", "fish", "FDR.tot")) {
     plotdata$cc.10 <- pmax(log10(plotdata$cc),-3)
     palette <- tendril_palette()
     p <- ggplot2::ggplot(data=plotdata, aes(x=x, y=y, group=Terms, color=cc.10)) +
@@ -115,7 +115,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
                           label = data2.labels$label,
                           hjust=data2.labels$hjust, vjust=data2.labels$vjust,
                           colour = "grey40", size = 5, fontface = 2)
-      
+
     }
   }
 
