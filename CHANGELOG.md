@@ -1,5 +1,11 @@
 # Changelog
 
+- Version 2.0.1 (21 January 2020)
+
+    - #94 Fixed label p-value to log(p-val)
+    - #95 Fixed incorrect scale for limited tendril plotting.
+    - #96 Add FDR.tot for coloring
+
 - Version 2.0.0 (13 January 2020)
 
     - #63 Update TendrilPerm and TendrilPi functions to output only relevent data
