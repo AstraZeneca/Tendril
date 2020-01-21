@@ -22,11 +22,11 @@ plotly_plotbasic <- function(tendril, coloring, term) {
 
   if(coloring %in% c("p", "p.adj", "fish")) {
     plotdata$cc.10 <- pmax(log10(plotdata[[coloring]]), -3)
-    palette_data <- tendril_palette()
+    palette <- tendril_palette()
 
     colorscale = list()
-    for (i in seq_len(length(palette_data$values))) {
-      colorscale[[i]] <- c(palette_data$values[[i]], palette_data$grpalette[[i]])
+    for (i in seq_len(length(palette$values))) {
+      colorscale[[i]] <- c(palette$values[[i]], palette$grpalette[[i]])
     }
 
     p <- plotdata %>%
@@ -40,8 +40,8 @@ plotly_plotbasic <- function(tendril, coloring, term) {
                   marker = list(size=~(TermsCount/max_termscount)*10,
                                 color = ~cc.10,
                                 colorscale=colorscale,
-                                zmin=palette_data[[1]],
-                                zmax=palette_data[[2]],
+                                cmin=palette$limits[[1]],
+                                cmax=palette$limits[[2]],
                                 line=list(
                                   width = 0
                                 ),
