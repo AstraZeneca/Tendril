@@ -34,7 +34,7 @@ ggplot2_plotbasic <- function(x, coloring = "Terms", term = NULL) {
   element_blank <- ggplot2::element_blank
   unit <- ggplot2::unit
 
-  if(coloring %in% c("p", "p.adj", "fish")) {
+  if(coloring %in% c("p", "p.adj", "fish", "FDR.tot")) {
     plotdata$cc.10 <- pmax(log10(plotdata$cc),-3)
     palette <- tendril_palette()
     p <- ggplot2::ggplot(data=plotdata, aes(x=x, y=y, group=Terms, color=cc.10)) +
