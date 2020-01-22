@@ -28,3 +28,6 @@ utils::globalVariables(
     "p.adj",
     "rdiff",
     "type"))
+
+# List of options that are to be consireder for a logp coloring scale style
+LOG_COLORING_OPTIONS <- c("p","p.adj","fish", "FDR.tot")

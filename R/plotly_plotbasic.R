@@ -20,7 +20,7 @@ plotly_plotbasic <- function(tendril, coloring, term) {
     plotdata$Terms<-factor(plotdata$Terms,levels=term)
   }
 
-  if(coloring %in% c("p", "p.adj", "fish", "FDR.tot")) {
+  if(coloring %in% LOG_COLORING_OPTIONS) {
     plotdata$cc.10 <- pmax(log10(plotdata[[coloring]]), -3)
     palette <- tendril_palette()
 
