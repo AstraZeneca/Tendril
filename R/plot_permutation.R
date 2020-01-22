@@ -11,7 +11,7 @@ plot_permutation <- function(x, coloring){
   plotdata$color<-NA
   plotdata<- rbind(actualdata, plotdata)
 
-  if (coloring %in% c("p","p.adj","fish")) {
+  if (coloring %in% LOG_COLORING_OPTIONS) {
     plotdata$color<-pmax(log10(plotdata$color), -3)
   }
   palette <- tendril_palette()
@@ -33,7 +33,7 @@ plot_permutation <- function(x, coloring){
   element_blank <- ggplot2::element_blank
 
   p<-ggplot2::ggplot(data=plotdata[plotdata$type=="Permutation", ], aes(x=x, y=y, group=label), aspect="iso")
-  if (coloring %in% c("p","p.adj","fish")) {
+  if (coloring %in% LOG_COLORING_OPTIONS) {
     p <- p +
       ggplot2::scale_colour_gradientn("log(p-val)",
         colours=palette$grpalette,
