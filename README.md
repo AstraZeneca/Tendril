@@ -1,4 +1,4 @@
-# Tendril plot package v2.0.1
+# Tendril plot package v2.0.2
 
 R library for tendril plotting between two treatments.
 
