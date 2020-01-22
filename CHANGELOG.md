@@ -1,5 +1,9 @@
 # Changelog
 
+- Version 2.0.2 (22 January 2020)
+
+    - #98 Fixed missing FDR.tot in other coloring scale selections.
+
 - Version 2.0.1 (21 January 2020)
 
     - #94 Fixed label p-value to log(p-val)
