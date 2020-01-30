@@ -472,11 +472,11 @@ test_that("tendril_check_correct_imbalance_and_variable_rotation",{
   SubjList.with.dropouts <- SubjList.with.dropouts
   load(file = "../Tendril.res.proportional.correct.imbalance.rda")
   Tendril.res.proportional.correct.imbalance <- Tendril.res.proportional.correct.imbalance
-  load(file = "../Variable.rotation.rda")
-  Variable.rotation <- Variable.rotation
+  load(file = "../Variable.Rotation.rda")
+  Variable.Rotation <- Variable.Rotation
 
   res <- Tendril(mydata = Tendril.data.with.dropouts,
-                                rotations = Variable.rotation,
+                                rotations = Variable.Rotation,
                                 AEfreqThreshold = 9,
                                 Tag = "Comment",
                                 Treatments = c("placebo", "active"),
