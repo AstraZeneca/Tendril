@@ -56,7 +56,3 @@ Unfortunately Mojave does not ship with it.
 
 See the [CHANGELOG](CHANGELOG.md)
 
-# Contact information
-
-For further info please contact:
-<Martin.Karpefors@astrazeneca.com>
