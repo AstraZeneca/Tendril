@@ -11,7 +11,7 @@ vignette: |
   %\VignetteEncoding{UTF-8}
 ---
 
-#Introduction
+# Introduction
 
 The `Tendril` package contains functions designed to compute the x-y
 coordinates and to build a Tendril plot. Inspired by the [notabilia
