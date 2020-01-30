@@ -1,5 +1,9 @@
 # Changelog
 
+- Version 2.0.3 (30 January 2020)
+    - Changed maintainer from Martin Karpefors to Stefano Borini
+    - Minor fixes to documentation 
+
 - Version 2.0.2 (22 January 2020)
 
     - #98 Fixed missing FDR.tot in other coloring scale selections.
