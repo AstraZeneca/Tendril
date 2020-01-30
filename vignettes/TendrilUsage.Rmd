@@ -1,6 +1,6 @@
 ---
 title: "The Tendril Package"
-author: "Martin Karpefors, Mark Edmondson-Jones & Stefano Borini"
+author: "Martin Karpefors, Mark Edmondson-Jones, Hielke Bijlsma, Stefano Borini"
 date: '`r Sys.Date()`'
 output:
   rmarkdown::html_vignette: default
@@ -11,8 +11,19 @@ vignette: |
   %\VignetteEncoding{UTF-8}
 ---
 
-#Introduction
-The `Tendril` package contains functions designed to compute the x-y coordinates and to build a Tendril plot. Inspired by the [notabilia visialization](http://notabilia.net), the Tendril plot was developed to capture the relative effect of different kind of adverse events for two treatments, including temporal aspects, in a single visualization. Specifically, each tendril (branch) in the Tendril plot represents a type of adverse effect, and the direction of the tendril is dictated by on which treatment arm the event is occurring. If an event is occurring on the first of the two specified treatment arms, the tendril bends clockwise (to the right). If an event is occurring on the second of the treatment arms, the tendril bends anti-clockwise (to the left). 
+# Introduction
+
+The `Tendril` package contains functions designed to compute the x-y
+coordinates and to build a Tendril plot. Inspired by the [notabilia
+visualization](http://notabilia.net), the Tendril plot was developed to capture
+the relative effect of different kind of adverse events for two treatments,
+including temporal aspects, in a single visualization. Specifically, each
+tendril (branch) in the Tendril plot represents a type of adverse effect, and
+the direction of the tendril is dictated by on which treatment arm the event is
+occurring. If an event is occurring on the first of the two specified treatment
+arms, the tendril bends clockwise (to the right). If an event is occurring on
+the second of the treatment arms, the tendril bends anti-clockwise (to the
+left). 
 
 ```{r example_plot, echo=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=5}
 library(Tendril)
@@ -39,15 +50,29 @@ plot(test, term = c("AE40", "AE42", "AE44"))
 
 ```
 
-In the plots above, a clinical trial with two treatment arms, placebo and active, and 80 different adverse effects were simulated ("AE1" to "AE80"). As outlined above, the Tendril plot is based on an algorithm that evaluates each type of adverse event (AE) in sequence, producing a collection of tendrils (branches) that effectively summarizes the time-resolved safety profile of a clinical trial within a single plot. Events on the first treatment (placebo) cause that tendril to bend clockwise to the right, and each event on the second treatment (active) causes the tendril to bend anti-clockwise to the left. The resulting tree-like structure clearly displays those adverse events having the largest differences in relative risk (see AE40); AEs having only a transient increased risk bending and then straightening (see AE42); and AEs that are balanced over the treatment arms (see AE44). 
-In the first plot each tendril is colored according to adverse event type and in the second, each event has been colored according to the false discovery rate adjusted p value. There are a number of statistical measures that could be used for colouring, see the plot.Tendril documentation.
+In the plots above, a clinical trial with two treatment arms, placebo and
+active, and 80 different adverse effects were simulated ("AE1" to "AE80"). As
+outlined above, the Tendril plot is based on an algorithm that evaluates each
+type of adverse event (AE) in sequence, producing a collection of tendrils
+(branches) that effectively summarizes the time-resolved safety profile of a
+clinical trial within a single plot. Events on the first treatment (placebo)
+cause that tendril to bend clockwise to the right, and each event on the second
+treatment (active) causes the tendril to bend anti-clockwise to the left. The
+resulting tree-like structure clearly displays those adverse events having the
+largest differences in relative risk (see AE40); AEs having only a transient
+increased risk bending and then straightening (see AE42); and AEs that are
+balanced over the treatment arms (see AE44).  In the first plot each tendril is
+colored according to adverse event type and in the second, each event has been
+colored according to the false discovery rate adjusted p value. There are a
+number of statistical measures that could be used for colouring, see the
+plot.Tendril documentation.
 
 # Objects within the `Tendril` package
 
 ## The `Tendril` class
 The result of the `Tendril` function is an object of the class `Tendril` that can be referenced as a base R list. It contains the following elements:
 
-* `data` : a dataframe containing the original data, the angles and coordinates used to produce the tendril plot and the statistical analysis results
+* `data` : a dataframe containing the original data, the calculated angles and coordinates used to produce the tendril plot and the statistical analysis results
 * `Terms` : the name of the variable in the source dataset that records the event type (e.g. adverse event)
 * `Treat` : the name of the variable in the source dataset that records the treatment
 * `Treatments` : the available values of Treatments
@@ -56,11 +81,12 @@ The result of the `Tendril` function is an object of the class `Tendril` that ca
 * `AEfreqThreshold` : the frequency threshold used to select tendrils
 * `Tag` : a text label associated with the analysis
 * `n.tot` : a dataframe with a single row and variables for the total number of events recorded for each of the treatments
-* `SubjList` : A dataframe detailing the subject identifiers and corresponding treatments
+* `SubjList` : A dataframe listing all the subjects in the trial, including those not having an AE, and corresponding treatments
 * `SubjList.subject` :  the name of the column in `SubjList` containing the subject IDs
 * `SubjList.treatment` : the name of the column in `SubjList` containing the treatments names
 
 ## The `TendrilPerm` class
+
 The result of the `TendrilPerm` function is an object of the class `TendrilPerm`.  This object can also be referenced as a list with the following elements:
 
 * `tendril` : A `Tendril` object corresponding to the arguments passed to `TendrilPerm`
@@ -69,20 +95,48 @@ The result of the `TendrilPerm` function is an object of the class `TendrilPerm`
 * `tendril.pi` : An object of class `TendrilPi` recording estimated percentiles on the assumption of balance between treatment arms
 
 ## The `TendrilPi` class
-The `TendrilPerm` function outputs an object which contains an element of class `TendrilPi`.  This is structurally similar to a data frame, with equal length vector elements for event day (`StartDay`), `Terms`, `x` and `y` coordinates, `Tag`, number of terms (`TermsCount`), `label` (whether upper or lower limit), `type` (`"Percentile"`) and the day from which to permute (`perm.from.day`).
 
+The `TendrilPerm` function outputs an object which contains an element of class
+`TendrilPi`.  This is structurally similar to a data frame, with equal length
+vector elements for event day (`StartDay`), `Terms`, `x` and `y` coordinates,
+`Tag`, number of terms (`TermsCount`), `label` (whether upper or lower limit),
+`type` (`"Percentile"`) and the day from which to permute (`perm.from.day`).
 
 # Functions within the `Tendril` package
 
 ## `Tendril()`
 
-The `Tendril` function requires several arguments.  The key argument is `mydata` a data frame with at least four columns, corresponding to a subject identifier, treatment arm, event type and day (relative to randomisation) of onset.  Four character variables are also passed to denote the column name of the required columns; these are `Unique.Subject.Identifier`, `Treat`, `Terms` and `StartDay` respectively.  If any additional columns are present then these are retained for subsequent analysis.
+The `Tendril` function requires several arguments.  The key argument is
+`mydata` a data frame with at least four columns, corresponding to a subject
+identifier, treatment arm, event type and day (relative to randomisation) of
+onset.  Four character variables are also passed to denote the column name of
+the required columns; these are `Unique.Subject.Identifier`, `Treat`, `Terms`
+and `StartDay` respectively.  If any additional columns are present then these
+are retained for subsequent analysis.
 
-Additionally arguments are provided for the unadjusted angular displacement of each event (`rotations`, either a single value for all records or a vector which can very by row of `mydata`); a minimum value for the number of events in at least one arm (`AEfreqThreshold`); a text label to apply to the analysis as a whole (`Tag`); the two treatments to be compared (`Treatments`, any other treatments are ignored).
+Additionally arguments are provided for the unadjusted angular displacement of
+each event (`rotations`, either a single value for all records or a vector
+which can vary by row of `mydata`); a minimum value for the number of events in
+at least one arm (`AEfreqThreshold`); a text label to apply to the analysis as
+a whole (`Tag`); the two treatments to be compared (`Treatments`, any other
+treatments are ignored).
 
-A data frame can optionally be passed as the argument `SubjList` which records the treatments to which each subject has been randomised along with (optionally) the day to which each subject was followed up.  Three character arguments (`SubjList.subject`, `SubjList.treatment` and `SubjList.dropoutday`) are then also passed to allow the variables in `SubjList` to be correctly identified.
+A data frame can optionally be passed as the argument `SubjList` which lists
+all the subjects in the trial, including those not having an AE, and the
+corresponding treatments to which each subject has been randomised along with
+(optionally) the day to which each subject was followed up. 
+Even though the SubjList data frame is optional, it is required to calculate
+statistics and simulate permuted tendrils (described below).
+Three character arguments (`SubjList.subject`, `SubjList.treatment` and
+`SubjList.dropoutday`) are then also passed to allow the variables in
+`SubjList` to be correctly identified.
 
-Finally a number of binary flags can be passed to further control the analysis. `compensate_imbalance_groups` allows for treatment group imbalance to be compensated for, provided `SubjList` is present. `filter_double_events` allows either all, or just the first event of each type to be recorded for each subject. Finally, `suppress_warnings` allows warnings from the Chi-square test to be disabled, as low counts can result in multiple warning messages.
+Finally a number of binary flags can be passed to further control the analysis.
+`compensate_imbalance_groups` allows for treatment group imbalance to be
+compensated for, provided `SubjList` is present. `filter_double_events` allows
+either all, or just the first event of each type to be recorded for each
+subject. Finally, `suppress_warnings` allows warnings from the Chi-square test
+to be disabled, as low counts can result in multiple warning messages.
 
 A typical Tendril dataset might look like this:
 
@@ -91,7 +145,8 @@ A typical Tendril dataset might look like this:
 head(TendrilData)
 ```
 
-Note the four columns containing the subject IDs (`subjid`), the treatment (`treatment`), the adverse effect term (`ae`) and the days (`day`).
+Note the four columns containing the subject IDs (`subjid`), the treatment
+(`treatment`), the adverse effect term (`ae`) and the days (`day`).
 
 
 The `Tendril()` function could then be called as:
@@ -111,13 +166,27 @@ test <- Tendril(mydata = TendrilData,
 )
 ```
 
-NB: If there is any missing data in the subject identifier, treatment, event type or onset day then such rows will be removed.
+NB: If there is any missing data in the subject identifier, treatment, event
+type or onset day then such rows will be removed.
 
-The function checks that the arguments are valid and then computes the angles and coordinates of the x and y points in the tendrils based on the balance of events between treatments with the angular displacement being determined by the argument `rotations`.
+The function checks that the arguments are valid and then computes the angles
+and coordinates of the x and y points in the tendrils based on the balance of
+events between treatments with the angular displacement being determined by the
+argument `rotations`.
 
-The time between consecutive events of each type is proportional to the distance between connected points on the tendril plot.  The angular displacement at each point is determined by the excess number of treatments on the first arm (rotating clockwise) or the excess number of treatments on the second arm (rotating anticlockwise) at each point in time.
+The time between consecutive events of each type is proportional to the
+distance between connected points on the tendril plot.  The angular
+displacement at each point is determined by the excess number of treatments on
+the first arm (rotating clockwise) or the excess number of treatments on the
+second arm (rotating anticlockwise) at each point in time.
 
-If the argument `SubjList` provides a data frame of subjects, treatments and optionally drop-out days then `Tendril` calls the function `tendril_stat` to estimate the statistical significance of the imbalance at each data point.  Statistical significance is estimated using an unadjusted Chi-square test (`p`), a false discovery rate (FDR) adjusted Chi-square test (`p.adj`), or Fisher's Exact test (`fish`).  Additional statistics are provided for the risk difference (`rdiff`), risk ratio (`RR`) and odds ratio (`OR`).
+If the argument `SubjList` provides a data frame of subjects, treatments and
+optionally drop-out days then `Tendril` calls the function `tendril_stat` to
+estimate the statistical significance of the imbalance at each data point.
+Statistical significance is estimated using an unadjusted Chi-square test
+(`p`), a Chi-square test false discovery rate (FDR) adjusted locally per AE
+(`p.adj`), or Fisher's Exact test (`fish`).  Additional statistics are provided
+for the risk difference (`rdiff`), risk ratio (`RR`) and odds ratio (`OR`).
 
 ## `TendrilPerm`
 
@@ -147,9 +216,18 @@ perm2 <- TendrilPerm(test,
 
 ### `plot.Tendril`
 
-This function can be invoked as `plot()` applied to a `Tendril` object.  As well as providing a `Tendril` object the user can optionally supply `coloring` and `term` arguments.  `coloring` controls how the points on the tendril plot are coloured, and defaults to `Terms` meaning that each event type is coloured differently and a legend provided.  Alternatively `p`, `p.adj`, `fish`, `rdiff`, `RR` and `OR` will colour each point on the tendril scale according to the relevant statistic at that specific plot point.
+This function can be invoked as `plot()` applied to a `Tendril` object.  As
+well as providing a `Tendril` object the user can optionally supply `coloring`
+and `term` arguments.  `coloring` controls how the points on the tendril plot
+are coloured, and defaults to `Terms` meaning that each event type is coloured
+differently and a legend provided.  Alternatively `p`, `p.adj`, `FDR.tot`, `fish`,
+`rdiff`, `RR` and `OR` will colour each point on the tendril scale according to
+the relevant statistic at that specific plot point.
 
-The `term` argument allows the plot to display only specific event types.  The default is `NULL` which means that all tendrils are displayed.  Alternatively, a single value can be supplied, or a vector of multiple terms.  In all cases tendrils are only displayed subject to the `AEfreqThreshold` argument.
+The `term` argument allows the plot to display only specific event types.  The
+default is `NULL` which means that all tendrils are displayed.  Alternatively,
+a single value can be supplied, or a vector of multiple terms.  In all cases
+tendrils are only displayed subject to the `AEfreqThreshold` argument.
 
 The following plots illustrate some sample tendril plots.
 
@@ -162,7 +240,11 @@ plot(test, term = paste("AE", c(40, 42, 44), sep = ""), coloring = "Terms")
 
 These are generated using the `ggplot2` package and so can be amended using features from the `ggplot2` package.
 
-Tendril plots can also be produced in interactive mode using the `plotly` package.  These are requested by passing the optional argument `interactive=TRUE`.  These interactive plots allow access to feature such as zooming, and hovering over points to obtain information such as the event type, the FDR p-value and the total number of events of that type.
+Tendril plots can also be produced in interactive mode using the `plotly`
+package.  These are requested by passing the optional argument
+`interactive=TRUE`.  These interactive plots allow access to feature such as
+zooming, and hovering over points to obtain information such as the event type,
+the FDR p-value and the total number of events of that type.
 
 ### `plot.TendrilPerm`
 
@@ -193,7 +275,7 @@ plot_timeseries(test)
 plot_timeseries(test, term = paste("AE", c(40, 42, 44), sep = ""))
 ```
 
-#Complete usage example
+# Complete usage example
 
 The following code will use the provided sample data `TendrilData` and `SubjList` to produce a complete analysis: compute tendril data, compute statistics, compute permutations for one of the adverse effects and produce a plot:
 
@@ -233,16 +315,16 @@ p <- plot(data.tendril)
 p <- plot(data.tendril, percentile = TRUE)
 
 #save tendril coordinates and stat results
-write.table(data.tendril$tendril$data, "C:mydata.txt", sep="\t", row.names = FALSE)
+write.table(data.tendril$tendril$data, "mydata.txt", sep="\t", row.names = FALSE)
 
 #save permutation coordinates
-write.table(data.tendril$perm.data, "C:my_permutation_data.txt", sep="\t", row.names = FALSE)
+write.table(data.tendril$perm.data, "my_permutation_data.txt", sep="\t", row.names = FALSE)
 
 #save permutation percentiles
-write.table(data.tendril$tendril.pi, "C:my_percentile_data.txt", sep="\t", row.names = FALSE)
+write.table(data.tendril$tendril.pi, "my_percentile_data.txt", sep="\t", row.names = FALSE)
 
 ```
 
 # References
 
-Karpefors, M and Weatherall, J. The Tendril Plot - a novel visual summary of the incidence, significance and temporal aspects of adverse events in clinical trials. *JAMIA* 2018; 25(8): 1069-1073
+Karpefors, M and Weatherall, J., "The Tendril Plot - a novel visual summary of the incidence, significance and temporal aspects of adverse events in clinical trials" - *JAMIA* 2018; 25(8): 1069-1073

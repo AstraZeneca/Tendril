@@ -2,9 +2,12 @@ Package: Tendril
 Type: Package
 Title: Compute Tendril
 License: GPL-2
-Author: Martin Karpefors
-Maintainer: Martin Karpefors <martin.karpefors@astrazeneca.com>
-Version: 2.0.2
+Authors@R: c(
+    person("Martin", "Karpefors", email = "martin.karpefors@astrazeneca.com", role = "aut"),
+    person("Stefano", "Borini", email = "stefano.borini@astrazeneca.com", role = c("ctb", "cre")),
+    person("Mark", "Edmondson-Jones", email = "mark.edmondson-jones@astrazeneca.com", role = "ctb"),
+    person("Hielke", "Bijlsma", email = "Hielke.Bijlsma@tessella.com", role = "ctb"))
+Version: 2.0.3
 Description: The Tendril package provide functionalities to compute the
     coordinates to produce a tendril plot. In the tendril plot, each tendril
     (branch) represents a type of events, and the direction of the tendril is
@@ -12,6 +15,8 @@ Description: The Tendril package provide functionalities to compute the
     occurring on the first of the two specified treatment arms, the tendril bends
     in a clockwise direction. If an event is occurring on the second of the treatment arms, the
     tendril bends in an anti-clockwise direction.
+URL: https://github.com/Karpefors/Tendril
+BugReports: https://github.com/Karpefors/Tendril/issues
 Encoding: UTF-8
 LazyData: true
 Depends:
