@@ -6,7 +6,7 @@ Authors@R: c(
     person("Martin", "Karpefors", email = "martin.karpefors@astrazeneca.com", role = "aut"),
     person("Stefano", "Borini", email = "stefano.borini@astrazeneca.com", role = c("ctb", "cre")),
     person("Mark", "Edmondson-Jones", email = "mark.edmondson-jones@astrazeneca.com", role = "ctb"),
-    Person("Hielke", "Bijlsma", email = "Hielke.Bijlsma@tessella.com", role = "ctb"))
+    person("Hielke", "Bijlsma", email = "Hielke.Bijlsma@tessella.com", role = "ctb"))
 Version: 2.0.3
 Description: The Tendril package provide functionalities to compute the
     coordinates to produce a tendril plot. In the tendril plot, each tendril
