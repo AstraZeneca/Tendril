@@ -1,9 +1,10 @@
 # Changelog
 
-- Version 2.0.4 (30 January 2020)
+- Version 2.0.4 (31 January 2020)
     - Fixes for CRAN
         - Renamed test file to consider case
         - Fixed the order of evaluation of the passed variable in is.not.positive.integer
+        - #101 Removed stochastic test
 
 - Version 2.0.3 (30 January 2020)
     - Changed maintainer from Martin Karpefors to Stefano Borini
