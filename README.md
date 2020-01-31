@@ -51,8 +51,3 @@ Unfortunately Mojave does not ship with it.
 5. Type 
 
     make env
-
-# Changelog
-
-See the [CHANGELOG](CHANGELOG.md)
-
