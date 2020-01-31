@@ -122,7 +122,7 @@ test_that("output_perm_valid",{
 
   #this calculation is wrapped inside expect_warning because the dataset generates
   # "Chi-squared approximation may be incorrect" warnings
-  expect_warning(
+  expect_warning({
     tendril.data <- Tendril(mydata = TendrilData,
                             rotations = Rotations,
                             AEfreqThreshold = 9,
@@ -135,7 +135,7 @@ test_that("output_perm_valid",{
                             SubjList = SubjList,
                             SubjList.subject = "subjid",
                             SubjList.treatment = "treatment")
-  )
+  })
 
   res<-TendrilPerm(tendril = tendril.data,
                   PermTerm="AE44",
@@ -150,6 +150,9 @@ test_that("output_perm_valid",{
   # layout of the TendrilPerm object. Therefore, I just redirect to
   # the appropriate entities. Files will have to be recreated with
   # the new layout
+  print(res$perm.data[["x"]])
+  print(Output.perm.constant$perm.data[["x"]])
+  print(res$perm.data[["x"]] - Output.perm.constant$perm.data[["x"]])
   expect_equal(res$Permterm, Output.perm.constant$Permterm)
   expect_equal(res$perm.data, Output.perm.constant$perm.data)
   expect_equal(res$tendril.pi, Output.perm.constant$tendril.pi)
