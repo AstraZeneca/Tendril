@@ -11,7 +11,7 @@ test_that("input_perm_valid",{
   #this calculation is wrapped inside expect_warning because the dataset generates
   # "Chi-squared approximation may be incorrect" warnings
   expect_warning({
-    tendril.data = Tendril(mydata = TendrilData,
+    tendril.data <- Tendril(mydata = TendrilData,
                             rotations = Rotations,
                             AEfreqThreshold = 9,
                             Tag = "Comment",
