@@ -1,4 +1,4 @@
-# Tendril plot package v2.0.2
+# Tendril plot package v2.0.4
 
 R library for tendril plotting between two treatments.
 
@@ -51,8 +51,3 @@ Unfortunately Mojave does not ship with it.
 5. Type 
 
     make env
-
-# Changelog
-
-See the [CHANGELOG](CHANGELOG.md)
-

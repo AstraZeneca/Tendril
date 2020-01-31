@@ -2,14 +2,12 @@ Package: Tendril
 Type: Package
 Title: Compute and display Tendril plots
 License: GPL-2
-Author: Martin Karpefors <martin.karpefors@astrazeneca.com>
-Maintainer: Stefano Borini <stefano.borini@astrazeneca.com>
 Authors@R: c(
     person("Martin", "Karpefors", email = "martin.karpefors@astrazeneca.com", role = "aut"),
     person("Stefano", "Borini", email = "stefano.borini@astrazeneca.com", role = c("ctb", "cre")),
     person("Mark", "Edmondson-Jones", email = "mark.edmondson-jones@astrazeneca.com", role = "ctb"),
     person("Hielke", "Bijlsma", email = "Hielke.Bijlsma@tessella.com", role = "ctb"))
-Version: 2.0.3
+Version: 2.0.4
 Description: The Tendril package provide functionalities to compute the
     coordinates to produce a tendril plot. In the tendril plot, each tendril
     (branch) represents a type of events, and the direction of the tendril is
