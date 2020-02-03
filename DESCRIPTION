@@ -17,7 +17,7 @@ Description: Compute the coordinates to produce a tendril plot.
     tendril bends in an anti-clockwise direction. 
     Ref: Karpefors, M and Weatherall, J., "The Tendril Plot - a novel visual summary 
     of the incidence, significance and temporal aspects of adverse events in 
-    clinical trials" - JAMIA 2018; 25(8): 1069-1073 <doi:10.1093/jamia/ocy016>
+    clinical trials" - JAMIA 2018; 25(8): 1069-1073 <doi:10.1093/jamia/ocy016>.
 URL: https://github.com/Karpefors/Tendril
 BugReports: https://github.com/Karpefors/Tendril/issues
 Encoding: UTF-8
