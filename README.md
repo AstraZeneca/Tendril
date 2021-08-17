@@ -1,18 +1,19 @@
 # Tendril plot package v2.0.4
 
+![Maturity level-1](https://img.shields.io/badge/Maturity%20Level-ML--1-yellow)
+![CRAN/METACRAN](https://img.shields.io/cran/v/Tendril)
+
 R library for tendril plotting between two treatments.
 
 # Download
 
-The package can be downloaded as a .tar.gz from the [appropriate release page](https://github.com/Karpefors/Tendril/releases)
+You can install Tendril from CRAN:
 
-# Installation
+```
+install.packages("Tendril")
+```
 
-## In RStudio (for end-users)
-
-The package can be installed with RStudio in Tools -> Install Packages -> Install from package archive file
-
-## In a packrat environment (for developers)
+# Development 
 
 You can ensure that tendril is installed in an isolated packrat environment.
 This is only required if you want to keep its installation isolated and you don't have access
