@@ -1,6 +1,6 @@
 # Tendril plot package v2.0.4
 
-![Maturity level-1](https://img.shields.io/badge/Maturity%20Level-ML--1-yellow)
+![Maturity level-1](https://img.shields.io/badge/Maturity%20Level-Under%20Development-yellow)
 ![CRAN/METACRAN](https://img.shields.io/cran/v/Tendril)
 
 R library for tendril plotting between two treatments.
